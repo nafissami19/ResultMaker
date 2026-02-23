@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phoenix Result Maker</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Inter:wght@400;500;600&family=Playfair+Display:wght@700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --bg: #f8fafc;
+            --surface: #ffffff;
+            --text: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --radius: 12px;
+            --input-bg: #fff;
+
+            --header-names: #003366;
+            --header-scores: #3366CC;
+            --names-bg: #f2f2ff;
+        }
+
+        body.dark-theme {
+            --bg: #0f172a;
+            --surface: #1e293b;
+            --text: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --input-bg: #0f172a;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            padding: 1.5rem;
+            line-height: 1.5;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .container {
+            max-width: 1500px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: var(--surface);
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        input,
+        select {
+            padding: 0.5rem;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            background: var(--input-bg);
+            color: var(--text);
+            font-family: inherit;
+            font-size: 0.9rem;
+        }
+
+        .theme-toggle {
+            cursor: pointer;
+            padding: 8px 18px;
+            border-radius: 50px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            user-select: none;
+        }
+
+        .theme-toggle:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            border-color: var(--primary);
+            background: var(--bg);
+        }
+
+        .theme-toggle:active {
+            transform: translateY(0);
+        }
+
+        #theme-icon {
+            font-size: 1.1rem;
+            transition: transform 0.5s ease;
+        }
+
+        .dark-theme #theme-icon {
+            transform: rotate(360deg);
+        }
+
+        .btn {
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: var(--border);
+            color: var(--text);
+        }
+
+        .btn-sm {
+            padding: 0.4rem 0.8rem;
+            font-size: 0.8rem;
+        }
+
+        .entry-container {
+            overflow: visible;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            margin-bottom: 2rem;
+            background: var(--bg);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+            max-height: 550px;
+            overflow-y: auto;
+        }
+
+        .entry-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+
+        .entry-table th {
+            padding: 1.25rem 1rem;
+            background: #1e293b;
+            color: #fff;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            border: none;
+            position: sticky;
+            top: -1px;
+            z-index: 20;
+            text-align: center;
+        }
+
+        .entry-table th:first-child {
+            border-top-left-radius: 12px;
+        }
+
+        .entry-table th:last-child {
+            border-top-right-radius: 12px;
+        }
+
+        .entry-table td {
+            padding: 0.25rem;
+            border-bottom: 1px solid var(--border);
+            border-right: 1px solid var(--border);
+            background: var(--surface);
+            transition: background 0.2s;
+        }
+
+        .entry-table td:last-child {
+            border-right: none;
+        }
+
+        .entry-table tr:hover td {
+            background: rgba(37, 99, 235, 0.02);
+        }
+
+        .entry-table tr:focus-within td {
+            background: rgba(37, 99, 235, 0.04);
+        }
+
+        .entry-table input,
+        .entry-table select {
+            width: 100%;
+            height: 44px;
+            padding: 0 16px;
+            border: 2.5px solid transparent;
+            background: transparent;
+            color: var(--text);
+            font-family: inherit;
+            font-size: 1rem;
+            border-radius: 8px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .entry-table input:focus,
+        .entry-table select:focus {
+            background: var(--surface);
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 8px 16px -4px rgba(37, 99, 235, 0.2);
+            transform: scale(1.015);
+            z-index: 10;
+        }
+
+        .subject-input {
+            text-align: center;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .delete-btn {
+            color: #94a3b8;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            height: 44px;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .delete-btn:hover {
+            background: #fee2e2;
+            color: #ef4444;
+        }
+
+        /* GLOBAL PRINT WRAPPER */
+        .print-page-wrapper {
+            background: #fff;
+            color: #000;
+            padding: 20px 40px;
+            /* Reduced vertical padding */
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            min-height: 1050px;
+            position: relative;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        .sheet-meta-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 25px;
+            font-weight: 700;
+            font-size: 18px;
+            text-transform: uppercase;
+            border-bottom: 2px solid #000;
+            padding-bottom: 10px;
+        }
+
+        .sheet-meta-footer {
+            display: flex;
+            justify-content: space-between;
+            margin-top: auto;
+            padding-top: 25px;
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: -10px;
+            /* Push further into margin space */
+        }
+
+        .results-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+            align-items: start;
+            /* Ensures both tables start at the same top position */
+        }
+
+        @media (max-width: 1200px) {
+            .results-section {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .rank-sheet-view {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sheet-main-title {
+            text-align: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 34px;
+            font-weight: 700;
+            margin-bottom: 25px;
+            border: 2px solid #000;
+            display: inline-block;
+            padding: 10px 40px;
+            align-self: center;
+            white-space: nowrap;
+            text-transform: uppercase;
+        }
+
+        .result-table {
+            width: 100%;
+            border-collapse: collapse;
+            border: 1.5px solid #000;
+        }
+
+        .result-table th,
+        .result-table td {
+            border: 1.5px solid #000;
+            padding: 10px 6px;
+            text-align: center;
+            font-size: 16px;
+            vertical-align: middle;
+        }
+
+        .header-names-cell {
+            background-color: var(--header-names) !important;
+            color: #fff !important;
+            font-weight: 700;
+            font-size: 22px;
+            width: 60%; /* Significantly increased to prevent 3-line wrap */
+        }
+
+        .header-scores-merged {
+            background-color: var(--header-scores) !important;
+            color: #fff !important;
+            font-weight: 700;
+            font-size: 20px;
+        }
+
+        .header-scores-sub {
+            background-color: var(--header-scores) !important;
+            color: #fff !important;
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .name-cell {
+            background-color: var(--names-bg) !important;
+            text-align: left !important;
+            padding: 4px 6px !important;
+            font-weight: 700;
+            white-space: normal;
+            word-wrap: break-word;
+            line-height: 1.1;
+            font-size: 14px; /* Slightly reduced further to prevent 3rd line */
+            letter-spacing: -0.01em;
+        }
+
+        .total-cell {
+            font-weight: 700;
+            background: #fff;
+        }
+
+        /* PRINT OVERRIDES */
+        /* PRINT SYSTEM */
+            .print-only-layout {
+                display: none;
+                width: 100%;
+                border-collapse: collapse;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                color-adjust: exact !important;
+            }
+
+            @media print {
+                * {
+                    -webkit-print-color-adjust: exact !important;
+                    print-color-adjust: exact !important;
+                    color-adjust: exact !important;
+                }
+                .no-print {
+                display: none !important;
+            }
+
+            body {
+                padding: 0 !important;
+                margin: 0 !important;
+                background: white !important;
+            }
+
+            .container {
+                max-width: 100%;
+                margin: 0;
+            }
+
+            .print-only-layout {
+                display: table !important;
+                width: 100% !important;
+            }
+
+            .header-group {
+                display: table-header-group;
+            }
+
+            .footer-group {
+                display: table-footer-group;
+            }
+
+            .content-group {
+                display: table-row-group;
+            }
+
+            .print-page-wrapper {
+                box-shadow: none !important;
+                padding: 0 !important;
+                min-height: auto !important;
+                border: none !important;
+            }
+
+            .results-section {
+                display: grid !important;
+                grid-template-columns: 1fr 1fr !important;
+                gap: 25px !important;
+                width: 100% !important;
+                margin-top: 10px !important;
+            }
+
+            .sheet-main-title {
+                font-size: 28px !important;
+                margin-bottom: 20px !important;
+                padding: 8px 30px !important;
+            }
+
+            .result-table th,
+            .result-table td {
+                font-size: 15px !important;
+                padding: 8px 4px !important;
+                border-width: 1.5px !important;
+            }
+
+            .sheet-meta-header,
+            .sheet-meta-footer {
+                font-size: 16px !important;
+                border-bottom-width: 2px !important;
+            }
+
+            @page {
+                margin: 0.5cm 1cm;
+            }
+        }
+    </style>
+</head>
+
+<body class="dark-theme">
+    <!-- PRINT ENGINE: This section ONLY appears during printing and repeats headers/footers -->
+    <table class="print-only-layout">
+        <thead class="header-group">
+            <tr>
+                <td>
+                    <div id="print-header-content" class="sheet-meta-header" style="padding-top: 10px; margin-bottom: 5px;"></div>
+                </td>
+            </tr>
+        </thead>
+        <tbody class="content-group">
+            <tr>
+                <td>
+                    <div class="results-section">
+                        <div id="nsu-view-print"></div>
+                        <div id="bracu-view-print"></div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+        <tfoot class="footer-group">
+            <tr>
+                <td>
+                    <div id="print-footer-content" class="sheet-meta-footer" style="padding-bottom: 20px;"></div>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <div class="container no-print">
+        <div class="header-top no-print">
+            <h1>Phoenix Result Maker</h1>
+            <div class="theme-toggle" onclick="toggleTheme()" id="theme-btn">
+                <span id="theme-icon">🌙</span> <span id="theme-text">Dark Mode</span>
+            </div>
+        </div>
+
+        <div class="card no-print">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem">
+                <h3 style="font-family:'Outfit', sans-serif; font-size:1.4rem; font-weight:700">Student Data Input</h3>
+                <div style="display:flex; gap:10px; flex-wrap:wrap">
+                    <button class="btn btn-secondary btn-sm" onclick="showNamesModal()"
+                        style="border:1px solid var(--border)">Bulk Add Names</button>
+                    <button class="btn btn-secondary btn-sm" onclick="showBulkModal()"
+                        style="border:1px solid var(--border)">Import from Spreadsheet</button>
+                    <button class="btn btn-secondary btn-sm" onclick="exportCSV()"
+                        style="border:1px solid var(--border)">Export CSV</button>
+                    <button class="btn btn-secondary btn-sm" onclick="clearData()"
+                        style="color:#ef4444; border:1px solid #fee2e2">Clear All</button>
+                </div>
+            </div>
+
+            <div class="entry-container">
+                <table class="entry-table">
+                    <thead>
+                        <tr>
+                            <th style="text-align:left; padding-left:20px">Student Name</th>
+                            <th>Type</th>
+                            <th>S01</th>
+                            <th>S02</th>
+                            <th>S03</th>
+                            <th>Essay</th>
+                            <th>S05</th>
+                            <th>S06</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody id="student-rows"></tbody>
+                </table>
+            </div>
+
+            <button class="btn btn-secondary" onclick="addStudent()"
+                style="width:100%; border:2px dashed var(--border); background:rgba(0,0,0,0.02); color:var(--text-muted); padding:1rem">
+                + Add New Student Row
+            </button>
+
+            <div style="margin-top:2.5rem; display:flex; justify-content:center">
+                <button class="btn btn-primary" onclick="window.print()" style="padding:1rem 2.5rem; font-size:1.1rem">
+                    Print Final Results
+                </button>
+            </div>
+
+            <hr style="border:0; border-top:1px solid var(--border); margin:1.5rem 0">
+
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Batch Header</label>
+                    <input type="text" id="cfg-batch" value="BATCH 87" oninput="updateRankings()">
+                </div>
+                <div class="form-group">
+                    <label>Middle Header</label>
+                    <input type="text" id="cfg-mid" value="PHOENIX EDUCATION" oninput="updateRankings()">
+                </div>
+                <div class="form-group">
+                    <label>Right Header</label>
+                    <input type="text" id="cfg-desc" value="NSU BRACU COMBO OFFLINE" oninput="updateRankings()">
+                </div>
+                <div class="form-group">
+                    <label>Score Label (e.g. WT03)</label>
+                    <input type="text" id="cfg-label" value="WT03" oninput="updateRankings()">
+                </div>
+                <div class="form-group">
+                    <label>Footer Test Title</label>
+                    <input type="text" id="cfg-title" value="Weekly 03 Test" oninput="updateRankings()">
+                </div>
+                <div class="form-group">
+                    <label>Footer Date</label>
+                    <input type="date" id="cfg-date" oninput="updateRankings()">
+                </div>
+            </div>
+
+            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:1.5rem; padding:1.5rem; background:rgba(0,0,0,0.03); border-radius:12px; margin-top:1.5rem; font-size:1.25rem; font-weight:700">
+                <label style="display:flex; align-items:center; gap:12px; cursor:pointer">
+                    <input type="checkbox" id="set-header" checked onchange="updateRankings()" style="transform: scale(1.6)"> Header/Footer ON
+                </label>
+                <label style="display:flex; align-items:center; gap:12px; cursor:pointer">
+                    <input type="checkbox" id="set-s06" onchange="updateRankings()" style="transform: scale(1.6)"> BracU S06
+                </label>
+                <label style="display:flex; align-items:center; gap:12px; cursor:pointer">
+                    <input type="checkbox" id="set-nsu-title" checked onchange="updateRankings()" style="transform: scale(1.6)"> NSU Standard Box
+                </label>
+                <label style="display:flex; align-items:center; gap:12px; cursor:pointer">
+                    <input type="checkbox" id="set-bracu-title" checked onchange="updateRankings()" style="transform: scale(1.6)"> BracU Standard Box
+                </label>
+            </div>
+        </div>
+
+        <!-- DASHBOARD PREVIEW: Stays on screen, hidden during print -->
+        <div id="preview-area" class="no-print">
+            <div class="print-page-wrapper" style="box-shadow:none; background:transparent; padding:0; min-height:auto">
+                <div id="global-header" class="sheet-meta-header"></div>
+                <div class="results-section" style="margin-top: 1.5rem;">
+                    <div id="nsu-view"></div>
+                    <div id="bracu-view"></div>
+                </div>
+                <div id="global-footer" class="sheet-meta-footer"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bulk Names Modal -->
+    <div id="names-modal"
+        style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); display:none; align-items:center; justify-content:center; z-index:1000; backdrop-filter:blur(5px)">
+        <div class="card" style="width:90%; max-width:600px">
+            <h2>Bulk Add Names</h2>
+            <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:1rem">Paste a list of names (one per line or separated by commas).</p>
+            <div class="form-group" style="margin-bottom:1rem">
+                <label>Target Standard:</label>
+                <select id="names-type">
+                    <option value="NSU">NSU</option>
+                    <option value="BRACU">BRACU</option>
+                </select>
+            </div>
+            <textarea id="names-input" rows="8" style="width:100%; padding:10px; font-family:monospace" placeholder="John Doe&#10;Jane Smith..."></textarea>
+            <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:1rem">
+                <button class="btn btn-secondary" onclick="hideNamesModal()">Cancel</button>
+                <button class="btn btn-primary" onclick="importNames()">Add Names</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bulk Import Modal (Spreadsheet) -->
+    <div id="bulk-modal"
+        style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); display:none; align-items:center; justify-content:center; z-index:1000; backdrop-filter:blur(5px)">
+        <div class="card" style="width:90%; max-width:600px">
+            <h2>Import from Spreadsheet</h2>
+            <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:1rem">Columns: Name [Tab] S01 [Tab] S02
+                [Tab] S03 [Tab] Essay [Tab] S05</p>
+            <div class="form-group" style="margin-bottom:1rem">
+                <label>Target Standard:</label>
+                <select id="bulk-type">
+                    <option value="NSU">NSU</option>
+                    <option value="BRACU">BRACU</option>
+                </select>
+            </div>
+            <textarea id="bulk-input" rows="8" style="width:100%; padding:10px; font-family:monospace"></textarea>
+            <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:1rem">
+                <button class="btn btn-secondary" onclick="hideBulkModal()">Cancel</button>
+                <button class="btn btn-primary" onclick="importBulk()">Process Import</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('cfg-date').valueAsDate = new Date();
+        let students = JSON.parse(localStorage.getItem('phoenix_v5')) || [];
+        
+        // Ensure all students have 6 score slots
+        students.forEach(s => { if(!s.scores || s.scores.length < 6) { s.scores = [...(s.scores || [0,0,0,0,0]), 0]; } });
+
+        function toggleTheme() {
+            document.body.classList.toggle('dark-theme');
+            const isDark = document.body.classList.contains('dark-theme');
+            
+            const icon = document.getElementById('theme-icon');
+            const text = document.getElementById('theme-text');
+            
+            if (isDark) {
+                icon.textContent = "🌙";
+                text.textContent = "Dark Mode";
+            } else {
+                icon.textContent = "☀️";
+                text.textContent = "Light Mode";
+            }
+            
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        }
+
+        function updateValue(i, field, val, scoreIdx = null) {
+            if (scoreIdx !== null) students[i].scores[scoreIdx] = parseFloat(val) || 0;
+            else students[i][field] = val;
+            localStorage.setItem('phoenix_v5', JSON.stringify(students));
+            updateRankings();
+        }
+
+        function saveAndFullRender() {
+            localStorage.setItem('phoenix_v5', JSON.stringify(students));
+            renderTable();
+            updateRankings();
+        }
+
+        function clearData() { if (confirm('Delete everything?')) { students = []; saveAndFullRender(); } }
+        function addStudent() { students.push({ name: "", type: "NSU", scores: [0, 0, 0, 0, 0, 0] }); saveAndFullRender(); }
+        function removeStudent(i) { students.splice(i, 1); saveAndFullRender(); }
+
+        function showBulkModal() { document.getElementById('bulk-modal').style.display = 'flex'; }
+        function hideBulkModal() { document.getElementById('bulk-modal').style.display = 'none'; }
+
+        function showNamesModal() { document.getElementById('names-modal').style.display = 'flex'; }
+        function hideNamesModal() { document.getElementById('names-modal').style.display = 'none'; }
+
+        function importNames() {
+            const text = document.getElementById('names-input').value;
+            const type = document.getElementById('names-type').value;
+            // Split by newline or comma and filter out empty strings
+            const names = text.split(/[\n,]/).map(n => n.trim()).filter(n => n);
+            names.forEach(name => {
+                students.push({ name, type, scores: [0, 0, 0, 0, 0, 0] });
+            });
+            saveAndFullRender(); hideNamesModal();
+            document.getElementById('names-input').value = "";
+        }
+
+        function importBulk() {
+            const text = document.getElementById('bulk-input').value;
+            const type = document.getElementById('bulk-type').value;
+            text.split('\n').filter(l => l.trim()).forEach(line => {
+                const p = line.split('\t');
+                if (p[0]) {
+                    const scores = [0, 0, 0, 0, 0, 0];
+                    for (let i = 0; i < 6; i++) if (p[i + 1]) scores[i] = parseFloat(p[i + 1].replace(',', '')) || 0;
+                    students.push({ name: p[0].trim(), type, scores });
+                }
+            });
+            saveAndFullRender(); hideBulkModal();
+            document.getElementById('bulk-input').value = "";
+        }
+
+        function exportCSV() {
+            if (students.length === 0) { alert("No data to export"); return; }
+            let csv = "Name,Type,S01,S02,S03,Essay,S05,S06\n";
+            students.forEach(s => {
+                const row = [
+                    `"${s.name}"`,
+                    s.type,
+                    ...s.scores
+                ];
+                csv += row.join(",") + "\n";
+            });
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.setAttribute('href', url);
+            a.setAttribute('download', `students_data_${new Date().toISOString().split('T')[0]}.csv`);
+            a.click();
+        }
+
+        function renderTable() {
+            const tbody = document.getElementById('student-rows');
+            tbody.innerHTML = students.map((s, i) => `
+                <tr>
+                    <td style="width:250px"><input type="text" placeholder="Student Name..." value="${s.name}" oninput="updateValue(${i}, 'name', this.value)"></td>
+                    <td style="width:100px"><select onchange="students[${i}].type=this.value; saveAndFullRender()"><option value="NSU" ${s.type === 'NSU' ? 'selected' : ''}>NSU</option><option value="BRACU" ${s.type === 'BRACU' ? 'selected' : ''}>BRACU</option></select></td>
+                    ${[0, 1, 2, 3, 4, 5].map(idx => `<td><input type="number" step="0.5" class="subject-input" value="${s.scores[idx]}" onfocus="if(this.value=='0')this.value=''" onblur="if(this.value=='')this.value='0'" oninput="updateValue(${i}, 'scores', this.value, ${idx})"></td>`).join('')}
+                    <td style="width:40px"><button class="delete-btn" onclick="removeStudent(${i})">&times;</button></td>
+                </tr>
+            `).join('');
+        }
+
+        function updateRankings() {
+            const label = document.getElementById('cfg-label').value;
+            const batch = document.getElementById('cfg-batch').value;
+            const midHeader = document.getElementById('cfg-mid').value;
+            const desc = document.getElementById('cfg-desc').value;
+            const title = document.getElementById('cfg-title').value;
+            const dateVal = document.getElementById('cfg-date').value;
+            const dateStr = dateVal ? new Date(dateVal).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : "";
+
+            const showHeader = document.getElementById('set-header').checked;
+            const showS06 = document.getElementById('set-s06').checked;
+            const showNSUT = document.getElementById('set-nsu-title').checked;
+            const showBRACUT = document.getElementById('set-bracu-title').checked;
+
+            const headerHtml = showHeader ? `<span>${batch}</span><span>${midHeader}</span><span>${desc}</span>` : "";
+            const footerHtml = showHeader ? `<span>Result Published: ${dateStr}</span><span>${title} - Result Sheet</span>` : "";
+
+            // Inject Global Header & Footer
+            document.getElementById('global-header').innerHTML = headerHtml;
+            document.getElementById('global-footer').innerHTML = footerHtml;
+            document.getElementById('print-header-content').innerHTML = headerHtml;
+            document.getElementById('print-footer-content').innerHTML = footerHtml;
+
+            const nsu = students.filter(s => s.type === 'NSU' && s.name).map(s => ({ ...s, total: s.scores.slice(0, 4).reduce((a, b) => a + b, 0) }));
+            const bracu = students.filter(s => s.type === 'BRACU' && s.name).map(s => ({ ...s, total: s.scores.slice(0, showS06 ? 6 : 5).reduce((a, b) => a + b, 0) }));
+
+            const bracuHeaders = showS06 ? ['S01', 'S02', 'S03', 'Essay', 'S05', 'S06'] : ['S01', 'S02', 'S03', 'Essay', 'S05'];
+
+            const nsuTable = renderSheetTable('NSU', sort(nsu), ['S01', 'S02', 'S03', 'Essay'], label, showNSUT);
+            const bracuTable = renderSheetTable('BRACU', sort(bracu), bracuHeaders, label, showBRACUT);
+
+            document.getElementById('nsu-view').innerHTML = nsuTable;
+            document.getElementById('bracu-view').innerHTML = bracuTable;
+            document.getElementById('nsu-view-print').innerHTML = nsuTable;
+            document.getElementById('bracu-view-print').innerHTML = bracuTable;
+        }
+
+        function sort(arr) {
+            return arr.sort((a, b) => b.total - a.total).map((s, i) => ({ ...s, rank: (i + 1) + (['st', 'nd', 'rd'][i] || 'th') }));
+        }
+
+        function renderSheetTable(type, data, headers, label, showTitle = true) {
+            if (!data.length) return `<div class="rank-sheet-view" style="color:#999; text-align:center; padding-top:100px">${type} Results Empty</div>`;
+            return `
+                <div class="rank-sheet-view">
+                    ${showTitle ? `<div class="sheet-main-title">${type} Standard</div>` : ''}
+                    <table class="result-table">
+                        <thead>
+                            <tr>
+                                <th rowspan="2" class="header-names-cell">Names</th>
+                                <th colspan="${headers.length}" class="header-scores-merged">${label}</th>
+                                <th rowspan="2" class="header-scores-sub" style="width:15%">Total</th>
+                                <th rowspan="2" class="header-scores-sub" style="width:15%">Rank</th>
+                            </tr>
+                            <tr>
+                                ${headers.map(h => `<th class="header-scores-sub">${h}</th>`).join('')}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${data.map(s => `
+                                <tr>
+                                    <td class="name-cell">${s.name}</td>
+                                    ${headers.map((_, idx) => `<td>${s.scores[idx] || 0}</td>`).join('')}
+                                    <td class="total-cell">${s.total}</td>
+                                    <td class="rank-cell">${s.rank}</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+                </div>
+            `;
+        }
+
+        if (localStorage.getItem('theme') === 'light') toggleTheme();
+        renderTable();
+        updateRankings();
+    </script>
+</body>
+
+</html>
