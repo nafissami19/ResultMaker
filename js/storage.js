@@ -16,7 +16,7 @@ const Storage = {
                 shortTitle: "WT03",
                 date: "2026-02-23",
                 batch: "BATCH 89",
-                subjects: ["S01", "S02", "S03", "Essay", "S05"]
+                subjects: ["S01", "S02", "S03", "Essay", "S05", "S06"]
             },
             {
                 id: 2,
@@ -102,9 +102,13 @@ const Storage = {
                 // If there are marks
                 if (parts.length > 1) {
                     const scores = {};
-                    const subjects = ["S01", "S02", "S03", "Essay", "S05"];
+                    const subjects = ["S01", "S02", "S03", "Essay", "S05", "S06"];
                     subjects.forEach((subj, idx) => {
-                        if (parts[idx + 1]) scores[subj] = parseFloat(parts[idx + 1]) || 0;
+                        if (parts[idx + 1]) {
+                            let val = parseFloat(parts[idx + 1]) || 0;
+                            if (standard === 'NSU' && (subj === 'S05' || subj === 'S06')) val = 0;
+                            scores[subj] = val;
+                        }
                     });
                     
                     // Create a dummy test if none exists or use a default

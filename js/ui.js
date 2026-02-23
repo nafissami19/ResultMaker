@@ -158,7 +158,7 @@ const UI = {
                             <thead>
                                 <tr>
                                     <th>Names</th>
-                                    ${test.subjects.filter(s => s !== 'S05').map(s => `<th>${s}</th>`).join('')}
+                                    ${test.subjects.filter(s => s !== 'S05' && s !== 'S06').map(s => `<th>${s}</th>`).join('')}
                                     <th>Total</th>
                                     <th>Rank</th>
                                 </tr>
@@ -167,7 +167,7 @@ const UI = {
                                 ${nsuRanked.map(r => `
                                     <tr>
                                         <td>${r.name}</td>
-                                        ${test.subjects.filter(s => s !== 'S05').map(s => `<td>${r.scores[s] || '-'}</td>`).join('')}
+                                        ${test.subjects.filter(s => s !== 'S05' && s !== 'S06').map(s => `<td>${r.scores[s] || '-'}</td>`).join('')}
                                         <td style="font-weight: 700; color: var(--primary)">${r.total}</td>
                                         <td>${r.rankText}</td>
                                     </tr>
@@ -229,7 +229,7 @@ const UI = {
                             <thead>
                                 <tr style="background: #2c3e50; color: white;">
                                     <th style="border: 1px solid black; padding: 8px;">Names</th>
-                                    ${test.subjects.map(s => `<th style="border: 1px solid black; padding: 8px;">${s}</th>`).join('')}
+                                    ${test.subjects.filter(subj => !(standard === 'NSU' && (subj === 'S05' || subj === 'S06'))).map(s => `<th style="border: 1px solid black; padding: 8px;">${s}</th>`).join('')}
                                     <th style="border: 1px solid black; padding: 8px;">Total</th>
                                     <th style="border: 1px solid black; padding: 8px;">Rank</th>
                                 </tr>
@@ -238,7 +238,7 @@ const UI = {
                                 ${results.map(r => `
                                     <tr>
                                         <td style="border: 1px solid black; padding: 8px;">${r.name}</td>
-                                        ${test.subjects.map(s => `<td style="border: 1px solid black; padding: 8px; text-align: center;">${r.scores[s] || '0'}</td>`).join('')}
+                                        ${test.subjects.filter(subj => !(standard === 'NSU' && (subj === 'S05' || subj === 'S06'))).map(s => `<td style="border: 1px solid black; padding: 8px; text-align: center;">${r.scores[s] || '0'}</td>`).join('')}
                                         <td style="border: 1px solid black; padding: 8px; text-align: center; font-weight: bold;">${r.total}</td>
                                         <td style="border: 1px solid black; padding: 8px; text-align: center;">${r.rankText}</td>
                                     </tr>

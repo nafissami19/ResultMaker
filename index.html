@@ -664,7 +664,8 @@
         <div class="card" style="width:90%; max-width:600px">
             <h2>Import from Spreadsheet</h2>
             <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:1rem">Columns: Name [Tab] S01 [Tab] S02
-                [Tab] S03 [Tab] Essay [Tab] S05</p>
+                [Tab] S03 [Tab] Essay [Tab] S05 [Tab] S06 <br>
+                <small>* S05 & S06 are ignored for NSU Standard</small></p>
             <div class="form-group" style="margin-bottom:1rem">
                 <label>Target Standard:</label>
                 <select id="bulk-type">
@@ -706,13 +707,22 @@
         }
 
         function updateValue(i, field, val, scoreIdx = null) {
-            if (scoreIdx !== null) students[i].scores[scoreIdx] = parseFloat(val) || 0;
+            if (scoreIdx !== null) {
+                if (students[i].type === 'NSU' && (scoreIdx === 4 || scoreIdx === 5)) val = 0;
+                students[i].scores[scoreIdx] = parseFloat(val) || 0;
+            }
             else students[i][field] = val;
             localStorage.setItem('phoenix_v5', JSON.stringify(students));
             updateRankings();
         }
 
         function saveAndFullRender() {
+            students.forEach(s => {
+                if (s.type === 'NSU') {
+                    s.scores[4] = 0;
+                    s.scores[5] = 0;
+                }
+            });
             localStorage.setItem('phoenix_v5', JSON.stringify(students));
             renderTable();
             updateRankings();
@@ -747,7 +757,13 @@
                 const p = line.split('\t');
                 if (p[0]) {
                     const scores = [0, 0, 0, 0, 0, 0];
-                    for (let i = 0; i < 6; i++) if (p[i + 1]) scores[i] = parseFloat(p[i + 1].replace(',', '')) || 0;
+                    for (let i = 0; i < 6; i++) {
+                        if (p[i + 1]) {
+                            let val = parseFloat(p[i + 1].replace(',', '')) || 0;
+                            if (type === 'NSU' && (i === 4 || i === 5)) val = 0;
+                            scores[i] = val;
+                        }
+                    }
                     students.push({ name: p[0].trim(), type, scores });
                 }
             });
@@ -780,7 +796,14 @@
                 <tr>
                     <td style="width:250px"><input type="text" placeholder="Student Name..." value="${s.name}" oninput="updateValue(${i}, 'name', this.value)"></td>
                     <td style="width:100px"><select onchange="students[${i}].type=this.value; saveAndFullRender()"><option value="NSU" ${s.type === 'NSU' ? 'selected' : ''}>NSU</option><option value="BRACU" ${s.type === 'BRACU' ? 'selected' : ''}>BRACU</option></select></td>
-                    ${[0, 1, 2, 3, 4, 5].map(idx => `<td><input type="number" step="0.5" class="subject-input" value="${s.scores[idx]}" onfocus="if(this.value=='0')this.value=''" onblur="if(this.value=='')this.value='0'" oninput="updateValue(${i}, 'scores', this.value, ${idx})"></td>`).join('')}
+                    ${[0, 1, 2, 3, 4, 5].map(idx => {
+                        const isInvalidNSU = s.type === 'NSU' && (idx === 4 || idx === 5);
+                        return `<td><input type="number" step="0.5" class="subject-input" 
+                            value="${isInvalidNSU ? 0 : s.scores[idx]}" 
+                            ${isInvalidNSU ? 'disabled style="background:var(--bg); opacity:0.3; cursor:not-allowed"' : ''}
+                            onfocus="if(this.value=='0')this.value=''" onblur="if(this.value=='')this.value='0'" 
+                            oninput="updateValue(${i}, 'scores', this.value, ${idx})"></td>`;
+                    }).join('')}
                     <td style="width:40px"><button class="delete-btn" onclick="removeStudent(${i})">&times;</button></td>
                 </tr>
             `).join('');

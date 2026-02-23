@@ -139,7 +139,7 @@ const app = {
                     <div style="font-weight: 600; margin-bottom: 8px;">${s.name} (${s.standard})</div>
                     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(60px, 1fr)); gap: 8px;">
                         ${test.subjects.map(subj => {
-                if (s.standard === 'NSU' && subj === 'S05') return '';
+                if (s.standard === 'NSU' && (subj === 'S05' || subj === 'S06')) return '';
                 return `
                                 <div>
                                     <label style="font-size: 0.7rem;">${subj}</label>
