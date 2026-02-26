@@ -842,11 +842,12 @@
             document.getElementById('print-header-content').innerHTML = headerHtml;
             document.getElementById('print-footer-content').innerHTML = footerHtml;
 
-            const nsu = students
+            // Build full NSU/BRACU lists (used for on-screen preview)
+            const nsuAll = students
                 .filter(s => s.type === 'NSU' && s.name)
                 .map(s => ({ ...s, total: s.scores.slice(0, 4).reduce((a, b) => a + b, 0) }));
 
-            const bracu = students
+            const bracuAll = students
                 .filter(s => s.type === 'BRACU' && s.name)
                 .map(s => ({ ...s, total: s.scores.slice(0, showS06 ? 6 : 5).reduce((a, b) => a + b, 0) }));
 
@@ -856,33 +857,56 @@
 
             const nsuHeaders = ['S01', 'S02', 'S03', 'Essay'];
 
-            const nsuSorted = sort(nsu);
-            const bracuSorted = sort(bracu);
+            // PREVIEW: keep all students (even with all zeros)
+            const nsuPreview = sort([...nsuAll]);
+            const bracuPreview = sort([...bracuAll]);
 
-            // If there are no BRACU students and NSU has more than 25 rows,
-            // split NSU list into two side-by-side tables with max 25 rows on the left.
-            if (bracuSorted.length === 0 && nsuSorted.length > 25) {
-                const leftCount = 25;
-                const nsuLeft = nsuSorted.slice(0, leftCount);
-                const nsuRight = nsuSorted.slice(leftCount);
+            if (bracuPreview.length === 0 && nsuPreview.length > 25) {
+                // NSU-only preview, split after 25 rows
+                const leftCountPrev = 25;
+                const nsuLeftPrev = nsuPreview.slice(0, leftCountPrev);
+                const nsuRightPrev = nsuPreview.slice(leftCountPrev);
 
-                const nsuTableLeft = renderSheetTable('NSU', nsuLeft, nsuHeaders, label, showNSUT);
-                const nsuTableRight = nsuRight.length
-                    ? renderSheetTable('NSU', nsuRight, nsuHeaders, label, false)
+                const nsuTableLeftPrev = renderSheetTable('NSU', nsuLeftPrev, nsuHeaders, label, showNSUT);
+                const nsuTableRightPrev = nsuRightPrev.length
+                    ? renderSheetTable('NSU', nsuRightPrev, nsuHeaders, label, false)
                     : '';
 
-                document.getElementById('nsu-view').innerHTML = nsuTableLeft;
-                document.getElementById('bracu-view').innerHTML = nsuTableRight;
-                document.getElementById('nsu-view-print').innerHTML = nsuTableLeft;
-                document.getElementById('bracu-view-print').innerHTML = nsuTableRight;
+                document.getElementById('nsu-view').innerHTML = nsuTableLeftPrev;
+                document.getElementById('bracu-view').innerHTML = nsuTableRightPrev;
             } else {
-                const nsuTable = renderSheetTable('NSU', nsuSorted, nsuHeaders, label, showNSUT);
-                const bracuTable = renderSheetTable('BRACU', bracuSorted, bracuHeaders, label, showBRACUT);
+                const nsuTablePrev = renderSheetTable('NSU', nsuPreview, nsuHeaders, label, showNSUT);
+                const bracuTablePrev = renderSheetTable('BRACU', bracuPreview, bracuHeaders, label, showBRACUT);
 
-                document.getElementById('nsu-view').innerHTML = nsuTable;
-                document.getElementById('bracu-view').innerHTML = bracuTable;
-                document.getElementById('nsu-view-print').innerHTML = nsuTable;
-                document.getElementById('bracu-view-print').innerHTML = bracuTable;
+                document.getElementById('nsu-view').innerHTML = nsuTablePrev;
+                document.getElementById('bracu-view').innerHTML = bracuTablePrev;
+            }
+
+            // PRINT: filter out students whose totals are zero (all scores 0)
+            const nsuPrint = nsuAll.filter(s => s.total > 0);
+            const bracuPrint = bracuAll.filter(s => s.total > 0);
+
+            const nsuPrintSorted = sort([...nsuPrint]);
+            const bracuPrintSorted = sort([...bracuPrint]);
+
+            if (bracuPrintSorted.length === 0 && nsuPrintSorted.length > 25) {
+                const leftCountPrint = 25;
+                const nsuLeftPrint = nsuPrintSorted.slice(0, leftCountPrint);
+                const nsuRightPrint = nsuPrintSorted.slice(leftCountPrint);
+
+                const nsuTableLeftPrint = renderSheetTable('NSU', nsuLeftPrint, nsuHeaders, label, showNSUT);
+                const nsuTableRightPrint = nsuRightPrint.length
+                    ? renderSheetTable('NSU', nsuRightPrint, nsuHeaders, label, false)
+                    : '';
+
+                document.getElementById('nsu-view-print').innerHTML = nsuTableLeftPrint;
+                document.getElementById('bracu-view-print').innerHTML = nsuTableRightPrint;
+            } else {
+                const nsuTablePrint = renderSheetTable('NSU', nsuPrintSorted, nsuHeaders, label, showNSUT);
+                const bracuTablePrint = renderSheetTable('BRACU', bracuPrintSorted, bracuHeaders, label, showBRACUT);
+
+                document.getElementById('nsu-view-print').innerHTML = nsuTablePrint;
+                document.getElementById('bracu-view-print').innerHTML = bracuTablePrint;
             }
         }
 
