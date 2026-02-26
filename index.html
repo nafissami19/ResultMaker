@@ -681,6 +681,7 @@
                 <select id="bulk-type">
                     <option value="NSU">NSU</option>
                     <option value="BRACU">BRACU</option>
+                    <option value="BOTH">Both (auto-detect by S05/S06)</option>
                 </select>
             </div>
             <textarea id="bulk-input" rows="8" style="width:100%; padding:10px; font-family:monospace"></textarea>
@@ -766,15 +767,30 @@
             text.split('\n').filter(l => l.trim()).forEach(line => {
                 const p = line.split('\t');
                 if (p[0]) {
-                    const scores = [0, 0, 0, 0, 0, 0];
+                    const rawScores = [0, 0, 0, 0, 0, 0];
                     for (let i = 0; i < 6; i++) {
                         if (p[i + 1]) {
                             let val = parseFloat(p[i + 1].replace(',', '')) || 0;
-                            if (type === 'NSU' && (i === 4 || i === 5)) val = 0;
-                            scores[i] = val;
+                            rawScores[i] = val;
                         }
                     }
-                    students.push({ name: p[0].trim(), type, scores });
+
+                    // Determine actual student type and final scores
+                    let studentType = type;
+                    let scores = [...rawScores];
+
+                    if (type === 'BOTH') {
+                        const hasBracuCols = (rawScores[4] || 0) !== 0 || (rawScores[5] || 0) !== 0;
+                        studentType = hasBracuCols ? 'BRACU' : 'NSU';
+                    }
+
+                    // For NSU, ignore S05 & S06
+                    if (studentType === 'NSU') {
+                        scores[4] = 0;
+                        scores[5] = 0;
+                    }
+
+                    students.push({ name: p[0].trim(), type: studentType, scores });
                 }
             });
             saveAndFullRender(); hideBulkModal();
