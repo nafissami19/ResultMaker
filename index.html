@@ -300,20 +300,20 @@
         .sheet-meta-header {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 25px;
+            margin-bottom: 12px;
             font-weight: 700;
-            font-size: 18px;
+            font-size: 16px;
             text-transform: uppercase;
             border-bottom: 2px solid #000;
-            padding-bottom: 10px;
+            padding-bottom: 6px;
         }
 
         .sheet-meta-footer {
             display: flex;
             justify-content: space-between;
             margin-top: auto;
-            padding-top: 25px;
-            font-size: 18px;
+            padding-top: 10px;
+            font-size: 16px;
             font-weight: 700;
             margin-bottom: -10px;
             /* Push further into margin space */
@@ -342,12 +342,12 @@
         .sheet-main-title {
             text-align: center;
             font-family: 'Playfair Display', serif;
-            font-size: 34px;
+            font-size: 28px;
             font-weight: 700;
-            margin-bottom: 25px;
+            margin-bottom: 16px;
             border: 2px solid #000;
             display: inline-block;
-            padding: 10px 40px;
+            padding: 6px 28px;
             align-self: center;
             white-space: nowrap;
             text-transform: uppercase;
@@ -466,32 +466,42 @@
             .results-section {
                 display: grid !important;
                 grid-template-columns: 1fr 1fr !important;
-                gap: 25px !important;
+                gap: 18px !important;
                 width: 100% !important;
-                margin-top: 10px !important;
+                margin-top: 4px !important;
             }
 
             .sheet-main-title {
-                font-size: 28px !important;
-                margin-bottom: 20px !important;
-                padding: 8px 30px !important;
+                font-size: 22px !important;
+                margin-bottom: 10px !important;
+                padding: 4px 22px !important;
             }
 
             .result-table th,
             .result-table td {
-                font-size: 15px !important;
-                padding: 8px 4px !important;
-                border-width: 1.5px !important;
+                font-size: 11px !important;
+                padding: 3px 2px !important;
+                border-width: 1px !important;
+            }
+
+            .name-cell {
+                font-size: 11px !important;
+                line-height: 1.05 !important;
+                padding: 2px 2px !important;
             }
 
             .sheet-meta-header,
             .sheet-meta-footer {
-                font-size: 16px !important;
-                border-bottom-width: 2px !important;
+                font-size: 12px !important;
+                border-bottom-width: 1px !important;
+                margin-bottom: 2px !important;
+                padding-top: 2px !important;
+                padding-bottom: 2px !important;
             }
 
             @page {
-                margin: 0.5cm 1cm;
+                size: A4 landscape;
+                margin: 0.4cm 0.7cm;
             }
         }
     </style>
@@ -671,6 +681,7 @@
                 <select id="bulk-type">
                     <option value="NSU">NSU</option>
                     <option value="BRACU">BRACU</option>
+                    <option value="BOTH">Both (auto-detect by S05/S06)</option>
                 </select>
             </div>
             <textarea id="bulk-input" rows="8" style="width:100%; padding:10px; font-family:monospace"></textarea>
@@ -756,15 +767,30 @@
             text.split('\n').filter(l => l.trim()).forEach(line => {
                 const p = line.split('\t');
                 if (p[0]) {
-                    const scores = [0, 0, 0, 0, 0, 0];
+                    const rawScores = [0, 0, 0, 0, 0, 0];
                     for (let i = 0; i < 6; i++) {
                         if (p[i + 1]) {
                             let val = parseFloat(p[i + 1].replace(',', '')) || 0;
-                            if (type === 'NSU' && (i === 4 || i === 5)) val = 0;
-                            scores[i] = val;
+                            rawScores[i] = val;
                         }
                     }
-                    students.push({ name: p[0].trim(), type, scores });
+
+                    // Determine actual student type and final scores
+                    let studentType = type;
+                    let scores = [...rawScores];
+
+                    if (type === 'BOTH') {
+                        const hasBracuCols = (rawScores[4] || 0) !== 0 || (rawScores[5] || 0) !== 0;
+                        studentType = hasBracuCols ? 'BRACU' : 'NSU';
+                    }
+
+                    // For NSU, ignore S05 & S06
+                    if (studentType === 'NSU') {
+                        scores[4] = 0;
+                        scores[5] = 0;
+                    }
+
+                    students.push({ name: p[0].trim(), type: studentType, scores });
                 }
             });
             saveAndFullRender(); hideBulkModal();
@@ -832,18 +858,72 @@
             document.getElementById('print-header-content').innerHTML = headerHtml;
             document.getElementById('print-footer-content').innerHTML = footerHtml;
 
-            const nsu = students.filter(s => s.type === 'NSU' && s.name).map(s => ({ ...s, total: s.scores.slice(0, 4).reduce((a, b) => a + b, 0) }));
-            const bracu = students.filter(s => s.type === 'BRACU' && s.name).map(s => ({ ...s, total: s.scores.slice(0, showS06 ? 6 : 5).reduce((a, b) => a + b, 0) }));
+            // Build full NSU/BRACU lists (used for on-screen preview)
+            const nsuAll = students
+                .filter(s => s.type === 'NSU' && s.name)
+                .map(s => ({ ...s, total: s.scores.slice(0, 4).reduce((a, b) => a + b, 0) }));
 
-            const bracuHeaders = showS06 ? ['S01', 'S02', 'S03', 'Essay', 'S05', 'S06'] : ['S01', 'S02', 'S03', 'Essay', 'S05'];
+            const bracuAll = students
+                .filter(s => s.type === 'BRACU' && s.name)
+                .map(s => ({ ...s, total: s.scores.slice(0, showS06 ? 6 : 5).reduce((a, b) => a + b, 0) }));
 
-            const nsuTable = renderSheetTable('NSU', sort(nsu), ['S01', 'S02', 'S03', 'Essay'], label, showNSUT);
-            const bracuTable = renderSheetTable('BRACU', sort(bracu), bracuHeaders, label, showBRACUT);
+            const bracuHeaders = showS06
+                ? ['S01', 'S02', 'S03', 'Essay', 'S05', 'S06']
+                : ['S01', 'S02', 'S03', 'Essay', 'S05'];
 
-            document.getElementById('nsu-view').innerHTML = nsuTable;
-            document.getElementById('bracu-view').innerHTML = bracuTable;
-            document.getElementById('nsu-view-print').innerHTML = nsuTable;
-            document.getElementById('bracu-view-print').innerHTML = bracuTable;
+            const nsuHeaders = ['S01', 'S02', 'S03', 'Essay'];
+
+            // PREVIEW: keep all students (even with all zeros)
+            const nsuPreview = sort([...nsuAll]);
+            const bracuPreview = sort([...bracuAll]);
+
+            if (bracuPreview.length === 0 && nsuPreview.length > 25) {
+                // NSU-only preview, split after 25 rows
+                const leftCountPrev = 25;
+                const nsuLeftPrev = nsuPreview.slice(0, leftCountPrev);
+                const nsuRightPrev = nsuPreview.slice(leftCountPrev);
+
+                const nsuTableLeftPrev = renderSheetTable('NSU', nsuLeftPrev, nsuHeaders, label, showNSUT);
+                const nsuTableRightPrev = nsuRightPrev.length
+                    ? renderSheetTable('NSU', nsuRightPrev, nsuHeaders, label, false)
+                    : '';
+
+                document.getElementById('nsu-view').innerHTML = nsuTableLeftPrev;
+                document.getElementById('bracu-view').innerHTML = nsuTableRightPrev;
+            } else {
+                const nsuTablePrev = renderSheetTable('NSU', nsuPreview, nsuHeaders, label, showNSUT);
+                const bracuTablePrev = renderSheetTable('BRACU', bracuPreview, bracuHeaders, label, showBRACUT);
+
+                document.getElementById('nsu-view').innerHTML = nsuTablePrev;
+                document.getElementById('bracu-view').innerHTML = bracuTablePrev;
+            }
+
+            // PRINT: filter out students whose totals are zero (all scores 0)
+            const nsuPrint = nsuAll.filter(s => s.total > 0);
+            const bracuPrint = bracuAll.filter(s => s.total > 0);
+
+            const nsuPrintSorted = sort([...nsuPrint]);
+            const bracuPrintSorted = sort([...bracuPrint]);
+
+            if (bracuPrintSorted.length === 0 && nsuPrintSorted.length > 25) {
+                const leftCountPrint = 25;
+                const nsuLeftPrint = nsuPrintSorted.slice(0, leftCountPrint);
+                const nsuRightPrint = nsuPrintSorted.slice(leftCountPrint);
+
+                const nsuTableLeftPrint = renderSheetTable('NSU', nsuLeftPrint, nsuHeaders, label, showNSUT);
+                const nsuTableRightPrint = nsuRightPrint.length
+                    ? renderSheetTable('NSU', nsuRightPrint, nsuHeaders, label, false)
+                    : '';
+
+                document.getElementById('nsu-view-print').innerHTML = nsuTableLeftPrint;
+                document.getElementById('bracu-view-print').innerHTML = nsuTableRightPrint;
+            } else {
+                const nsuTablePrint = renderSheetTable('NSU', nsuPrintSorted, nsuHeaders, label, showNSUT);
+                const bracuTablePrint = renderSheetTable('BRACU', bracuPrintSorted, bracuHeaders, label, showBRACUT);
+
+                document.getElementById('nsu-view-print').innerHTML = nsuTablePrint;
+                document.getElementById('bracu-view-print').innerHTML = bracuTablePrint;
+            }
         }
 
         function sort(arr) {
