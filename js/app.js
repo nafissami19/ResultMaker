@@ -16,10 +16,6 @@ const app = {
             });
         });
 
-        document.getElementById('theme-toggle').addEventListener('click', () => {
-            document.body.classList.toggle('light-theme');
-            // Logic for switching icons can go here
-        });
 
         document.querySelector('.btn-close').addEventListener('click', () => this.hideModal());
         document.querySelector('.btn-cancel').addEventListener('click', () => this.hideModal());
@@ -183,36 +179,6 @@ const app = {
         }
     },
 
-    showBulkNamesModal() {
-        const body = `
-            <div class="form-group">
-                <label>Paste Names (One per line or separated by commas)</label>
-                <textarea id="names-area" rows="10" placeholder="John Doe&#10;Jane Smith..."></textarea>
-            </div>
-            <div class="form-group">
-                <label>Standard</label>
-                <select id="bulk-names-standard">
-                    <option value="NSU">NSU</option>
-                    <option value="BRACU">BRACU</option>
-                </select>
-            </div>
-        `;
-
-        this.showModal('Bulk Add Names', body, () => {
-            const text = document.getElementById('names-area').value;
-            const standard = document.getElementById('bulk-names-standard').value;
-            if (!text.trim()) return false;
-            
-            const names = text.split(/[\n,]/).map(n => n.trim()).filter(n => n);
-            names.forEach(name => {
-                Storage.addStudent({ name, standard, batch: 'BATCH 89' });
-            });
-            
-            this.navigateTo('students');
-            this.showToast(`${names.length} names added successfully!`);
-            return true;
-        });
-    },
 
     showSpreadsheetImportModal() {
         const body = `

@@ -69,7 +69,7 @@ const UI = {
             <div style="display: flex; justify-content: space-between; margin-bottom: 2rem">
                 <h2>All Students</h2>
                 <div style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: flex-end">
-                    <button class="btn btn-secondary btn-sm" onclick="app.showBulkNamesModal()">Bulk Add Names</button>
+
                     <button class="btn btn-secondary btn-sm" onclick="app.showSpreadsheetImportModal()">Import Spreadsheet</button>
                     <button class="btn btn-secondary btn-sm" onclick="app.exportStudents()">Export CSV</button>
                     <button class="btn btn-primary btn-sm" onclick="app.showAddStudentModal()">Add Student</button>
