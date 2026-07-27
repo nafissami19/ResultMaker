@@ -6,11 +6,10 @@ const UI = {
         const bracuCount = students.filter(s => s.standard === 'BRACU').length;
 
         return `
-            <div class="dashboard-banner" style="margin-bottom: 2rem; border-radius: var(--radius-lg); overflow: hidden; height: 200px; position: relative; border: 1px solid var(--border);">
-                <img src="phoenix_education_banner.png" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.6;">
-                <div style="position: absolute; bottom: 2rem; left: 2rem;">
-                    <h2 style="font-size: 2rem; margin-bottom: 0.5rem;">Welcome back, Admin</h2>
-                    <p style="color: var(--text-muted)">Manage your student's results with precision and style.</p>
+            <div class="dashboard-banner" style="margin-bottom: 2rem; border-radius: var(--radius-lg); overflow: hidden; height: 200px; position: relative; background: linear-gradient(135deg, #0f2c59 0%, #1e40af 50%, #2563eb 100%); border: 1px solid var(--border);">
+                <div style="position: absolute; bottom: 2rem; left: 2rem; color: #ffffff;">
+                    <h2 style="font-size: 2rem; margin-bottom: 0.5rem; color: #ffffff;">Welcome back, Admin</h2>
+                    <p style="color: rgba(255, 255, 255, 0.8)">Manage your student's results with precision and style.</p>
                 </div>
             </div>
 

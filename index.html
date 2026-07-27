@@ -295,6 +295,307 @@
             to { transform: translateY(0); opacity: 1; }
         }
 
+        /* ── Central Ranking Segment Styling ── */
+        .btn-central-ranking {
+            cursor: pointer;
+            padding: 10px 24px;
+            border-radius: 50px;
+            background: linear-gradient(135deg, #0f2c59 0%, #1e40af 50%, #2563eb 100%);
+            border: 1.5px solid rgba(255, 255, 255, 0.4);
+            font-size: 0.84rem;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #ffffff;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 16px rgba(15, 44, 89, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.3);
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            user-select: none;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .btn-central-ranking::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: none;
+            z-index: 2;
+        }
+
+        .btn-central-ranking:hover::after {
+            left: 100%;
+            transition: left 0.75s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        .btn-central-ranking:hover {
+            transform: translateY(-2px) scale(1.03);
+            box-shadow: 0 8px 24px rgba(37, 99, 235, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.4);
+            filter: brightness(1.1);
+        }
+
+        .btn-central-ranking:active {
+            transform: scale(0.96) translateY(0);
+        }
+
+        #central-ranking-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(3, 7, 18, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            z-index: 9999;
+            display: none;
+            flex-direction: column;
+            animation: tmFadeIn 0.25s ease forwards;
+            overflow: hidden;
+        }
+
+        #central-ranking-overlay.visible {
+            display: flex;
+        }
+
+        .cr-modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #0f2c59 0%, #16325b 50%, #1e40af 100%);
+            border-bottom: 2px solid #3b82f6;
+            flex-shrink: 0;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .cr-modal-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: #ffffff;
+            letter-spacing: 0.04em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-transform: uppercase;
+        }
+
+        .cr-header-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-left: auto;
+        }
+
+        .cr-filter-toggle {
+            display: flex;
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 50px;
+            padding: 3px;
+            gap: 4px;
+        }
+
+        .cr-toggle-btn {
+            background: transparent;
+            border: none;
+            color: rgba(255, 255, 255, 0.8);
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 0.78rem;
+            padding: 6px 16px;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        .cr-toggle-btn.active {
+            background: #ffffff;
+            color: #0f2c59;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .cr-btn {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 0.82rem;
+            padding: 8px 16px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+
+        .cr-btn-import {
+            background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+        }
+        .cr-btn-import:hover {
+            transform: translateY(-1px);
+            filter: brightness(1.1);
+        }
+
+        .cr-btn-export-png {
+            background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
+            color: #ffffff;
+            box-shadow: 0 2px 8px rgba(124, 58, 237, 0.3);
+        }
+        .cr-btn-export-png:hover {
+            transform: translateY(-1px);
+            filter: brightness(1.1);
+        }
+
+        .cr-btn-export-pdf {
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            color: #ffffff;
+            box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
+        }
+        .cr-btn-export-pdf:hover {
+            transform: translateY(-1px);
+            filter: brightness(1.1);
+        }
+
+        .cr-btn-danger {
+            background: rgba(239, 68, 68, 0.2);
+            color: #fca5a5;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+        .cr-btn-danger:hover {
+            background: #ef4444;
+            color: #ffffff;
+        }
+
+        .cr-btn-secondary {
+            background: rgba(255, 255, 255, 0.15);
+            color: #ffffff;
+        }
+        .cr-btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .cr-body-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 24px;
+            display: flex;
+            justify-content: center;
+            background: #090d16;
+        }
+
+        .cr-sheet-container {
+            background: #ffffff;
+            color: #0f172a;
+            border-radius: 4px;
+            padding: 0;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+            max-width: 1250px;
+            width: 100%;
+            position: relative;
+            border: 2px solid #0f2c59;
+            overflow: hidden;
+            margin: 0 auto;
+        }
+
+        /* Central Ranking Table Styling matching provided image */
+        .cr-result-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: 'Inter', sans-serif;
+            position: relative;
+            z-index: 2;
+            background: transparent;
+        }
+
+        .cr-result-table th {
+            background: #0F2C59;
+            color: #ffffff;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border: 1.5px solid #295286;
+            padding: 10px 8px;
+            text-align: center;
+            vertical-align: middle;
+            font-size: 0.95rem;
+        }
+
+        .cr-result-table th.cr-th-sub {
+            background: #143564;
+            font-size: 0.9rem;
+            padding: 6px;
+        }
+
+        .cr-result-table td {
+            border: 1.5px solid #0F2C59;
+            padding: 7px 10px;
+            text-align: center;
+            font-size: 0.88rem;
+            color: #0d1b2a;
+            font-weight: 600;
+            vertical-align: middle;
+            background: rgba(255, 255, 255, 0.92);
+        }
+
+        .cr-result-table tr:nth-child(even) td {
+            background: rgba(243, 246, 251, 0.92);
+        }
+
+        .cr-result-table td.cr-td-rank {
+            font-weight: 700;
+            color: #0F2C59;
+            width: 70px;
+        }
+
+        .cr-result-table td.cr-td-name {
+            text-align: left;
+            padding-left: 14px;
+            font-weight: 700;
+            color: #0b1e36;
+            min-width: 220px;
+        }
+
+        .cr-result-table td.cr-td-batch {
+            text-align: center;
+            font-weight: 800;
+            color: #0056b3;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.85rem;
+            letter-spacing: 0.02em;
+            min-width: 260px;
+        }
+
+        .cr-result-table td.cr-td-score {
+            width: 55px;
+            font-weight: 600;
+        }
+
+        .cr-result-table td.cr-td-total {
+            font-weight: 800;
+            color: #0F2C59;
+            font-size: 0.95rem;
+            width: 110px;
+            background: rgba(224, 235, 248, 0.95) !important;
+        }
+
         .logo-area {
             display: flex;
             align-items: center;
@@ -1341,10 +1642,122 @@
         <div class="header-top no-print">
             <h1 class="main-title">Phoenix <span class="sub-brand">Result Maker</span></h1>
             <div class="header-actions">
+                <button class="btn-central-ranking" id="open-central-ranking-btn" onclick="openCentralRanking()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/>
+                        <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/>
+                        <path d="M4 22h16"/>
+                        <path d="M10 14.66V17c0 .55-.45 1-1 1H7.5"/>
+                        <path d="M14 14.66V17c0 .55.45 1 1 1h1.5"/>
+                        <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/>
+                    </svg>
+                    Central Ranking
+                </button>
                 <button class="btn-tablemaker" id="open-tablemaker-btn" onclick="openTableMaker()">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/></svg>
                     Table Maker
                 </button>
+            </div>
+        </div>
+
+        <!-- Central Ranking Full-screen Overlay -->
+        <div id="central-ranking-overlay">
+            <div class="cr-modal-header">
+                <div class="cr-modal-title">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/>
+                        <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/>
+                        <path d="M4 22h16"/>
+                        <path d="M10 14.66V17c0 .55-.45 1-1 1H7.5"/>
+                        <path d="M14 14.66V17c0 .55.45 1 1 1h1.5"/>
+                        <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/>
+                    </svg>
+                    Phoenix Central Ranking Result
+                </div>
+
+                <div class="cr-header-actions">
+                    <div class="cr-filter-toggle">
+                        <button id="cr-toggle-top30" class="cr-toggle-btn active" onclick="setCRFilterMode(true)">
+                            Top 30 Only
+                        </button>
+                        <button id="cr-toggle-all" class="cr-toggle-btn" onclick="setCRFilterMode(false)">
+                            Show All Exam Takers (<span id="cr-total-count">0</span>)
+                        </button>
+                    </div>
+
+                    <button class="cr-btn cr-btn-import" onclick="openCRImportModal()">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                            <polyline points="14 2 14 8 20 8"/>
+                            <line x1="12" y1="18" x2="12" y2="12"/>
+                            <line x1="9" y1="15" x2="15" y2="15"/>
+                        </svg>
+                        Import Batch Data
+                    </button>
+
+                    <button class="cr-btn cr-btn-secondary" onclick="openCRConfigModal()">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="3"/>
+                            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+                        </svg>
+                        Settings
+                    </button>
+
+                    <button class="cr-btn cr-btn-export-png" onclick="downloadCRPNG()">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                            <circle cx="8.5" cy="8.5" r="1.5"/>
+                            <polyline points="21 15 16 10 5 21"/>
+                        </svg>
+                        Download PNG
+                    </button>
+
+                    <button class="cr-btn cr-btn-export-pdf" onclick="downloadCRPDF()">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                            <polyline points="14 2 14 8 20 8"/>
+                            <path d="M12 18v-6"/>
+                            <path d="m9 15 3 3 3-3"/>
+                        </svg>
+                        Download PDF
+                    </button>
+
+                    <button class="cr-btn cr-btn-secondary" onclick="resetCRData()" title="Reset to default sample data">
+                        Reset Sample
+                    </button>
+
+                    <button class="cr-btn cr-btn-danger" onclick="clearCRAllData()" title="Clear all ranking dataset">
+                        Clear All
+                    </button>
+
+                    <button class="tm-close-btn" onclick="closeCentralRanking()" title="Close">&times;</button>
+                </div>
+            </div>
+
+            <div class="cr-body-content">
+                <div class="cr-sheet-container" id="cr-sheet-capture-area">
+                    <table class="cr-result-table">
+                        <thead>
+                            <tr>
+                                <th rowspan="2" class="cr-th-rank">RANK</th>
+                                <th rowspan="2" class="cr-th-name">NAME</th>
+                                <th rowspan="2" class="cr-th-batch">PHOENIX BATCH NO.</th>
+                                <th colspan="5" class="cr-th-mt-header">MODEL TEST</th>
+                                <th rowspan="2" class="cr-th-total" id="cr-th-total-label">Total<br><span style="font-size: 0.85em; font-weight: normal; text-transform: none;">(out of 550)</span></th>
+                            </tr>
+                            <tr>
+                                <th class="cr-th-sub">1</th>
+                                <th class="cr-th-sub">2</th>
+                                <th class="cr-th-sub">3</th>
+                                <th class="cr-th-sub">4</th>
+                                <th class="cr-th-sub">5</th>
+                            </tr>
+                        </thead>
+                        <tbody id="cr-table-body">
+                            <!-- Dynamic central ranking rows -->
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
 
@@ -1511,6 +1924,71 @@
         </div>
     </div>
 
+    <!-- Central Ranking Batch Import Modal -->
+    <div id="cr-import-modal" class="modal-backdrop" style="z-index: 100005;">
+        <div class="card" style="max-width: 650px; width: 95%;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+                <h2 style="font-family:'Outfit', sans-serif; font-size:1.3rem; font-weight:700; color:var(--text)">Import Batch Result</h2>
+                <button class="tm-close-btn" onclick="closeCRImportModal()" style="color:var(--text); background:transparent; border:none; font-size:1.5rem;">&times;</button>
+            </div>
+            
+            <p style="font-size:0.82rem; color:var(--text-muted); margin-bottom:1rem; line-height: 1.4;">
+                Paste Tab-separated data from Excel or Google Sheets.<br>
+                <strong>Supported Formats:</strong><br>
+                1. <code>Name [Tab] MT1 [Tab] MT2 [Tab] MT3 [Tab] MT4 [Tab] MT5</code><br>
+                2. <code>Name [Tab] Batch Name [Tab] MT1 [Tab] MT2 [Tab] MT3 [Tab] MT4 [Tab] MT5</code><br>
+                3. <code>Rank [Tab] Name [Tab] Batch Name [Tab] MT1 [Tab] MT2 [Tab] MT3 [Tab] MT4 [Tab] MT5</code>
+            </p>
+
+            <div class="form-group" style="margin-bottom:1rem">
+                <label>Batch Name (Full Name):</label>
+                <input type="text" id="cr-batch-name-input" placeholder="e.g. BATCH 87 - Offline Combo Batch" value="BATCH 87 - Offline Combo Batch" style="width:100%">
+            </div>
+
+            <div class="form-group" style="margin-bottom:1rem">
+                <label>Mode:</label>
+                <div style="display:flex; gap:15px; margin-top:4px;">
+                    <label style="display:flex; align-items:center; gap:6px; font-weight:normal; text-transform:none; cursor:pointer;">
+                        <input type="radio" name="cr-import-mode" value="append" checked> Append / Add to Existing Results
+                    </label>
+                    <label style="display:flex; align-items:center; gap:6px; font-weight:normal; text-transform:none; cursor:pointer;">
+                        <input type="radio" name="cr-import-mode" value="replace"> Replace Entire Ranking Dataset
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group" style="margin-bottom:1rem">
+                <label>Spreadsheet Data (Paste here):</label>
+                <textarea id="cr-bulk-input" rows="8" placeholder="Fuad Hasan Susmit	90.5	101.5	87	95.5	108&#10;Raiyan Rana Raad	74	83	86	72	90" style="width:100%; padding:10px; font-family:monospace; font-size:0.88rem; border-radius:8px; border:1px solid var(--border); background:var(--input-bg); color:var(--text);"></textarea>
+            </div>
+
+            <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:1rem">
+                <button class="btn btn-secondary" onclick="closeCRImportModal()">Cancel</button>
+                <button class="btn btn-primary" onclick="processCRImport()">Process Batch Import</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Central Ranking Settings Modal -->
+    <div id="cr-config-modal" class="modal-backdrop" style="z-index: 100005;">
+        <div class="card" style="max-width: 500px; width: 90%;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+                <h2 style="font-family:'Outfit', sans-serif; font-size:1.2rem; font-weight:700; color:var(--text);">Central Ranking Settings</h2>
+                <button class="tm-close-btn" onclick="closeCRConfigModal()" style="color:var(--text); background:transparent; border:none; font-size:1.5rem;">&times;</button>
+            </div>
+
+            <div class="form-group" style="margin-bottom:1rem">
+                <label>Total Max Marks (Out of):</label>
+                <input type="number" id="cr-max-marks-input" value="550" style="width:100%">
+            </div>
+
+            <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:1rem">
+                <button class="btn btn-secondary" onclick="closeCRConfigModal()">Cancel</button>
+                <button class="btn btn-primary" onclick="saveCRSettings()">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         // ── TableMaker Modal ──────────────────────────────────────
         function openTableMaker() {
@@ -1525,9 +2003,369 @@
             document.body.style.overflow = '';
         }
 
+        // ── Central Ranking Logic ─────────────────────────────────
+        const CR_STORAGE_KEY = 'phoenix_central_ranking_v1';
+        let crFilterTop30 = true;
+        let crMaxMarks = 550;
+
+        const defaultCRSampleData = [
+            { name: "Fuad Hasan Susmit", batch: "BATCH 87 - Offline Combo Batch", scores: [90.5, 101.5, 87, 95.5, 108] },
+            { name: "Raiyan Rana Raad", batch: "BATCH 89 - Offline Combo Batch [02]", scores: [74, 83, 86, 72, 90] },
+            { name: "Mushfique Saleheen", batch: "BATCH 87 - Offline Combo Batch", scores: [64.5, 80, 83, 90, 75] },
+            { name: "Nazmul Islam Tanim", batch: "BATCH 87 - Offline Combo Batch", scores: [0, 87, 88.5, 84, 89] },
+            { name: "Farin Rahman", batch: "BATCH 87 - Offline Combo Batch", scores: [59.5, 70.5, 70.5, 69, 75] },
+            { name: "Tahsin Tarmim", batch: "BATCH 89 - Offline Combo Batch [02]", scores: [53.5, 78, 61, 64.5, 79] },
+            { name: "Probourtona Saha Trisha", batch: "BATCH 87 - Offline Combo Batch", scores: [47, 74, 57.5, 67.5, 84] },
+            { name: "Jannatul Mahbuba", batch: "BATCH 87 - Offline Combo Batch", scores: [49, 61, 63, 59, 56.5] },
+            { name: "Mumtahana Kabir", batch: "BATCH 87 - Offline Combo Batch", scores: [48.5, 53, 63.5, 61, 60] },
+            { name: "Mardia khan sanja", batch: "BATCH 87 - Offline Combo Batch", scores: [48, 61, 42, 55, 80] },
+            { name: "Mahir daiyan talukder", batch: "BATCH 89 - Offline Combo Batch [02]", scores: [55, 0, 74, 69, 79] },
+            { name: "Abrar islam", batch: "BATCH 89 - Offline Combo Batch [02]", scores: [57, 71.5, 0, 67.5, 79.5] },
+            { name: "Shamema Ahmed Meem", batch: "BATCH 89 - Offline Combo Batch [02]", scores: [64.5, 74, 76.5, 59, 0] },
+            { name: "Ramisha Anjum Noushin", batch: "BATCH 87 - Offline Combo Batch", scores: [54, 0, 69.5, 65, 63] },
+            { name: "Sanaf Sunvi", batch: "BATCH 87 - Offline Combo Batch", scores: [56.5, 73.5, 57, 61, 0] },
+            { name: "Tanveer Alam Shihab", batch: "BATCH 87 - Offline Combo Batch", scores: [49, 0, 61, 68, 61.5] },
+            { name: "Md Tanjim Hossain", batch: "BATCH 87 - Offline Combo Batch", scores: [60, 68, 0, 54, 55] },
+            { name: "Kabya Sarker", batch: "BATCH 89 - Offline Combo Batch [02]", scores: [0, 79.5, 63, 0, 78] },
+            { name: "Suchana Basher Shurme", batch: "BATCH 89 - Offline Combo Batch [02]", scores: [0, 0, 61, 60, 91] },
+            { name: "Abu Talha Jubayer", batch: "BATCH 87 - Offline Combo Batch", scores: [0, 53, 61, 54, 43] },
+            { name: "Saraf Rizvi", batch: "BATCH 87 - Offline Combo Batch", scores: [54, 58, 44, 48.5, 0] },
+            { name: "Ramisa Tabassum", batch: "BATCH 89 - Offline Combo Batch [02]", scores: [0, 101, 87, 0, 0] },
+            { name: "YEASIR ARAFAT", batch: "BATCH 87 - Offline Combo Batch", scores: [0, 0, 52, 65, 71] },
+            { name: "NAFIJ HOSSAIN LUBDHAK", batch: "BATCH 89 - Offline Combo Batch [02]", scores: [0, 0, 0, 85.5, 90] },
+            { name: "Aribo Islam Rafin", batch: "BATCH 87 - Offline Combo Batch", scores: [0, 0, 0, 69, 76] },
+            { name: "Baishaki Debnath Oishe", batch: "BATCH 87 - Offline Combo Batch", scores: [37, 0, 56, 0, 50.5] },
+            { name: "Jannatul Hammi", batch: "BATCH 87 - Offline Combo Batch", scores: [0, 0, 62, 54, 0] },
+            { name: "Karar Ibna Salam", batch: "BATCH 89 - Offline Combo Batch [02]", scores: [38.5, 0, 55, 0, 0] },
+            { name: "Rownak Mohammed Siraj", batch: "BATCH 89 - Offline Combo Batch [02]", scores: [0, 0, 0, 71, 0] },
+            { name: "MD. NAFIUL ISLAM", batch: "BATCH 87 - Offline Combo Batch", scores: [0, 65.5, 0, 0, 0] }
+        ];
+
+        function getCRData() {
+            const raw = localStorage.getItem(CR_STORAGE_KEY);
+            if (!raw) {
+                localStorage.setItem(CR_STORAGE_KEY, JSON.stringify(defaultCRSampleData));
+                return defaultCRSampleData;
+            }
+            try {
+                return JSON.parse(raw);
+            } catch(e) {
+                return defaultCRSampleData;
+            }
+        }
+
+        function saveCRData(data) {
+            localStorage.setItem(CR_STORAGE_KEY, JSON.stringify(data));
+        }
+
+        function openCentralRanking() {
+            const overlay = document.getElementById('central-ranking-overlay');
+            overlay.classList.add('visible');
+            document.body.style.overflow = 'hidden';
+            renderCentralRanking();
+        }
+
+        function closeCentralRanking() {
+            const overlay = document.getElementById('central-ranking-overlay');
+            overlay.classList.remove('visible');
+            document.body.style.overflow = '';
+        }
+
+        function setCRFilterMode(top30Only) {
+            crFilterTop30 = top30Only;
+            document.getElementById('cr-toggle-top30').classList.toggle('active', top30Only);
+            document.getElementById('cr-toggle-all').classList.toggle('active', !top30Only);
+            renderCentralRanking();
+        }
+
+        function getOrdinalSuffix(n) {
+            const s = ["th", "st", "nd", "rd"];
+            const v = n % 100;
+            return n + (s[(v - 20) % 10] || s[v] || s[0]);
+        }
+
+        function renderCentralRanking() {
+            const data = getCRData();
+            
+            const processed = data.map(item => {
+                const scores = item.scores || [0,0,0,0,0];
+                const total = scores.reduce((sum, val) => sum + (parseFloat(val) || 0), 0);
+                return {
+                    name: item.name || '',
+                    batch: item.batch || 'BATCH 87 - Offline Combo Batch',
+                    scores: scores,
+                    total: total
+                };
+            });
+
+            processed.sort((a, b) => b.total - a.total);
+
+            const totalCountEl = document.getElementById('cr-total-count');
+            if (totalCountEl) totalCountEl.textContent = processed.length;
+
+            const displayList = crFilterTop30 ? processed.slice(0, 30) : processed;
+
+            const tbody = document.getElementById('cr-table-body');
+            if (!tbody) return;
+
+            if (displayList.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="9" style="padding: 30px; color: var(--text-muted);">No records found. Click "Import Batch Data" to add results.</td></tr>`;
+                return;
+            }
+
+            let html = '';
+            displayList.forEach((item, index) => {
+                const rankStr = getOrdinalSuffix(index + 1);
+                const s = item.scores;
+                
+                const fmtScore = (val) => {
+                    const num = parseFloat(val) || 0;
+                    return num % 1 === 0 ? num : num.toFixed(1);
+                };
+
+                const fmtTotal = (val) => {
+                    const num = parseFloat(val) || 0;
+                    return num % 1 === 0 ? num : num.toFixed(1);
+                };
+
+                html += `
+                    <tr>
+                        <td class="cr-td-rank">${rankStr}</td>
+                        <td class="cr-td-name">${escapeHtml(item.name)}</td>
+                        <td class="cr-td-batch">${escapeHtml(item.batch)}</td>
+                        <td class="cr-td-score">${fmtScore(s[0])}</td>
+                        <td class="cr-td-score">${fmtScore(s[1])}</td>
+                        <td class="cr-td-score">${fmtScore(s[2])}</td>
+                        <td class="cr-td-score">${fmtScore(s[3])}</td>
+                        <td class="cr-td-score">${fmtScore(s[4])}</td>
+                        <td class="cr-td-total">${fmtTotal(item.total)}</td>
+                    </tr>
+                `;
+            });
+
+            tbody.innerHTML = html;
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;');
+        }
+
+        function openCRImportModal() {
+            document.getElementById('cr-import-modal').style.display = 'flex';
+        }
+
+        function closeCRImportModal() {
+            document.getElementById('cr-import-modal').style.display = 'none';
+        }
+
+        function processCRImport() {
+            const batchNameInput = document.getElementById('cr-batch-name-input').value.trim();
+            const rawText = document.getElementById('cr-bulk-input').value;
+            const mode = document.querySelector('input[name="cr-import-mode"]:checked').value;
+
+            if (!rawText.trim()) {
+                alert("Please paste spreadsheet data.");
+                return;
+            }
+
+            const lines = rawText.split(/\r?\n/);
+            const newItems = [];
+
+            lines.forEach(line => {
+                let trimmed = line.trim();
+                if (!trimmed) return;
+
+                let row = trimmed.split('\t').map(c => c.trim()).filter(c => c !== '');
+                if (row.length <= 1) {
+                    if (trimmed.includes(',')) {
+                        row = trimmed.split(',').map(c => c.trim()).filter(c => c !== '');
+                    } else {
+                        row = trimmed.split(/\s{2,}/).map(c => c.trim()).filter(c => c !== '');
+                    }
+                }
+                if (row.length === 0) return;
+
+                const firstColLower = row[0].toLowerCase();
+                if ((firstColLower.includes('rank') || firstColLower.includes('name')) && row.length > 1 && (row[1].toLowerCase().includes('name') || row[1].toLowerCase().includes('batch') || row[1].toLowerCase().includes('model'))) return;
+                if (firstColLower === 'name' || firstColLower === 'student name') return;
+
+                let startIdx = 0;
+                if (/^\d+(st|nd|rd|th)?$/i.test(row[0]) && row.length >= 3) {
+                    startIdx = 1;
+                }
+
+                if (startIdx >= row.length) return;
+                let name = row[startIdx];
+                let batch = batchNameInput || 'BATCH 87 - Offline Combo Batch';
+                let scores = [0, 0, 0, 0, 0];
+
+                let scoreStartIdx = startIdx + 1;
+                if (scoreStartIdx < row.length) {
+                    const nextCol = row[scoreStartIdx];
+                    if (nextCol.toLowerCase().includes('batch') || (isNaN(parseFloat(nextCol)) && nextCol.length > 1)) {
+                        batch = nextCol;
+                        scoreStartIdx++;
+                    }
+                }
+
+                for (let i = 0; i < 5; i++) {
+                    if (scoreStartIdx + i < row.length) {
+                        scores[i] = parseFloat(row[scoreStartIdx + i]) || 0;
+                    }
+                }
+
+                if (name) {
+                    newItems.push({ name, batch, scores });
+                }
+            });
+
+            if (newItems.length === 0) {
+                alert("No valid student rows found in pasted text. Expected columns: Name, Scores or Batch.");
+                return;
+            }
+
+            let finalData = [];
+            if (mode === 'append') {
+                const existing = getCRData();
+                finalData = existing.concat(newItems);
+            } else {
+                finalData = newItems;
+            }
+
+            saveCRData(finalData);
+            closeCRImportModal();
+            document.getElementById('cr-bulk-input').value = '';
+            renderCentralRanking();
+            showCRToast(`Successfully imported ${newItems.length} student records!`);
+        }
+
+        function openCRConfigModal() {
+            document.getElementById('cr-config-modal').style.display = 'flex';
+        }
+
+        function closeCRConfigModal() {
+            document.getElementById('cr-config-modal').style.display = 'none';
+        }
+
+        function saveCRSettings() {
+            const val = parseInt(document.getElementById('cr-max-marks-input').value) || 550;
+            crMaxMarks = val;
+            const labelEl = document.getElementById('cr-th-total-label');
+            if (labelEl) {
+                labelEl.innerHTML = `Total<br><span style="font-size: 0.85em; font-weight: normal; text-transform: none;">(out of ${crMaxMarks})</span>`;
+            }
+            closeCRConfigModal();
+        }
+
+        function resetCRData() {
+            saveCRData(JSON.parse(JSON.stringify(defaultCRSampleData)));
+            renderCentralRanking();
+            showCRToast("Reset to default Top 30 sample dataset!");
+        }
+
+        function clearCRAllData() {
+            saveCRData([]);
+            renderCentralRanking();
+            showCRToast("All Central Ranking data cleared!");
+        }
+
+        function showCRToast(msg) {
+            let toast = document.getElementById('cr-toast');
+            if (!toast) {
+                toast = document.createElement('div');
+                toast.id = 'cr-toast';
+                toast.style.cssText = `
+                    position: fixed; bottom: 2rem; right: 2rem;
+                    background: linear-gradient(135deg, #10b981, #059669); color: white;
+                    padding: 12px 24px; border-radius: 50px;
+                    box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4); z-index: 100000;
+                    font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 0.9rem;
+                    transition: all 0.3s ease; opacity: 0; transform: translateY(10px);
+                    display: flex; align-items: center; gap: 8px;
+                `;
+                document.body.appendChild(toast);
+            }
+            toast.textContent = msg;
+            toast.style.opacity = '1';
+            toast.style.transform = 'translateY(0)';
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateY(10px)';
+            }, 2500);
+        }
+
+        function downloadCRPNG() {
+            const element = document.getElementById('cr-sheet-capture-area');
+            if (!element) { alert("Nothing to capture!"); return; }
+
+            html2canvas(element, { scale: 2, useCORS: true, backgroundColor: '#ffffff', scrollX: 0, scrollY: 0 }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = `phoenix_central_ranking_${new Date().toISOString().split('T')[0]}.png`;
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            }).catch(err => {
+                console.error("Central Ranking PNG Error: ", err);
+                alert("Could not generate PNG.");
+            });
+        }
+
+        function downloadCRPDF() {
+            const element = document.getElementById('cr-sheet-capture-area');
+            if (!element) { alert("Nothing to capture!"); return; }
+
+            html2canvas(element, { scale: 2, useCORS: true, backgroundColor: '#ffffff', scrollX: 0, scrollY: 0 }).then(canvas => {
+                const imgData = canvas.toDataURL('image/jpeg', 0.98);
+                const jsPDFLib = (window.jspdf && window.jspdf.jsPDF) ? window.jspdf.jsPDF : window.jsPDF;
+                
+                const canvasWidth = canvas.width;
+                const canvasHeight = canvas.height;
+                const imgRatio = canvasWidth / canvasHeight;
+
+                const pdfWidth = 297;
+                const pdfHeight = 210;
+                const pageRatio = pdfWidth / pdfHeight;
+
+                let renderWidth, renderHeight, x, y;
+
+                if (imgRatio > pageRatio) {
+                    renderWidth = pdfWidth - 12;
+                    renderHeight = renderWidth / imgRatio;
+                    x = 6;
+                    y = (pdfHeight - renderHeight) / 2;
+                } else {
+                    renderHeight = pdfHeight - 12;
+                    renderWidth = renderHeight * imgRatio;
+                    x = (pdfWidth - renderWidth) / 2;
+                    y = 6;
+                }
+
+                const pdf = new jsPDFLib({
+                    orientation: 'landscape',
+                    unit: 'mm',
+                    format: 'a4'
+                });
+
+                pdf.addImage(imgData, 'JPEG', x, y, renderWidth, renderHeight);
+                pdf.save(`phoenix_central_ranking_${new Date().toISOString().split('T')[0]}.pdf`);
+            }).catch(err => {
+                console.error("Central Ranking PDF Error: ", err);
+                alert("Could not generate PDF.");
+            });
+        }
+
         // Close on Escape key
         document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape') closeTableMaker();
+            if (e.key === 'Escape') {
+                closeTableMaker();
+                closeCentralRanking();
+                closeCRImportModal();
+                closeCRConfigModal();
+            }
         });
         // ─────────────────────────────────────────────────────────
 
@@ -1920,6 +2758,7 @@
 
         renderTable();
         updateRankings();
+        renderCentralRanking();
     </script>
 </body>
 
