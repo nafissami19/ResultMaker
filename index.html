@@ -2626,12 +2626,18 @@
             }
 
             let html = '';
-            const pageOffset = (!crFilterTop30 && crPageSize !== 'all') ? ((crCurrentPage - 1) * (parseInt(crPageSize) || 35)) : 0;
+            const pageOffset = (!crFilterTop30 && crPageSize !== 'all') ? ((crCurrentPage - 1) * (parseInt(crPageSize) || 30)) : 0;
             displayList.forEach((item, index) => {
                 const globalRank = pageOffset + index + 1;
                 const rankStr = getOrdinalSuffix(globalRank);
                 const s = item.scores;
                 
+                let rankDisplay = rankStr;
+                if (globalRank === 1) rankDisplay = `<span class="rank-badge rank-1st">1st</span>`;
+                else if (globalRank === 2) rankDisplay = `<span class="rank-badge rank-2nd">2nd</span>`;
+                else if (globalRank === 3) rankDisplay = `<span class="rank-badge rank-3rd">3rd</span>`;
+                else rankDisplay = `<span class="rank-other">${rankStr}</span>`;
+
                 const fmtScore = (val) => {
                     const num = parseFloat(val) || 0;
                     return num % 1 === 0 ? num : num.toFixed(1);
@@ -2644,7 +2650,7 @@
 
                 html += `
                     <tr>
-                        <td class="cr-td-rank">${rankStr}</td>
+                        <td class="cr-td-rank">${rankDisplay}</td>
                         <td class="cr-td-name">${escapeHtml(item.name)}</td>
                         <td class="cr-td-batch">${escapeHtml(item.batch)}</td>
                         <td class="cr-td-score">${fmtScore(s[0])}</td>
@@ -2656,6 +2662,7 @@
                     </tr>
                 `;
             });
+
 
             tbody.innerHTML = html;
         }
@@ -2885,6 +2892,13 @@
                         const globalRank = startIdx + index + 1;
                         const rankStr = getOrdinalSuffix(globalRank);
                         const s = item.scores;
+                        
+                        let rankDisplay = rankStr;
+                        if (globalRank === 1) rankDisplay = `<span class="rank-badge rank-1st">1st</span>`;
+                        else if (globalRank === 2) rankDisplay = `<span class="rank-badge rank-2nd">2nd</span>`;
+                        else if (globalRank === 3) rankDisplay = `<span class="rank-badge rank-3rd">3rd</span>`;
+                        else rankDisplay = `<span class="rank-other">${rankStr}</span>`;
+
                         const fmtScore = (val) => {
                             const num = parseFloat(val) || 0;
                             return num % 1 === 0 ? num : num.toFixed(1);
@@ -2892,7 +2906,7 @@
 
                         rowsHtml += `
                             <tr>
-                                <td class="cr-td-rank">${rankStr}</td>
+                                <td class="cr-td-rank">${rankDisplay}</td>
                                 <td class="cr-td-name">${escapeHtml(item.name)}</td>
                                 <td class="cr-td-batch">${escapeHtml(item.batch)}</td>
                                 <td class="cr-td-score">${fmtScore(s[0])}</td>
@@ -2904,6 +2918,7 @@
                             </tr>
                         `;
                     });
+
 
                     tempDiv.innerHTML = `
                         <div class="cr-sheet-container" style="border: 2px solid #0f2c59; border-radius: 0; box-shadow: none; width: 1414px; min-height: 995px; display: flex; flex-direction: column; justify-content: space-between; box-sizing: border-box; background: #ffffff;">
