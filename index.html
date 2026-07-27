@@ -13,26 +13,27 @@
     <style>
         :root {
             --primary: #2563eb;
+            --primary-hover: #1d4ed8;
             --bg: #f8fafc;
             --surface: #ffffff;
-            --text: #1e293b;
+            --text: #0f172a;
             --text-muted: #64748b;
             --border: #e2e8f0;
-            --radius: 12px;
-            --input-bg: #fff;
+            --radius: 14px;
+            --input-bg: #ffffff;
 
-            --header-names: #1b365d; /* Professional deep navy blue */
-            --header-scores: #2b6cb0; /* Professional slate blue */
-            --names-bg: #f0f4f8; /* Soft blue-gray tint background */
+            --header-names: #0f172a; /* Deep navy Slate-900 */
+            --header-scores: #1e40af; /* Professional deep royal blue */
+            --names-bg: #f1f5f9; /* Slate-100 high-contrast cell background */
         }
 
         body.dark-theme {
-            --bg: #090d16; /* Deep rich navy-black */
-            --surface: #121b2e; /* Rich dark slate-blue card background */
-            --text: #f1f5f9; /* Slate-100 high readability */
-            --text-muted: #94a3b8; /* Slate-400 soft secondary text */
-            --border: rgba(255, 255, 255, 0.08); /* Subtle semi-transparent borders */
-            --input-bg: #0a101d; /* Slightly darker contrast for inputs */
+            --bg: #080c14; /* Deep midnight obsidian */
+            --surface: #0f172a; /* Slate-900 rich card background */
+            --text: #f8fafc; /* Slate-50 ultra readability */
+            --text-muted: #94a3b8; /* Slate-400 soft text */
+            --border: rgba(255, 255, 255, 0.1); /* Subtle glowing border */
+            --input-bg: #090d16;
         }
 
         * {
@@ -42,16 +43,17 @@
         }
 
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             background-color: var(--bg);
             color: var(--text);
             padding: 1.5rem;
             line-height: 1.5;
-            transition: background 0.3s, color 0.3s;
+            transition: background 0.3s ease, color 0.3s ease;
+            -webkit-font-smoothing: antialiased;
         }
 
         .container {
-            max-width: 1500px;
+            max-width: 1540px;
             margin: 0 auto;
         }
 
@@ -61,8 +63,8 @@
             border: 1px solid var(--border);
             padding: 2.2rem;
             margin-bottom: 2.5rem;
-            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.04), 0 1px 3px rgba(0, 0, 0, 0.02);
-            transition: border-color 0.25s ease, box-shadow 0.25s ease;
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.02);
+            transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
             position: relative;
             overflow: hidden;
         }
@@ -74,12 +76,12 @@
             left: 0;
             right: 0;
             height: 4px;
-            background: linear-gradient(90deg, #2563eb, #4f46e5);
+            background: linear-gradient(90deg, #2563eb 0%, #4f46e5 50%, #7c3aed 100%);
         }
 
         .card:hover {
-            border-color: rgba(37, 99, 235, 0.2);
-            box-shadow: 0 20px 40px -15px rgba(37, 99, 235, 0.08), 0 1px 5px rgba(0, 0, 0, 0.02);
+            border-color: rgba(37, 99, 235, 0.25);
+            box-shadow: 0 20px 40px -15px rgba(37, 99, 235, 0.1), 0 1px 5px rgba(0, 0, 0, 0.03);
         }
 
         .header-top {
@@ -90,39 +92,209 @@
             padding: 1.1rem 1.75rem;
             background: var(--surface);
             border: 1px solid var(--border);
-            border-radius: 18px;
+            border-radius: 20px;
             box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.04);
+            backdrop-filter: blur(12px);
         }
 
-        /* ── TableMaker Button ── */
+        .main-title {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 1.55rem;
+            color: var(--text);
+            letter-spacing: -0.02em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .main-title .sub-brand {
+            background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+        }
+
+
+        /* ── Top Navigation Tabs & Tool Suite Router ── */
         .header-actions {
             display: flex;
             align-items: center;
             gap: 12px;
         }
 
-        .btn-tablemaker {
-            cursor: pointer;
-            padding: 10px 24px;
+        .main-nav-tabs {
+            display: flex;
+            align-items: center;
+            background: rgba(15, 23, 42, 0.06);
+            border: 1px solid var(--border);
+            padding: 4px;
             border-radius: 50px;
-            background: linear-gradient(135deg, #2563eb 0%, #4f46e5 50%, #7c3aed 100%);
-            border: 1.5px solid rgba(255, 255, 255, 0.35);
-            font-size: 0.84rem;
+            gap: 4px;
+        }
+
+        body.dark-theme .main-nav-tabs {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-tab {
             font-family: 'Outfit', sans-serif;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            color: #ffffff;
+            font-weight: 700;
+            font-size: 0.88rem;
+            letter-spacing: 0.03em;
+            padding: 9px 22px;
+            border-radius: 50px;
+            border: none;
+            background: transparent;
+            color: var(--text-muted);
+            cursor: pointer;
             display: inline-flex;
             align-items: center;
-            gap: 10px;
-            box-shadow: 0 4px 16px rgba(79, 70, 229, 0.35), inset 0 1px 1px rgba(255, 255, 255, 0.3);
-            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            gap: 8px;
+            transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
             user-select: none;
-            position: relative;
-            overflow: hidden;
-            z-index: 1;
         }
+
+        .nav-tab:hover {
+            color: var(--text);
+            background: rgba(255, 255, 255, 0.6);
+        }
+
+        body.dark-theme .nav-tab:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-tab.active {
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            color: #ffffff !important;
+            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
+        }
+
+        /* ── Dedicated Full Page Views ── */
+        .app-page-view {
+            display: none;
+            opacity: 0;
+            transform: translateY(8px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .app-page-view.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ── Central Ranking KPI Cards & Page Layout ── */
+        .cr-kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .cr-kpi-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+            transition: all 0.25s ease;
+        }
+
+        .cr-kpi-card:hover {
+            transform: translateY(-2px);
+            border-color: rgba(37, 99, 235, 0.3);
+            box-shadow: 0 8px 25px rgba(37, 99, 235, 0.08);
+        }
+
+        .cr-kpi-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            flex-shrink: 0;
+        }
+
+        .cr-kpi-val {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.35rem;
+            font-weight: 800;
+            color: var(--text);
+            line-height: 1.1;
+        }
+
+        .cr-kpi-lbl {
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-top: 2px;
+        }
+
+        .cr-page-container {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+            margin-bottom: 2rem;
+        }
+
+        /* ── TableMaker Page View Layout ── */
+        .tm-page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 1.25rem 2rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .tm-page-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .tm-page-desc {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .tm-frame-wrapper {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+            height: calc(100vh - 220px);
+            min-height: 650px;
+        }
+
+        .tm-frame-wrapper iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
 
         .btn-tablemaker::after {
             content: '';
@@ -514,7 +686,7 @@
             margin: 0 auto;
         }
 
-        /* Central Ranking Table Styling matching provided image */
+        /* Central Ranking Table Styling */
         .cr-result-table {
             width: 100%;
             border-collapse: collapse;
@@ -522,55 +694,93 @@
             position: relative;
             z-index: 2;
             background: transparent;
+            table-layout: auto;
         }
 
         .cr-result-table th {
-            background: #0F2C59;
-            color: #ffffff;
+            background: linear-gradient(180deg, #1e3a8a 0%, #0f2c59 100%);
+            color: #ffffff !important;
             font-family: 'Outfit', sans-serif;
             font-weight: 800;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
+            letter-spacing: 0.06em;
             border: 1.5px solid #295286;
             padding: 10px 8px;
             text-align: center;
             vertical-align: middle;
-            font-size: 0.95rem;
+            font-size: 0.92rem;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
         }
 
         .cr-result-table th.cr-th-sub {
             background: #143564;
-            font-size: 0.9rem;
-            padding: 6px;
+            font-size: 0.86rem;
+            padding: 6px 4px;
+            color: #ffffff !important;
         }
 
         .cr-result-table td {
             border: 1.5px solid #0F2C59;
-            padding: 7px 10px;
+            padding: 3.5px 8px;
             text-align: center;
-            font-size: 0.88rem;
+            font-size: 0.84rem;
             color: #0d1b2a;
             font-weight: 600;
             vertical-align: middle;
-            background: rgba(255, 255, 255, 0.92);
+            background: rgba(255, 255, 255, 0.95);
         }
 
+
         .cr-result-table tr:nth-child(even) td {
-            background: rgba(243, 246, 251, 0.92);
+            background: rgba(243, 246, 251, 0.95);
+        }
+
+        .cr-result-table th.cr-th-rank {
+            text-align: center;
+            width: 65px;
+            min-width: 60px;
+            padding: 10px 6px;
         }
 
         .cr-result-table td.cr-td-rank {
-            font-weight: 700;
+            font-weight: 800;
             color: #0F2C59;
-            width: 70px;
+            width: 65px;
+            min-width: 60px;
+            padding: 5px 6px;
+            text-align: center;
+        }
+
+        .cr-result-table th.cr-th-name {
+            text-align: center;
+            padding: 10px 14px;
+            font-weight: 800;
+            color: #ffffff !important;
+            font-size: 0.92rem;
+            white-space: nowrap;
+            width: 1%;
         }
 
         .cr-result-table td.cr-td-name {
             text-align: left;
-            padding-left: 14px;
+            padding: 5px 14px;
             font-weight: 700;
             color: #0b1e36;
-            min-width: 220px;
+            font-size: 0.9rem;
+            white-space: nowrap;
+            width: 1%;
+        }
+
+        .cr-result-table th.cr-th-batch {
+            text-align: center;
+            padding: 10px 14px;
+            font-weight: 800;
+            color: #ffffff !important;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.92rem;
+            letter-spacing: 0.02em;
+            white-space: nowrap;
+            width: 1%;
         }
 
         .cr-result-table td.cr-td-batch {
@@ -578,23 +788,67 @@
             font-weight: 800;
             color: #0056b3;
             font-family: 'Outfit', sans-serif;
-            font-size: 0.85rem;
+            font-size: 0.86rem;
             letter-spacing: 0.02em;
-            min-width: 260px;
+            white-space: nowrap;
+            width: 1%;
+            padding: 5px 14px;
         }
 
+        .cr-result-table th.cr-th-sub,
         .cr-result-table td.cr-td-score {
-            width: 55px;
-            font-weight: 600;
+            width: auto;
+            min-width: 55px;
+            font-weight: 700;
+            padding: 5px 8px;
+            font-size: 0.88rem;
+        }
+
+        .cr-result-table th.cr-th-total {
+            background: linear-gradient(180deg, #1e3a8a 0%, #0f2c59 100%) !important;
+            color: #ffffff !important;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 0.92rem;
+            width: 100px;
+            min-width: 95px;
+            padding: 10px 8px;
+            text-align: center;
+            border: 1.5px solid #295286;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
         }
 
         .cr-result-table td.cr-td-total {
             font-weight: 800;
             color: #0F2C59;
             font-size: 0.95rem;
-            width: 110px;
+            width: 100px;
+            min-width: 95px;
+            padding: 5px 8px;
             background: rgba(224, 235, 248, 0.95) !important;
         }
+
+        .cr-btn-page {
+            background: #143564;
+            color: #ffffff;
+            border: 1px solid #295286;
+            border-radius: 6px;
+            padding: 4px 10px;
+            font-size: 0.78rem;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .cr-btn-page:hover {
+            background: #2563eb;
+            border-color: #3b82f6;
+        }
+        .cr-btn-page:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
 
         .logo-area {
             display: flex;
@@ -1258,22 +1512,24 @@
 
         .test-label-badge {
             font-family: 'Outfit', sans-serif;
-            font-size: 13px;
-            font-weight: 800;
+            font-size: 14px;
+            font-weight: 800 !important;
             text-transform: uppercase;
-            letter-spacing: 0.15em;
-            background: linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 50%, #2563eb 100%);
-            color: #ffffff;
-            padding: 6px 28px;
+            letter-spacing: 0.12em;
+            background: #1e3a8a !important;
+            background: linear-gradient(180deg, #1e3a8a 0%, #1d4ed8 100%) !important;
+            color: #ffffff !important;
+            padding: 6px 26px;
             border-radius: 50px;
             display: inline-flex;
             align-items: center;
             justify-content: center;
             gap: 8px;
-            box-shadow: 0 4px 14px rgba(29, 78, 216, 0.3), inset 0 1px 1px rgba(255, 255, 255, 0.3);
-            border: 1.5px solid rgba(255, 255, 255, 0.35);
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 3px 10px rgba(30, 58, 138, 0.4) !important;
+            border: 1.5px solid #2563eb !important;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4) !important;
         }
+
 
         .continued-title {
             color: #64748b;
@@ -1293,15 +1549,16 @@
 
         .result-table th,
         .result-table td {
-            border-right: 1px solid #e2e8f0;
-            border-bottom: 1px solid #e2e8f0;
+            border-right: 1px solid #cbd5e1;
+            border-bottom: 1px solid #cbd5e1;
             padding: 8px 6px;
             text-align: center;
             font-size: 14px;
+            font-weight: 700 !important;
             vertical-align: middle;
             font-family: 'Inter', sans-serif;
             font-variant-numeric: tabular-nums;
-            color: #0f172a;
+            color: #0f172a !important;
         }
 
         .result-table th:last-child,
@@ -1315,7 +1572,7 @@
 
         .result-table th {
             font-family: 'Outfit', sans-serif;
-            font-weight: 700;
+            font-weight: 800 !important;
             text-transform: uppercase;
             letter-spacing: 0.06em;
         }
@@ -1331,40 +1588,44 @@
         .header-names-cell {
             background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%) !important;
             color: #ffffff !important;
-            font-weight: 700 !important;
-            font-size: 13px !important;
+            font-weight: 800 !important;
+            font-size: 15px !important;
             text-transform: uppercase;
             letter-spacing: 0.08em !important;
             text-align: left !important;
             padding-left: 14px !important;
             width: 32% !important;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
         }
 
         .header-scores-sub {
             background: linear-gradient(180deg, #2563eb 0%, #1d4ed8 100%) !important;
             color: #ffffff !important;
-            font-weight: 700 !important;
-            font-size: 11px !important;
+            font-weight: 800 !important;
+            font-size: 14px !important;
             text-transform: uppercase;
             letter-spacing: 0.06em !important;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
         }
+
 
         .name-cell {
             background-color: #f1f5f9 !important;
-            color: #0f172a !important;
+            color: #020617 !important;
             text-align: left !important;
             padding: 8px 14px !important;
-            font-weight: 600 !important;
+            font-weight: 800 !important;
             white-space: nowrap;
             line-height: 1.25;
-            font-size: 13px;
+            font-size: 14px;
         }
 
         .total-cell {
-            font-weight: 700 !important;
+            font-weight: 800 !important;
             background: #eff6ff !important;
             color: #1d4ed8 !important;
         }
+
 
         .rank-cell {
             font-weight: 700;
@@ -1372,39 +1633,54 @@
         }
 
         .rank-badge {
-            display: inline-block;
-            padding: 2px 8px;
-            border-radius: 12px;
-            font-size: 0.88em;
-            font-weight: 700;
-            line-height: 1.25;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 3px 12px;
+            border-radius: 50px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.82rem;
+            font-weight: 800;
+            line-height: 1.2;
+            letter-spacing: 0.02em;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
+        /* ── Crisp Elegant Medals & Rank Badges ── */
         .rank-1st {
-            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
-            color: #92400e;
-            border: 1px solid #f59e0b;
-            box-shadow: 0 1px 2px rgba(245, 158, 11, 0.2);
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important;
+            color: #ffffff !important;
+            border: 1px solid #fbbf24 !important;
+            box-shadow: 0 2px 5px rgba(217, 119, 6, 0.25) !important;
+            font-weight: 800 !important;
+            text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
         }
 
         .rank-2nd {
-            background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
-            color: #334155;
-            border: 1px solid #94a3b8;
-            box-shadow: 0 1px 2px rgba(148, 163, 184, 0.2);
+            background: linear-gradient(135deg, #64748b 0%, #475569 100%) !important;
+            color: #ffffff !important;
+            border: 1px solid #94a3b8 !important;
+            box-shadow: 0 2px 5px rgba(71, 85, 105, 0.2) !important;
+            font-weight: 800 !important;
+            text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
         }
 
         .rank-3rd {
-            background: linear-gradient(135deg, #ffedd5 0%, #fed7aa 100%);
-            color: #9a3412;
-            border: 1px solid #f97316;
-            box-shadow: 0 1px 2px rgba(249, 115, 22, 0.2);
+            background: linear-gradient(135deg, #ea580c 0%, #c2410c 100%) !important;
+            color: #ffffff !important;
+            border: 1px solid #fdba74 !important;
+            box-shadow: 0 2px 5px rgba(194, 65, 12, 0.25) !important;
+            font-weight: 800 !important;
+            text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
         }
 
         .rank-other {
             color: #1e3a8a;
-            font-weight: 700;
+            font-weight: 800;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.85rem;
         }
+
 
 
         /* Export Card & Buttons Styling */
@@ -1507,9 +1783,61 @@
             transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .btn-export:hover svg {
-            transform: scale(1.1);
+        /* Top Action Buttons Styling */
+        .btn-top-action {
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 700;
+            padding: 10px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
+            user-select: none;
+            box-sizing: border-box;
         }
+
+        .btn-top-import {
+            background: var(--surface);
+            color: var(--text);
+            border: 1.5px solid var(--border);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        .btn-top-import:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .btn-top-csv {
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            color: #ffffff;
+            border: none;
+            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
+        }
+        .btn-top-csv:hover {
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.45);
+            filter: brightness(1.08);
+            transform: translateY(-2px);
+        }
+
+        .btn-top-clear {
+            background: #fff5f5;
+            color: #e11d48;
+            border: 1.5px solid #fecdd3;
+            box-shadow: 0 2px 8px rgba(225, 29, 72, 0.05);
+        }
+        .btn-top-clear:hover {
+            background: #ffe4e6;
+            border-color: #fda4af;
+            color: #be123c;
+            box-shadow: 0 4px 14px rgba(225, 29, 72, 0.15);
+            transform: translateY(-2px);
+        }
+
 
         .btn-export-primary {
             background: linear-gradient(135deg, var(--primary), #1d4ed8);
@@ -1639,265 +1967,313 @@
     <div id="print-area" class="print-only"></div>
 
     <div class="container no-print">
+        <!-- Top Navigation Bar -->
         <div class="header-top no-print">
             <h1 class="main-title">Phoenix <span class="sub-brand">Result Maker</span></h1>
-            <div class="header-actions">
-                <button class="btn-central-ranking" id="open-central-ranking-btn" onclick="openCentralRanking()">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/>
-                        <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/>
-                        <path d="M4 22h16"/>
-                        <path d="M10 14.66V17c0 .55-.45 1-1 1H7.5"/>
-                        <path d="M14 14.66V17c0 .55.45 1 1 1h1.5"/>
-                        <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/>
-                    </svg>
-                    Central Ranking
+            <div class="main-nav-tabs">
+                <button class="nav-tab active" id="tab-resultmaker" onclick="switchView('resultmaker')">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+                    <span>Result Maker</span>
                 </button>
-                <button class="btn-tablemaker" id="open-tablemaker-btn" onclick="openTableMaker()">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/></svg>
-                    Table Maker
+                <button class="nav-tab" id="tab-centralranking" onclick="switchView('centralranking')">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.45 1-1 1H7.5"/><path d="M14 14.66V17c0 .55.45 1 1 1h1.5"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
+                    <span>Central Ranking</span>
+                </button>
+                <button class="nav-tab" id="tab-tablemaker" onclick="switchView('tablemaker')">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/></svg>
+                    <span>Table Maker</span>
                 </button>
             </div>
         </div>
 
-        <!-- Central Ranking Full-screen Overlay -->
-        <div id="central-ranking-overlay">
-            <div class="cr-modal-header">
-                <div class="cr-modal-title">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/>
-                        <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/>
-                        <path d="M4 22h16"/>
-                        <path d="M10 14.66V17c0 .55-.45 1-1 1H7.5"/>
-                        <path d="M14 14.66V17c0 .55.45 1 1 1h1.5"/>
-                        <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/>
-                    </svg>
-                    Phoenix Central Ranking Result
-                </div>
-
-                <div class="cr-header-actions">
-                    <div class="cr-filter-toggle">
-                        <button id="cr-toggle-top30" class="cr-toggle-btn active" onclick="setCRFilterMode(true)">
-                            Top 30 Only
+        <!-- ── VIEW 1: RESULT MAKER ── -->
+        <div id="view-resultmaker" class="app-page-view active">
+            <div class="card no-print">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem; flex-wrap:wrap; gap:1rem">
+                    <h3 style="font-family:'Outfit', sans-serif; font-size:1.3rem; font-weight:700; color:var(--text)">Student Data Input</h3>
+                    <div style="display:flex; gap:12px; flex-wrap:wrap; align-items:center;">
+                        <button class="btn-top-action btn-top-import" onclick="showBulkModal()">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                            Import from Spreadsheet
                         </button>
-                        <button id="cr-toggle-all" class="cr-toggle-btn" onclick="setCRFilterMode(false)">
-                            Show All Exam Takers (<span id="cr-total-count">0</span>)
+                        <button class="btn-top-action btn-top-csv" onclick="exportCSV()">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                            Export CSV
+                        </button>
+                        <button class="btn-top-action btn-top-clear" onclick="clearData()">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
+                            Clear All
                         </button>
                     </div>
-
-                    <button class="cr-btn cr-btn-import" onclick="openCRImportModal()">
-                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                            <polyline points="14 2 14 8 20 8"/>
-                            <line x1="12" y1="18" x2="12" y2="12"/>
-                            <line x1="9" y1="15" x2="15" y2="15"/>
-                        </svg>
-                        Import Batch Data
-                    </button>
-
-                    <button class="cr-btn cr-btn-secondary" onclick="openCRConfigModal()">
-                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="12" cy="12" r="3"/>
-                            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
-                        </svg>
-                        Settings
-                    </button>
-
-                    <button class="cr-btn cr-btn-export-png" onclick="downloadCRPNG()">
-                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-                            <circle cx="8.5" cy="8.5" r="1.5"/>
-                            <polyline points="21 15 16 10 5 21"/>
-                        </svg>
-                        Download PNG
-                    </button>
-
-                    <button class="cr-btn cr-btn-export-pdf" onclick="downloadCRPDF()">
-                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                            <polyline points="14 2 14 8 20 8"/>
-                            <path d="M12 18v-6"/>
-                            <path d="m9 15 3 3 3-3"/>
-                        </svg>
-                        Download PDF
-                    </button>
-
-                    <button class="cr-btn cr-btn-secondary" onclick="resetCRData()" title="Reset to default sample data">
-                        Reset Sample
-                    </button>
-
-                    <button class="cr-btn cr-btn-danger" onclick="clearCRAllData()" title="Clear all ranking dataset">
-                        Clear All
-                    </button>
-
-                    <button class="tm-close-btn" onclick="closeCentralRanking()" title="Close">&times;</button>
                 </div>
-            </div>
 
-            <div class="cr-body-content">
-                <div class="cr-sheet-container" id="cr-sheet-capture-area">
-                    <table class="cr-result-table">
+                <div class="entry-container">
+                    <table class="entry-table">
                         <thead>
                             <tr>
-                                <th rowspan="2" class="cr-th-rank">RANK</th>
-                                <th rowspan="2" class="cr-th-name">NAME</th>
-                                <th rowspan="2" class="cr-th-batch">PHOENIX BATCH NO.</th>
-                                <th colspan="5" class="cr-th-mt-header">MODEL TEST</th>
-                                <th rowspan="2" class="cr-th-total" id="cr-th-total-label">Total<br><span style="font-size: 0.85em; font-weight: normal; text-transform: none;">(out of 550)</span></th>
-                            </tr>
-                            <tr>
-                                <th class="cr-th-sub">1</th>
-                                <th class="cr-th-sub">2</th>
-                                <th class="cr-th-sub">3</th>
-                                <th class="cr-th-sub">4</th>
-                                <th class="cr-th-sub">5</th>
+                                <th style="text-align:left; padding-left:20px">Student Name</th>
+                                <th>Type</th>
+                                <th>S01</th>
+                                <th>S02</th>
+                                <th>S03</th>
+                                <th>Essay</th>
+                                <th>S05</th>
+                                <th></th>
                             </tr>
                         </thead>
-                        <tbody id="cr-table-body">
-                            <!-- Dynamic central ranking rows -->
-                        </tbody>
+                        <tbody id="student-rows"></tbody>
                     </table>
                 </div>
-            </div>
-        </div>
 
-        <!-- TableMaker Full-screen Overlay -->
-        <div id="tablemaker-overlay">
-            <div class="tm-modal-header">
-                <div class="tm-modal-title">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/></svg>
-                    Table Maker — Answer Key Extractor
-                </div>
-                <div style="display:flex; align-items:center; gap:10px; margin-left:auto; margin-right:16px;">
-                    <button class="btn-tm-head-png" onclick="document.getElementById('tablemaker-frame').contentWindow.downloadDocumentViewPNG()">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-                        Download Document View (.PNG)
-                    </button>
-                </div>
-                <button class="tm-close-btn" onclick="closeTableMaker()" title="Close Table Maker">&times;</button>
-            </div>
-            <iframe id="tablemaker-frame" src="tablemaker/index.html" title="Table Maker"></iframe>
-        </div>
-
-
-        <div class="card no-print">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem; flex-wrap:wrap; gap:1rem">
-                <h3 style="font-family:'Outfit', sans-serif; font-size:1.3rem; font-weight:700; color:var(--text)">Student Data Input</h3>
-                <div style="display:flex; gap:10px; flex-wrap:wrap">
-                    <button class="btn btn-secondary btn-sm" onclick="showBulkModal()">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-                        Import from Spreadsheet
-                    </button>
-                    <button class="btn btn-primary btn-sm" onclick="exportCSV()">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                        Export CSV
-                    </button>
-                    <button class="btn btn-secondary btn-sm btn-clear" onclick="clearData()">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
-                        Clear All
-                    </button>
-                </div>
-            </div>
-
-            <div class="entry-container">
-                <table class="entry-table">
-                    <thead>
-                        <tr>
-                            <th style="text-align:left; padding-left:20px">Student Name</th>
-                            <th>Type</th>
-                            <th>S01</th>
-                            <th>S02</th>
-                            <th>S03</th>
-                            <th>Essay</th>
-                            <th>S05</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody id="student-rows"></tbody>
-                </table>
-            </div>
-
-            <button class="add-row-btn" onclick="addStudent()">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-                Add New Student Row
-            </button>
-
-            <hr style="border:0; border-top:1px solid var(--border); margin:1.5rem 0">
-
-            <div class="form-grid">
-                <div class="form-group fg-narrow">
-                    <label>Batch Header</label>
-                    <input type="text" id="cfg-batch" value="BATCH" oninput="updateRankings()">
-                </div>
-                <div class="form-group fg-mid">
-                    <label>Middle Header</label>
-                    <input type="text" id="cfg-mid" value="PHOENIX EDUCATION" oninput="updateRankings()">
-                </div>
-                <div class="form-group fg-wide">
-                    <label>Right Header</label>
-                    <input type="text" id="cfg-desc" value="NSU BRACU COMBO OFFLINE" oninput="updateRankings()">
-                </div>
-                <div class="form-group fg-narrow">
-                    <label>Score Label (e.g. WT03)</label>
-                    <input type="text" id="cfg-label" value="Weekly Test" oninput="updateRankings()">
-                </div>
-                <div class="form-group fg-mid">
-                    <label>Footer Test Title</label>
-                    <input type="text" id="cfg-title" value="Weekly 01 Test" oninput="updateRankings()">
-                </div>
-                <div class="form-group fg-compact">
-                    <label>Footer Date</label>
-                    <input type="date" id="cfg-date" oninput="updateRankings()">
-                </div>
-            </div>
-
-            <div class="controls-card">
-                <label class="control-option">
-                    <input type="checkbox" id="set-header" checked onchange="updateRankings()">
-                    <span class="control-checkbox-box"></span>
-                    <span class="control-option-text">Header/Footer ON</span>
-                </label>
-                <label class="control-option">
-                    <input type="checkbox" id="set-hide-zeros" checked onchange="updateRankings()">
-                    <span class="control-checkbox-box"></span>
-                    <span class="control-option-text">Exclude 0 Marks</span>
-                </label>
-                <label class="control-option">
-                    <input type="checkbox" id="set-nsu-title" checked onchange="updateRankings()">
-                    <span class="control-checkbox-box"></span>
-                    <span class="control-option-text">NSU Standard Box</span>
-                </label>
-                <label class="control-option">
-                    <input type="checkbox" id="set-bracu-title" checked onchange="updateRankings()">
-                    <span class="control-checkbox-box"></span>
-                    <span class="control-option-text">BracU Standard Box</span>
-                </label>
-            </div>
-        </div>
-
-        <!-- DASHBOARD PREVIEW: Stays on screen, hidden during print -->
-        <div id="preview-area" class="no-print"></div>
-
-        <div class="no-print export-card">
-            <div class="export-info">
-                <span class="export-title">Export & Publish Results</span>
-                <span class="export-subtitle">Download PDF, PNG, or print the results sheet</span>
-            </div>
-            <div class="export-actions">
-                <button class="btn-export btn-export-primary" onclick="window.print()">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V2h12v7"></path><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
-                    Print / Save
+                <button class="add-row-btn" onclick="addStudent()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                    Add New Student Row
                 </button>
-                <button class="btn-export btn-export-pdf" onclick="downloadPDFDirect()">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-                    Download PDF
-                </button>
-                <button class="btn-export btn-export-img" onclick="downloadImageDirect()">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
-                    Download PNG Image
+
+                <hr style="border:0; border-top:1px solid var(--border); margin:1.5rem 0">
+
+                <div class="form-grid">
+                    <div class="form-group fg-narrow">
+                        <label>Batch Header</label>
+                        <input type="text" id="cfg-batch" value="BATCH" oninput="updateRankings()">
+                    </div>
+                    <div class="form-group fg-mid">
+                        <label>Middle Header</label>
+                        <input type="text" id="cfg-mid" value="PHOENIX EDUCATION" oninput="updateRankings()">
+                    </div>
+                    <div class="form-group fg-wide">
+                        <label>Right Header</label>
+                        <input type="text" id="cfg-desc" value="NSU BRACU COMBO OFFLINE" oninput="updateRankings()">
+                    </div>
+                    <div class="form-group fg-narrow">
+                        <label>Score Label (e.g. WT03)</label>
+                        <input type="text" id="cfg-label" value="Weekly Test" oninput="updateRankings()">
+                    </div>
+                    <div class="form-group fg-mid">
+                        <label>Footer Test Title</label>
+                        <input type="text" id="cfg-title" value="Weekly 01 Test" oninput="updateRankings()">
+                    </div>
+                    <div class="form-group fg-compact">
+                        <label>Footer Date</label>
+                        <input type="date" id="cfg-date" oninput="updateRankings()">
+                    </div>
+                </div>
+
+                <div class="controls-card">
+                    <label class="control-option">
+                        <input type="checkbox" id="set-header" checked onchange="updateRankings()">
+                        <span class="control-checkbox-box"></span>
+                        <span class="control-option-text">Header/Footer ON</span>
+                    </label>
+                    <label class="control-option">
+                        <input type="checkbox" id="set-hide-zeros" checked onchange="updateRankings()">
+                        <span class="control-checkbox-box"></span>
+                        <span class="control-option-text">Exclude 0 Marks</span>
+                    </label>
+                    <label class="control-option">
+                        <input type="checkbox" id="set-nsu-title" checked onchange="updateRankings()">
+                        <span class="control-checkbox-box"></span>
+                        <span class="control-option-text">NSU Standard Box</span>
+                    </label>
+                    <label class="control-option">
+                        <input type="checkbox" id="set-bracu-title" checked onchange="updateRankings()">
+                        <span class="control-checkbox-box"></span>
+                        <span class="control-option-text">BracU Standard Box</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- DASHBOARD PREVIEW: Stays on screen, hidden during print -->
+            <div id="preview-area" class="no-print"></div>
+
+            <div class="no-print export-card">
+                <div class="export-info">
+                    <span class="export-title">Export & Publish Results</span>
+                    <span class="export-subtitle">Download PDF, PNG, or print the results sheet</span>
+                </div>
+                <div class="export-actions">
+                    <button class="btn-export btn-export-pdf" onclick="downloadPDFDirect()">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                        Download PDF
+                    </button>
+                    <button class="btn-export btn-export-img" onclick="downloadImageDirect()">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+                        Download PNG Image
+                    </button>
+                </div>
+            </div>
+        </div><!-- End view-resultmaker -->
+
+        <!-- ── VIEW 2: CENTRAL RANKING PAGE ── -->
+        <div id="view-centralranking" class="app-page-view">
+            <!-- Central Ranking KPI Summary Cards -->
+            <div class="cr-kpi-grid">
+                <div class="cr-kpi-card">
+                    <div class="cr-kpi-icon" style="background: rgba(37,99,235,0.12); color:#2563eb;">👥</div>
+                    <div>
+                        <div class="cr-kpi-val" id="cr-kpi-candidates">0</div>
+                        <div class="cr-kpi-lbl">Exam Takers</div>
+                    </div>
+                </div>
+                <div class="cr-kpi-card">
+                    <div class="cr-kpi-icon" style="background: rgba(245,158,11,0.12); color:#d97706;">🥇</div>
+                    <div>
+                        <div class="cr-kpi-val" id="cr-kpi-topscore">0 / 600</div>
+                        <div class="cr-kpi-lbl">Highest Score</div>
+                    </div>
+                </div>
+                <div class="cr-kpi-card">
+                    <div class="cr-kpi-icon" style="background: rgba(16,185,129,0.12); color:#10b981;">📈</div>
+                    <div>
+                        <div class="cr-kpi-val" id="cr-kpi-avgscore">0 Marks</div>
+                        <div class="cr-kpi-lbl">Class Average</div>
+                    </div>
+                </div>
+                <div class="cr-kpi-card">
+                    <div class="cr-kpi-icon" style="background: rgba(124,58,237,0.12); color:#7c3aed;">📚</div>
+                    <div>
+                        <div class="cr-kpi-val" id="cr-kpi-batches">0 Batches</div>
+                        <div class="cr-kpi-lbl">Active Batches</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Central Ranking Page Layout -->
+            <div class="cr-page-container">
+                <div class="cr-modal-header" style="border-radius: 12px 12px 0 0;">
+                    <div class="cr-modal-title">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/>
+                            <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/>
+                            <path d="M4 22h16"/>
+                            <path d="M10 14.66V17c0 .55-.45 1-1 1H7.5"/>
+                            <path d="M14 14.66V17c0 .55.45 1 1 1h1.5"/>
+                            <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/>
+                        </svg>
+                        Phoenix Central Ranking Result
+                    </div>
+
+                    <div class="cr-header-actions">
+                        <div class="cr-filter-toggle">
+                            <button id="cr-toggle-top30" class="cr-toggle-btn active" onclick="setCRFilterMode(true)">
+                                Top 30 Only
+                            </button>
+                            <button id="cr-toggle-all" class="cr-toggle-btn" onclick="setCRFilterMode(false)">
+                                Show All Exam Takers (<span id="cr-total-count">0</span>)
+                            </button>
+                        </div>
+
+                        <!-- Batch Filter Dropdown -->
+                        <div class="cr-batch-filter-wrap" style="display:inline-flex; align-items:center;">
+                            <select id="cr-batch-filter-select" onchange="changeCRBatchFilter(this.value)" style="background: rgba(255,255,255,0.12); color:#ffffff; border:1.5px solid rgba(255,255,255,0.25); border-radius:30px; padding:6px 14px; font-size:0.82rem; font-family:'Outfit',sans-serif; font-weight:700; cursor:pointer; outline:none; transition:all 0.2s ease; box-shadow:0 2px 8px rgba(0,0,0,0.15);">
+                                <option value="all" style="background:#0a101d; color:#fff;">All Batches Combined</option>
+                            </select>
+                        </div>
+
+
+                        <!-- Page Navigation System -->
+                        <div class="cr-pagination-bar" id="cr-pagination-controls" style="display:none; align-items:center; gap:6px; background:rgba(255,255,255,0.08); padding:3px 8px; border-radius:8px; border:1px solid rgba(255,255,255,0.15);">
+                            <button class="cr-btn-page" onclick="prevCRPage()" id="cr-btn-prev">◀ Prev</button>
+                            <span id="cr-page-indicator" style="color:#ffffff; font-family:'Outfit',sans-serif; font-size:0.8rem; font-weight:700; min-width:85px; text-align:center;">Page 1 of 1</span>
+                            <button class="cr-btn-page" onclick="nextCRPage()" id="cr-btn-next">Next ▶</button>
+                            <select id="cr-page-size-select" onchange="changeCRPageSize(this.value)" style="background:#0F2C59; color:#fff; border:1px solid #295286; border-radius:6px; padding:3px 6px; font-size:0.78rem; font-family:'Outfit',sans-serif; font-weight:600; cursor:pointer;">
+                                <option value="30" selected>30 Rows / Page (Default)</option>
+                                <option value="20">20 Rows / Page</option>
+                                <option value="32">32 Rows / Page</option>
+                                <option value="all">All Rows</option>
+                            </select>
+                        </div>
+
+                        <button class="cr-btn cr-btn-import" onclick="openCRImportModal()">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                <polyline points="14 2 14 8 20 8"/>
+                                <line x1="12" y1="18" x2="12" y2="12"/>
+                                <line x1="9" y1="15" x2="15" y2="15"/>
+                            </svg>
+                            Import Batch Data
+                        </button>
+
+                        <button class="cr-btn cr-btn-secondary" onclick="openCRConfigModal()">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="3"/>
+                                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+                            </svg>
+                            Settings
+                        </button>
+
+                        <button class="cr-btn cr-btn-export-png" onclick="downloadCRPNG()">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                                <circle cx="8.5" cy="8.5" r="1.5"/>
+                                <polyline points="21 15 16 10 5 21"/>
+                            </svg>
+                            Download PNG
+                        </button>
+
+                        <button class="cr-btn cr-btn-export-pdf" onclick="downloadCRPDF()">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                <polyline points="14 2 14 8 20 8"/>
+                                <path d="M12 18v-6"/>
+                                <path d="m9 15 3 3 3-3"/>
+                            </svg>
+                            Download PDF
+                        </button>
+
+                        <button class="cr-btn cr-btn-danger" onclick="clearCRAllData()" title="Clear all ranking dataset">
+                            Clear All
+                        </button>
+                    </div>
+                </div>
+
+                <div class="cr-body-content" style="border-radius: 0 0 12px 12px;">
+                    <div class="cr-sheet-container" id="cr-sheet-capture-area">
+                        <table class="cr-result-table">
+                            <thead>
+                                <tr>
+                                    <th rowspan="2" class="cr-th-rank">RANK</th>
+                                    <th rowspan="2" class="cr-th-name">NAME</th>
+                                    <th rowspan="2" class="cr-th-batch">PHOENIX BATCH NO.</th>
+                                    <th colspan="5" class="cr-th-mt-header">MODEL TEST</th>
+                                    <th rowspan="2" class="cr-th-total" id="cr-th-total-label">Total<br><span style="font-size: 0.85em; font-weight: normal; text-transform: none;">(out of 600)</span></th>
+                                </tr>
+                                <tr>
+                                    <th class="cr-th-sub">1</th>
+                                    <th class="cr-th-sub">2</th>
+                                    <th class="cr-th-sub">3</th>
+                                    <th class="cr-th-sub">4</th>
+                                    <th class="cr-th-sub">5</th>
+                                </tr>
+                            </thead>
+                            <tbody id="cr-table-body">
+                                <!-- Dynamic central ranking rows -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div><!-- End view-centralranking -->
+
+        <!-- ── VIEW 3: TABLE MAKER PAGE ── -->
+        <div id="view-tablemaker" class="app-page-view">
+            <div class="tm-page-header">
+                <div class="tm-page-info">
+                    <h2 class="tm-page-title">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/></svg>
+                        Table Maker — Answer Key Extractor
+                    </h2>
+                    <p class="tm-page-desc">Extract, format, and generate structured answer key tables with high-res PNG export.</p>
+                </div>
+                <button class="btn-tm-head-png" onclick="document.getElementById('tablemaker-frame').contentWindow.downloadDocumentViewPNG()">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                    Download Document View (.PNG)
                 </button>
             </div>
-        </div>
+            <div class="tm-frame-wrapper">
+                <iframe id="tablemaker-frame" src="tablemaker/index.html" title="Table Maker"></iframe>
+            </div>
+        </div><!-- End view-tablemaker -->
     </div>
 
 
@@ -1979,8 +2355,9 @@
 
             <div class="form-group" style="margin-bottom:1rem">
                 <label>Total Max Marks (Out of):</label>
-                <input type="number" id="cr-max-marks-input" value="550" style="width:100%">
+                <input type="number" id="cr-max-marks-input" value="600" style="width:100%">
             </div>
+
 
             <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:1rem">
                 <button class="btn btn-secondary" onclick="closeCRConfigModal()">Cancel</button>
@@ -1990,23 +2367,69 @@
     </div>
 
     <script>
-        // ── TableMaker Modal ──────────────────────────────────────
+        // ── Navigation & Page View Router ─────────────────────────
+        function switchView(viewName) {
+            document.querySelectorAll('.app-page-view').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.nav-tab').forEach(el => el.classList.remove('active'));
+
+            const targetView = document.getElementById('view-' + viewName);
+            const targetTab = document.getElementById('tab-' + viewName);
+
+            if (targetView && targetTab) {
+                targetView.classList.add('active');
+                targetTab.classList.add('active');
+                window.location.hash = viewName;
+
+                if (viewName === 'centralranking') {
+                    renderCentralRanking();
+                }
+            }
+        }
+
         function openTableMaker() {
-            const overlay = document.getElementById('tablemaker-overlay');
-            overlay.classList.add('visible');
-            document.body.style.overflow = 'hidden';
+            switchView('tablemaker');
         }
 
         function closeTableMaker() {
-            const overlay = document.getElementById('tablemaker-overlay');
-            overlay.classList.remove('visible');
-            document.body.style.overflow = '';
+            switchView('resultmaker');
         }
+
+        function openCentralRanking() {
+            switchView('centralranking');
+        }
+
+        function closeCentralRanking() {
+            switchView('resultmaker');
+        }
+
+        function updateCRStats(totalCandidates, topScore, avgScore, batchCount) {
+            const candidateEl = document.getElementById('cr-kpi-candidates');
+            const topscoreEl = document.getElementById('cr-kpi-topscore');
+            const avgscoreEl = document.getElementById('cr-kpi-avgscore');
+            const batchesEl = document.getElementById('cr-kpi-batches');
+
+            if (candidateEl) candidateEl.innerText = totalCandidates || '0';
+            if (topscoreEl) topscoreEl.innerText = topScore ? `${topScore} / ${crMaxMarks}` : `0 / ${crMaxMarks}`;
+            if (avgscoreEl) avgscoreEl.innerText = avgScore ? `${avgScore} Marks` : '0 Marks';
+            if (batchesEl) batchesEl.innerText = batchCount ? `${batchCount} Batch${batchCount > 1 ? 'es' : ''}` : '0 Batches';
+        }
+
+        window.addEventListener('hashchange', () => {
+            const hash = window.location.hash.replace('#', '') || 'resultmaker';
+            switchView(hash);
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const hash = window.location.hash.replace('#', '') || 'resultmaker';
+            switchView(hash);
+        });
+
 
         // ── Central Ranking Logic ─────────────────────────────────
         const CR_STORAGE_KEY = 'phoenix_central_ranking_v1';
         let crFilterTop30 = true;
-        let crMaxMarks = 550;
+        let crMaxMarks = 600;
+
 
         const defaultCRSampleData = [
             { name: "Fuad Hasan Susmit", batch: "BATCH 87 - Offline Combo Batch", scores: [90.5, 101.5, 87, 95.5, 108] },
@@ -2084,8 +2507,57 @@
             return n + (s[(v - 20) % 10] || s[v] || s[0]);
         }
 
+        let crCurrentPage = 1;
+        let crPageSize = 30;
+        let crSelectedBatch = 'all';
+
+        function changeCRBatchFilter(val) {
+            crSelectedBatch = val;
+            crCurrentPage = 1;
+            renderCentralRanking();
+        }
+
+        function populateCRBatchDropdown(data) {
+            const select = document.getElementById('cr-batch-filter-select');
+            if (!select) return;
+
+            const uniqueBatches = Array.from(new Set(data.map(item => (item.batch || 'Default').trim()))).filter(Boolean);
+
+            let html = `<option value="all" style="background:#0a101d; color:#fff;" ${crSelectedBatch === 'all' ? 'selected' : ''}>All Batches Combined (${data.length})</option>`;
+            uniqueBatches.forEach(b => {
+                const count = data.filter(item => (item.batch || 'Default').trim() === b).length;
+                html += `<option value="${escapeHtml(b)}" style="background:#0a101d; color:#fff;" ${crSelectedBatch === b ? 'selected' : ''}>Filter ${escapeHtml(b)} (${count})</option>`;
+            });
+
+            select.innerHTML = html;
+        }
+
+        function prevCRPage() {
+            if (crCurrentPage > 1) {
+                crCurrentPage--;
+                renderCentralRanking();
+            }
+        }
+
+        function nextCRPage() {
+            crCurrentPage++;
+            renderCentralRanking();
+        }
+
+        function changeCRPageSize(val) {
+            crPageSize = val;
+            crCurrentPage = 1;
+            renderCentralRanking();
+        }
+
         function renderCentralRanking() {
-            const data = getCRData();
+            const rawData = getCRData();
+            populateCRBatchDropdown(rawData);
+
+            let data = rawData;
+            if (crSelectedBatch !== 'all') {
+                data = rawData.filter(item => (item.batch || 'Default').trim() === crSelectedBatch);
+            }
             
             const processed = data.map(item => {
                 const scores = item.scores || [0,0,0,0,0];
@@ -2100,10 +2572,50 @@
 
             processed.sort((a, b) => b.total - a.total);
 
+            // Update KPI Summary Stats
+            const totalCandidates = processed.length;
+            const topScore = totalCandidates > 0 ? Math.max(...processed.map(s => s.total)) : 0;
+            const avgScore = totalCandidates > 0 ? (processed.reduce((a, b) => a + b.total, 0) / totalCandidates).toFixed(1) : 0;
+            const batchSet = new Set(processed.map(s => s.batch || 'Default'));
+            updateCRStats(totalCandidates, topScore, avgScore, batchSet.size);
+
+
             const totalCountEl = document.getElementById('cr-total-count');
+
             if (totalCountEl) totalCountEl.textContent = processed.length;
 
-            const displayList = crFilterTop30 ? processed.slice(0, 30) : processed;
+            let displayList = [];
+            let totalPages = 1;
+
+            if (crFilterTop30) {
+                displayList = processed.slice(0, 30);
+                const pagControls = document.getElementById('cr-pagination-controls');
+                if (pagControls) pagControls.style.display = 'none';
+            } else {
+                const pagControls = document.getElementById('cr-pagination-controls');
+                if (pagControls) pagControls.style.display = 'flex';
+
+                if (crPageSize === 'all') {
+                    displayList = processed;
+                    totalPages = 1;
+                    crCurrentPage = 1;
+                } else {
+                    const pageSizeNum = parseInt(crPageSize) || 35;
+                    totalPages = Math.ceil(processed.length / pageSizeNum) || 1;
+                    if (crCurrentPage > totalPages) crCurrentPage = totalPages;
+                    if (crCurrentPage < 1) crCurrentPage = 1;
+                    const startIdx = (crCurrentPage - 1) * pageSizeNum;
+                    displayList = processed.slice(startIdx, startIdx + pageSizeNum);
+                }
+
+                const indicator = document.getElementById('cr-page-indicator');
+                if (indicator) indicator.textContent = `Page ${crCurrentPage} of ${totalPages}`;
+                
+                const prevBtn = document.getElementById('cr-btn-prev');
+                const nextBtn = document.getElementById('cr-btn-next');
+                if (prevBtn) prevBtn.disabled = (crCurrentPage <= 1);
+                if (nextBtn) nextBtn.disabled = (crCurrentPage >= totalPages);
+            }
 
             const tbody = document.getElementById('cr-table-body');
             if (!tbody) return;
@@ -2114,8 +2626,10 @@
             }
 
             let html = '';
+            const pageOffset = (!crFilterTop30 && crPageSize !== 'all') ? ((crCurrentPage - 1) * (parseInt(crPageSize) || 35)) : 0;
             displayList.forEach((item, index) => {
-                const rankStr = getOrdinalSuffix(index + 1);
+                const globalRank = pageOffset + index + 1;
+                const rankStr = getOrdinalSuffix(globalRank);
                 const s = item.scores;
                 
                 const fmtScore = (val) => {
@@ -2145,6 +2659,7 @@
 
             tbody.innerHTML = html;
         }
+
 
         function escapeHtml(str) {
             if (!str) return '';
@@ -2253,7 +2768,7 @@
         }
 
         function saveCRSettings() {
-            const val = parseInt(document.getElementById('cr-max-marks-input').value) || 550;
+            const val = parseInt(document.getElementById('cr-max-marks-input').value) || 600;
             crMaxMarks = val;
             const labelEl = document.getElementById('cr-th-total-label');
             if (labelEl) {
@@ -2261,6 +2776,7 @@
             }
             closeCRConfigModal();
         }
+
 
         function resetCRData() {
             saveCRData(JSON.parse(JSON.stringify(defaultCRSampleData)));
@@ -2305,7 +2821,7 @@
 
             html2canvas(element, { scale: 2, useCORS: true, backgroundColor: '#ffffff', scrollX: 0, scrollY: 0 }).then(canvas => {
                 const link = document.createElement('a');
-                link.download = `phoenix_central_ranking_${new Date().toISOString().split('T')[0]}.png`;
+                link.download = `Central Ranking - Model Test Result Sheet.png`;
                 link.href = canvas.toDataURL('image/png');
                 link.click();
             }).catch(err => {
@@ -2314,49 +2830,148 @@
             });
         }
 
-        function downloadCRPDF() {
-            const element = document.getElementById('cr-sheet-capture-area');
-            if (!element) { alert("Nothing to capture!"); return; }
 
-            html2canvas(element, { scale: 2, useCORS: true, backgroundColor: '#ffffff', scrollX: 0, scrollY: 0 }).then(canvas => {
-                const imgData = canvas.toDataURL('image/jpeg', 0.98);
-                const jsPDFLib = (window.jspdf && window.jspdf.jsPDF) ? window.jspdf.jsPDF : window.jsPDF;
-                
-                const canvasWidth = canvas.width;
-                const canvasHeight = canvas.height;
-                const imgRatio = canvasWidth / canvasHeight;
+        async function downloadCRPDF() {
+            let rawData = getCRData();
+            if (crSelectedBatch !== 'all') {
+                rawData = rawData.filter(item => (item.batch || 'Default').trim() === crSelectedBatch);
+            }
+            if (!rawData.length) { alert("Nothing to capture!"); return; }
 
-                const pdfWidth = 297;
-                const pdfHeight = 210;
-                const pageRatio = pdfWidth / pdfHeight;
 
-                let renderWidth, renderHeight, x, y;
+            const processed = rawData.map(item => {
+                const scores = item.scores || [0,0,0,0,0];
+                const total = scores.reduce((sum, val) => sum + (parseFloat(val) || 0), 0);
+                return {
+                    name: item.name || '',
+                    batch: item.batch || 'BATCH 87 - Offline Combo Batch',
+                    scores: scores,
+                    total: total
+                };
+            });
+            processed.sort((a, b) => b.total - a.total);
 
-                if (imgRatio > pageRatio) {
-                    renderWidth = pdfWidth - 12;
-                    renderHeight = renderWidth / imgRatio;
-                    x = 6;
-                    y = (pdfHeight - renderHeight) / 2;
-                } else {
-                    renderHeight = pdfHeight - 12;
-                    renderWidth = renderHeight * imgRatio;
-                    x = (pdfWidth - renderWidth) / 2;
-                    y = 6;
+            // Export dataset based on active mode (respects selected page size: 30 default, 20, 32)
+            const displayItems = crFilterTop30 ? processed.slice(0, 30) : processed;
+            const itemsPerPage = (crPageSize === 'all') ? 30 : (parseInt(crPageSize) || 30);
+            const totalPages = Math.ceil(displayItems.length / itemsPerPage) || 1;
+
+
+
+            showCRToast(`Generating ${totalPages} Page PDF... Please wait.`);
+
+            const jsPDFLib = (window.jspdf && window.jspdf.jsPDF) ? window.jspdf.jsPDF : window.jsPDF;
+            const pdf = new jsPDFLib({ orientation: 'landscape', unit: 'mm', format: 'a4' });
+
+            // Create off-screen container inside active layout tree
+            const tempDiv = document.createElement('div');
+            tempDiv.style.position = 'fixed';
+            tempDiv.style.left = '0';
+            tempDiv.style.top = '0';
+            tempDiv.style.zIndex = '-9999';
+            tempDiv.style.opacity = '0.01';
+            tempDiv.style.pointerEvents = 'none';
+            tempDiv.style.width = '1414px';
+            tempDiv.style.background = '#ffffff';
+            document.body.appendChild(tempDiv);
+
+            try {
+                for (let p = 1; p <= totalPages; p++) {
+                    const startIdx = (p - 1) * itemsPerPage;
+                    const pageItems = displayItems.slice(startIdx, startIdx + itemsPerPage);
+
+                    let rowsHtml = '';
+                    pageItems.forEach((item, index) => {
+                        const globalRank = startIdx + index + 1;
+                        const rankStr = getOrdinalSuffix(globalRank);
+                        const s = item.scores;
+                        const fmtScore = (val) => {
+                            const num = parseFloat(val) || 0;
+                            return num % 1 === 0 ? num : num.toFixed(1);
+                        };
+
+                        rowsHtml += `
+                            <tr>
+                                <td class="cr-td-rank">${rankStr}</td>
+                                <td class="cr-td-name">${escapeHtml(item.name)}</td>
+                                <td class="cr-td-batch">${escapeHtml(item.batch)}</td>
+                                <td class="cr-td-score">${fmtScore(s[0])}</td>
+                                <td class="cr-td-score">${fmtScore(s[1])}</td>
+                                <td class="cr-td-score">${fmtScore(s[2])}</td>
+                                <td class="cr-td-score">${fmtScore(s[3])}</td>
+                                <td class="cr-td-score">${fmtScore(s[4])}</td>
+                                <td class="cr-td-total">${fmtScore(item.total)}</td>
+                            </tr>
+                        `;
+                    });
+
+                    tempDiv.innerHTML = `
+                        <div class="cr-sheet-container" style="border: 2px solid #0f2c59; border-radius: 0; box-shadow: none; width: 1414px; min-height: 995px; display: flex; flex-direction: column; justify-content: space-between; box-sizing: border-box; background: #ffffff;">
+                            <div style="flex: 1;">
+                                <table class="cr-result-table" style="width: 100%;">
+                                    <thead>
+                                        <tr>
+                                            <th rowspan="2" class="cr-th-rank">RANK</th>
+                                            <th rowspan="2" class="cr-th-name">NAME</th>
+                                            <th rowspan="2" class="cr-th-batch">PHOENIX BATCH NO.</th>
+                                            <th colspan="5" class="cr-th-mt-header">MODEL TEST</th>
+                                            <th rowspan="2" class="cr-th-total">Total<br><span style="font-size: 0.85em; font-weight: normal;">(out of ${crMaxMarks})</span></th>
+                                        </tr>
+                                        <tr>
+                                            <th class="cr-th-sub">1</th>
+                                            <th class="cr-th-sub">2</th>
+                                            <th class="cr-th-sub">3</th>
+                                            <th class="cr-th-sub">4</th>
+                                            <th class="cr-th-sub">5</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>${rowsHtml}</tbody>
+                                </table>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center; padding: 8px 18px; background: #0F2C59; color: #ffffff; font-family: 'Outfit', sans-serif; font-size: 13px; font-weight: 700; border-top: 2px solid #0F2C59;">
+                                <span>Phoenix Education — Central Ranking Result</span>
+                                <span>Page ${p} of ${totalPages}</span>
+                            </div>
+                        </div>
+                    `;
+
+                    // Wait for layout repaint before capturing canvas
+                    await new Promise(r => setTimeout(r, 60));
+
+                    const canvas = await html2canvas(tempDiv.querySelector('.cr-sheet-container'), {
+                        scale: 2,
+                        useCORS: true,
+                        backgroundColor: '#ffffff'
+                    });
+
+                    const imgData = canvas.toDataURL('image/jpeg', 0.98);
+                    const pdfWidth = 297;
+                    const pdfHeight = 210;
+                    const marginX = 4;
+                    const marginY = 3.5;
+                    const renderWidth = pdfWidth - (marginX * 2);
+                    const renderHeight = pdfHeight - (marginY * 2);
+
+                    if (p > 1) {
+                        pdf.addPage();
+                    }
+                    pdf.addImage(imgData, 'JPEG', marginX, marginY, renderWidth, renderHeight);
+
                 }
 
-                const pdf = new jsPDFLib({
-                    orientation: 'landscape',
-                    unit: 'mm',
-                    format: 'a4'
-                });
+                pdf.save(`Central Ranking - Model Test Result Sheet.pdf`);
+                showCRToast("PDF Download Complete!");
+            } catch (err) {
 
-                pdf.addImage(imgData, 'JPEG', x, y, renderWidth, renderHeight);
-                pdf.save(`phoenix_central_ranking_${new Date().toISOString().split('T')[0]}.pdf`);
-            }).catch(err => {
                 console.error("Central Ranking PDF Error: ", err);
-                alert("Could not generate PDF.");
-            });
+                alert("Could not generate PDF: " + err.message);
+            } finally {
+                if (document.body.contains(tempDiv)) {
+                    document.body.removeChild(tempDiv);
+                }
+            }
         }
+
 
         // Close on Escape key
         document.addEventListener('keydown', function(e) {
@@ -2503,9 +3118,9 @@
                 titleHtml = `<div class="sheet-main-title" style="visibility:hidden;">&nbsp;</div>`;
             }
 
-            const paddingStyle = cellPadding ? `style="padding:${cellPadding} !important; font-size:${fontSize} !important;"` : '';
-            const fontStyle = fontSize ? `style="font-size:${fontSize} !important;"` : '';
-            const subHeaderPadding = cellPadding ? `style="padding:${cellPadding} !important; font-size:${fontSize} !important;"` : '';
+            const paddingStyle = cellPadding ? `style="padding:${cellPadding} !important; font-size:${fontSize} !important; font-weight:700 !important; color:#0f172a !important;"` : '';
+            const fontStyleHeader = fontSize ? `style="font-size:${fontSize} !important; color:#ffffff !important; font-weight:800 !important;"` : `style="color:#ffffff !important; font-weight:800 !important;"`;
+            const subHeaderPadding = cellPadding ? `style="padding:${cellPadding} !important; font-size:${fontSize} !important; color:#ffffff !important; font-weight:800 !important;"` : `style="color:#ffffff !important; font-weight:800 !important;"`;
 
             return `
                 <div class="rank-sheet-view" ${extraStyle}>
@@ -2513,12 +3128,13 @@
                     <table class="result-table">
                         <thead>
                             <tr>
-                                <th class="header-names-cell" ${fontStyle}>Names</th>
+                                <th class="header-names-cell" ${fontStyleHeader}>NAMES</th>
                                 ${headers.map(h => `<th class="header-scores-sub" ${subHeaderPadding}>${h}</th>`).join('')}
-                                <th class="header-scores-sub" style="width:15%; ${fontSize ? `font-size:${fontSize} !important;` : ''}">Total</th>
-                                <th class="header-scores-sub" style="width:15%; ${fontSize ? `font-size:${fontSize} !important;` : ''}">Rank</th>
+                                <th class="header-scores-sub" style="width:15%; ${fontSize ? `font-size:${fontSize} !important;` : ''} color:#ffffff !important; font-weight:800 !important;">TOTAL</th>
+                                <th class="header-scores-sub" style="width:15%; ${fontSize ? `font-size:${fontSize} !important;` : ''} color:#ffffff !important; font-weight:800 !important;">RANK</th>
                             </tr>
                         </thead>
+
                         <tbody>
                             ${data.map(s => {
                                 const rankClass = s.rank === '1st' ? 'rank-1st' : s.rank === '2nd' ? 'rank-2nd' : s.rank === '3rd' ? 'rank-3rd' : 'rank-other';
@@ -2544,26 +3160,28 @@
             // Dynamic Sizing based on maximum row counts (to guarantee it fits on 1 page)
             const maxRows = Math.max(nsuData.length, bracuData.length);
             let cellPadding = '8px 6px';
-            let fontSize = '14px';
-            let nameFontSize = '14px';
+            let fontSize = '16px';
+            let nameFontSize = '16.5px';
             let namePadding = '8px 12px';
 
             if (maxRows > 35) {
-                cellPadding = '3px 4px';
-                fontSize = '11px';
-                nameFontSize = '11px';
-                namePadding = '3px 8px';
+                cellPadding = '4px 4px';
+                fontSize = '13.5px';
+                nameFontSize = '14px';
+                namePadding = '4px 8px';
             } else if (maxRows > 25) {
                 cellPadding = '5px 5px';
-                fontSize = '12px';
-                nameFontSize = '12px';
+                fontSize = '14.5px';
+                nameFontSize = '15px';
                 namePadding = '5px 8px';
             } else if (maxRows > 18) {
-                cellPadding = '7px 6px';
-                fontSize = '13px';
-                nameFontSize = '13px';
-                namePadding = '7px 10px';
+                cellPadding = '6.5px 6px';
+                fontSize = '15.5px';
+                nameFontSize = '15.5px';
+                namePadding = '6.5px 10px';
             }
+
+
 
             const fontStyle = fontSize ? `style="font-size:${fontSize} !important;"` : '';
 
@@ -2618,10 +3236,11 @@
             }
 
             const badgeHtml = label ? `
-                <div class="test-label-badge-container" style="display: flex; justify-content: center; margin-top: 4px; margin-bottom: 2px;">
-                    <span class="test-label-badge" ${fontStyle}>${label}</span>
+                <div class="test-label-badge-container" style="display: flex; justify-content: center; margin-top: 4px; margin-bottom: 4px;">
+                    <span class="test-label-badge" style="background: linear-gradient(180deg, #1e3a8a 0%, #1d4ed8 100%) !important; color: #ffffff !important; font-weight: 800 !important; font-size: 14px !important; letter-spacing: 0.12em !important; padding: 6px 26px !important; border-radius: 50px !important; box-shadow: 0 3px 10px rgba(30, 58, 138, 0.4) !important; border: 1.5px solid #2563eb !important; text-shadow: 0 1px 2px rgba(0,0,0,0.4) !important;">${label}</span>
                 </div>
             ` : '';
+
 
             return `
                 <div class="print-page-wrapper">
@@ -2679,6 +3298,18 @@
             document.getElementById('print-area').innerHTML = printHTML;
         }
 
+        function getDownloadFileName(ext) {
+            const batchRaw = (document.getElementById('cfg-batch') ? document.getElementById('cfg-batch').value : '').trim();
+            const titleRaw = (document.getElementById('cfg-title') ? document.getElementById('cfg-title').value : '').trim();
+            const labelRaw = (document.getElementById('cfg-label') ? document.getElementById('cfg-label').value : '').trim();
+
+            const batchName = batchRaw || 'BATCH';
+            const scoreLabel = titleRaw || labelRaw || 'Weekly Test';
+
+            const baseName = `${batchName} - ${scoreLabel} Result Sheet`.replace(/[/\\?%*:|"<>]/g, '_');
+            return `${baseName}.${ext}`;
+        }
+
         // Direct Download Actions
         function downloadPDFDirect() {
             const element = document.getElementById('preview-area').querySelector('.print-page-wrapper');
@@ -2686,38 +3317,30 @@
             
             const originalBoxShadow = element.style.boxShadow;
             const originalBorder = element.style.border;
+            const originalBorderRadius = element.style.borderRadius;
+            const originalMinHeight = element.style.minHeight;
+
             element.style.boxShadow = 'none';
             element.style.border = 'none';
+            element.style.borderRadius = '0';
+            element.style.minHeight = '1060px';
+
 
             html2canvas(element, { scale: 2, useCORS: true, backgroundColor: '#ffffff', scrollX: 0, scrollY: 0 }).then(canvas => {
                 element.style.boxShadow = originalBoxShadow;
                 element.style.border = originalBorder;
+                element.style.borderRadius = originalBorderRadius;
+                element.style.minHeight = originalMinHeight;
 
                 const imgData = canvas.toDataURL('image/jpeg', 0.98);
-                
                 const jsPDFLib = (window.jspdf && window.jspdf.jsPDF) ? window.jspdf.jsPDF : window.jsPDF;
                 
-                const canvasWidth = canvas.width;
-                const canvasHeight = canvas.height;
-                const imgRatio = canvasWidth / canvasHeight;
-
                 const pdfWidth = 297;
                 const pdfHeight = 210;
-                const pageRatio = pdfWidth / pdfHeight;
-
-                let renderWidth, renderHeight, x, y;
-
-                if (imgRatio > pageRatio) {
-                    renderWidth = pdfWidth - 12;
-                    renderHeight = renderWidth / imgRatio;
-                    x = 6;
-                    y = (pdfHeight - renderHeight) / 2;
-                } else {
-                    renderHeight = pdfHeight - 12;
-                    renderWidth = renderHeight * imgRatio;
-                    x = (pdfWidth - renderWidth) / 2;
-                    y = 6;
-                }
+                const marginX = 4;
+                const marginY = 3.5;
+                const renderWidth = pdfWidth - (marginX * 2);
+                const renderHeight = pdfHeight - (marginY * 2);
 
                 const pdf = new jsPDFLib({
                     orientation: 'landscape',
@@ -2725,13 +3348,18 @@
                     format: 'a4'
                 });
 
-                pdf.addImage(imgData, 'JPEG', x, y, renderWidth, renderHeight);
-                pdf.save(`result_sheet_${new Date().toISOString().split('T')[0]}.pdf`);
+                pdf.addImage(imgData, 'JPEG', marginX, marginY, renderWidth, renderHeight);
+                pdf.save(getDownloadFileName('pdf'));
             }).catch(err => {
+                element.style.boxShadow = originalBoxShadow;
+                element.style.border = originalBorder;
+                element.style.borderRadius = originalBorderRadius;
+                element.style.minHeight = originalMinHeight;
                 console.error("PDF generation error: ", err);
-                alert("Could not generate PDF. Make sure browser isn't blocking execution.");
+                alert("Could not generate PDF.");
             });
         }
+
 
         function downloadImageDirect() {
             const element = document.getElementById('preview-area').querySelector('.print-page-wrapper');
@@ -2747,7 +3375,7 @@
                 element.style.border = originalBorder;
 
                 const link = document.createElement('a');
-                link.download = `result_sheet_${new Date().toISOString().split('T')[0]}.png`;
+                link.download = getDownloadFileName('png');
                 link.href = canvas.toDataURL('image/png');
                 link.click();
             }).catch(err => {
@@ -2755,6 +3383,7 @@
                 alert("Could not generate image. Make sure browser isn't blocking execution.");
             });
         }
+
 
         renderTable();
         updateRankings();
