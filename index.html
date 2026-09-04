@@ -115,6 +115,11 @@
             font-weight: 800;
         }
 
+        body.dark-theme .main-title .sub-brand {
+            color: #f8fafc !important;
+            -webkit-text-fill-color: #f8fafc !important;
+        }
+
 
         /* ── Top Navigation Tabs & Tool Suite Router ── */
         .header-actions {
@@ -169,6 +174,42 @@
             background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
             color: #ffffff !important;
             box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
+        }
+
+        /* ── Dark / Light Mode Switcher Button ── */
+        .btn-theme-toggle {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 1.5px solid var(--border);
+            background: var(--surface);
+            color: var(--text);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            flex-shrink: 0;
+        }
+
+        .btn-theme-toggle:hover {
+            transform: scale(1.08);
+            border-color: var(--primary);
+            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.25);
+            color: var(--primary);
+        }
+
+        body.dark-theme .btn-theme-toggle {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.15);
+            color: #f8fafc;
+        }
+
+        body.dark-theme .btn-theme-toggle:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: #60a5fa;
+            color: #60a5fa;
         }
 
         /* ── Dedicated Full Page Views ── */
@@ -641,6 +682,16 @@
             box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
         }
         .cr-btn-export-pdf:hover {
+            transform: translateY(-1px);
+            filter: brightness(1.1);
+        }
+
+        .cr-btn-export-csv {
+            background: linear-gradient(135deg, #0d9488 0%, #0f766e 100%);
+            color: #ffffff;
+            box-shadow: 0 2px 8px rgba(13, 148, 136, 0.3);
+        }
+        .cr-btn-export-csv:hover {
             transform: translateY(-1px);
             filter: brightness(1.1);
         }
@@ -1208,6 +1259,18 @@
             transform: translateY(0);
         }
 
+        body.dark-theme .add-row-btn {
+            background: rgba(37, 99, 235, 0.1);
+            border-color: rgba(96, 165, 250, 0.3);
+            color: #93c5fd;
+        }
+
+        body.dark-theme .add-row-btn:hover {
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            border-color: transparent;
+            color: #ffffff;
+        }
+
         .delete-btn {
             color: #94a3b8;
             background: transparent;
@@ -1313,6 +1376,11 @@
             transition: all 0.3s;
         }
 
+        body.dark-theme .controls-card {
+            background: rgba(255, 255, 255, 0.03);
+            border-color: var(--border);
+        }
+
         .control-option {
             display: flex;
             align-items: center;
@@ -1326,10 +1394,20 @@
             user-select: none;
         }
 
+        body.dark-theme .control-option {
+            background: var(--surface);
+            border-color: var(--border);
+        }
+
         .control-option:hover {
             border-color: var(--primary);
             background: #eff6ff;
             transform: translateY(-1px);
+        }
+
+        body.dark-theme .control-option:hover {
+            background: rgba(37, 99, 235, 0.12);
+            border-color: var(--primary);
         }
 
         .control-option input[type="checkbox"] {
@@ -1970,18 +2048,24 @@
         <!-- Top Navigation Bar -->
         <div class="header-top no-print">
             <h1 class="main-title">Phoenix <span class="sub-brand">Result Maker</span></h1>
-            <div class="main-nav-tabs">
-                <button class="nav-tab active" id="tab-resultmaker" onclick="switchView('resultmaker')">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
-                    <span>Result Maker</span>
-                </button>
-                <button class="nav-tab" id="tab-centralranking" onclick="switchView('centralranking')">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.45 1-1 1H7.5"/><path d="M14 14.66V17c0 .55.45 1 1 1h1.5"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
-                    <span>Central Ranking</span>
-                </button>
-                <button class="nav-tab" id="tab-tablemaker" onclick="switchView('tablemaker')">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/></svg>
-                    <span>Table Maker</span>
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <div class="main-nav-tabs">
+                    <button class="nav-tab active" id="tab-resultmaker" onclick="switchView('resultmaker')">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+                        <span>Result Maker</span>
+                    </button>
+                    <button class="nav-tab" id="tab-centralranking" onclick="switchView('centralranking')">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.45 1-1 1H7.5"/><path d="M14 14.66V17c0 .55.45 1 1 1h1.5"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
+                        <span>Central Ranking</span>
+                    </button>
+                    <button class="nav-tab" id="tab-tablemaker" onclick="switchView('tablemaker')">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/></svg>
+                        <span>Table Maker</span>
+                    </button>
+                </div>
+                <button class="btn-theme-toggle" id="btn-theme-toggle" onclick="toggleTheme()" title="Switch to Dark Mode" aria-label="Toggle Theme">
+                    <svg id="theme-icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+                    <svg id="theme-icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
                 </button>
             </div>
         </div>
@@ -1989,7 +2073,7 @@
         <!-- ── VIEW 1: RESULT MAKER ── -->
         <div id="view-resultmaker" class="app-page-view active">
             <div class="card no-print">
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem; flex-wrap:wrap; gap:1rem">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.2rem; flex-wrap:wrap; gap:1rem">
                     <h3 style="font-family:'Outfit', sans-serif; font-size:1.3rem; font-weight:700; color:var(--text)">Student Data Input</h3>
                     <div style="display:flex; gap:12px; flex-wrap:wrap; align-items:center;">
                         <button class="btn-top-action btn-top-import" onclick="showBulkModal()">
@@ -2007,6 +2091,15 @@
                     </div>
                 </div>
 
+                <!-- Live Search Box -->
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; gap: 12px; flex-wrap: wrap;">
+                    <div style="position: relative; flex: 1; max-width: 340px;">
+                        <svg style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-muted); pointer-events: none;" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                        <input type="text" id="student-search-input" placeholder="Search student name..." oninput="handleStudentSearch(this.value)" style="width: 100%; padding: 8px 12px 8px 36px; border-radius: 10px; border: 1.5px solid var(--border); background: var(--input-bg); color: var(--text); font-size: 0.88rem; outline: none; transition: all 0.2s ease;">
+                    </div>
+                    <span id="student-filter-count" style="font-size: 0.84rem; color: var(--text-muted); font-family: 'Outfit', sans-serif; font-weight: 600;"></span>
+                </div>
+
                 <div class="entry-container">
                     <table class="entry-table">
                         <thead>
@@ -2018,6 +2111,7 @@
                                 <th>S03</th>
                                 <th>Essay</th>
                                 <th>S05</th>
+                                <th>S06</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -2202,6 +2296,11 @@
                             Settings
                         </button>
 
+                        <button class="cr-btn cr-btn-export-csv" onclick="exportCRCSV()" title="Export Central Ranking to CSV">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                            Export CSV
+                        </button>
+
                         <button class="cr-btn cr-btn-export-png" onclick="downloadCRPNG()">
                             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                                 <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
@@ -2282,8 +2381,8 @@
         <div class="card">
             <h2>Import from Spreadsheet</h2>
             <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:1rem">Columns: Name [Tab] S01 [Tab] S02
-                [Tab] S03 [Tab] Essay [Tab] S05 <br>
-                <small>* S05 is ignored for NSU Standard</small></p>
+                [Tab] S03 [Tab] Essay [Tab] S05 [Tab] S06 <br>
+                <small>* Sections 05 & 06 count as BRACU (students with S05/S06 will be BRACU)</small></p>
             <div class="form-group" style="margin-bottom:1rem">
                 <label>Target Standard:</label>
                 <select id="bulk-type">
@@ -2402,6 +2501,81 @@
             switchView('resultmaker');
         }
 
+        // ── Theme Manager ──────────────────────────────────────────
+        function initTheme() {
+            const saved = localStorage.getItem('phoenix_theme');
+            if (saved === 'dark' || (!saved && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.body.classList.add('dark-theme');
+            } else {
+                document.body.classList.remove('dark-theme');
+            }
+            updateThemeUI();
+        }
+
+        function toggleTheme() {
+            const isDark = document.body.classList.toggle('dark-theme');
+            localStorage.setItem('phoenix_theme', isDark ? 'dark' : 'light');
+            updateThemeUI();
+        }
+
+        function updateThemeUI() {
+            const isDark = document.body.classList.contains('dark-theme');
+            const moon = document.getElementById('theme-icon-moon');
+            const sun = document.getElementById('theme-icon-sun');
+            const btn = document.getElementById('btn-theme-toggle');
+            if (moon && sun) {
+                moon.style.display = isDark ? 'none' : 'block';
+                sun.style.display = isDark ? 'block' : 'none';
+            }
+            if (btn) {
+                btn.title = isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode';
+                btn.setAttribute('aria-label', btn.title);
+            }
+        }
+
+        // ── Form Config Persistence ───────────────────────────────
+        const CONFIG_STORAGE_KEY = 'phoenix_sheet_config_v1';
+
+        function saveSheetConfig() {
+            try {
+                const cfg = {
+                    batch: document.getElementById('cfg-batch')?.value,
+                    mid: document.getElementById('cfg-mid')?.value,
+                    desc: document.getElementById('cfg-desc')?.value,
+                    label: document.getElementById('cfg-label')?.value,
+                    title: document.getElementById('cfg-title')?.value,
+                    date: document.getElementById('cfg-date')?.value,
+                    showHeader: document.getElementById('set-header')?.checked,
+                    hideZeros: document.getElementById('set-hide-zeros')?.checked,
+                    showNSU: document.getElementById('set-nsu-title')?.checked,
+                    showBRACU: document.getElementById('set-bracu-title')?.checked
+                };
+                localStorage.setItem(CONFIG_STORAGE_KEY, JSON.stringify(cfg));
+            } catch (e) {
+                console.error("Failed to auto-save sheet configuration:", e);
+            }
+        }
+
+        function loadSheetConfig() {
+            try {
+                const raw = localStorage.getItem(CONFIG_STORAGE_KEY);
+                if (!raw) return;
+                const cfg = JSON.parse(raw);
+                if (cfg.batch !== undefined && document.getElementById('cfg-batch')) document.getElementById('cfg-batch').value = cfg.batch;
+                if (cfg.mid !== undefined && document.getElementById('cfg-mid')) document.getElementById('cfg-mid').value = cfg.mid;
+                if (cfg.desc !== undefined && document.getElementById('cfg-desc')) document.getElementById('cfg-desc').value = cfg.desc;
+                if (cfg.label !== undefined && document.getElementById('cfg-label')) document.getElementById('cfg-label').value = cfg.label;
+                if (cfg.title !== undefined && document.getElementById('cfg-title')) document.getElementById('cfg-title').value = cfg.title;
+                if (cfg.date && document.getElementById('cfg-date')) document.getElementById('cfg-date').value = cfg.date;
+                if (cfg.showHeader !== undefined && document.getElementById('set-header')) document.getElementById('set-header').checked = cfg.showHeader;
+                if (cfg.hideZeros !== undefined && document.getElementById('set-hide-zeros')) document.getElementById('set-hide-zeros').checked = cfg.hideZeros;
+                if (cfg.showNSU !== undefined && document.getElementById('set-nsu-title')) document.getElementById('set-nsu-title').checked = cfg.showNSU;
+                if (cfg.showBRACU !== undefined && document.getElementById('set-bracu-title')) document.getElementById('set-bracu-title').checked = cfg.showBRACU;
+            } catch (e) {
+                console.error("Failed to load sheet configuration:", e);
+            }
+        }
+
         function updateCRStats(totalCandidates, topScore, avgScore, batchCount) {
             const candidateEl = document.getElementById('cr-kpi-candidates');
             const topscoreEl = document.getElementById('cr-kpi-topscore');
@@ -2428,7 +2602,7 @@
         // ── Central Ranking Logic ─────────────────────────────────
         const CR_STORAGE_KEY = 'phoenix_central_ranking_v1';
         let crFilterTop30 = true;
-        let crMaxMarks = 600;
+        let crMaxMarks = parseInt(localStorage.getItem('phoenix_cr_max_marks')) || 600;
 
 
         const defaultCRSampleData = [
@@ -2479,19 +2653,6 @@
 
         function saveCRData(data) {
             localStorage.setItem(CR_STORAGE_KEY, JSON.stringify(data));
-        }
-
-        function openCentralRanking() {
-            const overlay = document.getElementById('central-ranking-overlay');
-            overlay.classList.add('visible');
-            document.body.style.overflow = 'hidden';
-            renderCentralRanking();
-        }
-
-        function closeCentralRanking() {
-            const overlay = document.getElementById('central-ranking-overlay');
-            overlay.classList.remove('visible');
-            document.body.style.overflow = '';
         }
 
         function setCRFilterMode(top30Only) {
@@ -2640,6 +2801,7 @@
 
                 const fmtScore = (val) => {
                     const num = parseFloat(val) || 0;
+                    if (num === 0) return '-';
                     return num % 1 === 0 ? num : num.toFixed(1);
                 };
 
@@ -2767,6 +2929,8 @@
         }
 
         function openCRConfigModal() {
+            const input = document.getElementById('cr-max-marks-input');
+            if (input) input.value = crMaxMarks;
             document.getElementById('cr-config-modal').style.display = 'flex';
         }
 
@@ -2777,11 +2941,14 @@
         function saveCRSettings() {
             const val = parseInt(document.getElementById('cr-max-marks-input').value) || 600;
             crMaxMarks = val;
+            localStorage.setItem('phoenix_cr_max_marks', crMaxMarks);
             const labelEl = document.getElementById('cr-th-total-label');
             if (labelEl) {
                 labelEl.innerHTML = `Total<br><span style="font-size: 0.85em; font-weight: normal; text-transform: none;">(out of ${crMaxMarks})</span>`;
             }
             closeCRConfigModal();
+            renderCentralRanking();
+            showCRToast(`Settings saved! Max marks: ${crMaxMarks}`);
         }
 
 
@@ -2792,6 +2959,7 @@
         }
 
         function clearCRAllData() {
+            if (!confirm("Are you sure you want to clear all Central Ranking records? This cannot be undone.")) return;
             saveCRData([]);
             renderCentralRanking();
             showCRToast("All Central Ranking data cleared!");
@@ -2822,13 +2990,82 @@
             }, 2500);
         }
 
+        function exportCRCSV() {
+            const rawData = getCRData();
+            if (!rawData || !rawData.length) {
+                alert("No Central Ranking data to export!");
+                return;
+            }
+
+            let data = rawData;
+            if (crSelectedBatch && crSelectedBatch !== 'all') {
+                data = rawData.filter(item => (item.batch || 'Default').trim() === crSelectedBatch);
+            }
+            if (!data.length) {
+                alert("No records found for the selected batch.");
+                return;
+            }
+
+            const processed = data.map(item => {
+                const scores = item.scores || [0, 0, 0, 0, 0];
+                const total = scores.reduce((sum, val) => sum + (parseFloat(val) || 0), 0);
+                return {
+                    name: item.name || '',
+                    batch: item.batch || 'BATCH 87 - Offline Combo Batch',
+                    scores: scores,
+                    total: total
+                };
+            });
+
+            processed.sort((a, b) => b.total - a.total);
+
+            // Export top 30 if filterTop30 mode is active, or all exam takers if not
+            const exportList = crFilterTop30 ? processed.slice(0, 30) : processed;
+
+            let currentRank = 1;
+            const rankedList = exportList.map((item, idx) => {
+                if (idx > 0 && item.total < exportList[idx - 1].total) {
+                    currentRank = idx + 1;
+                }
+                return {
+                    ...item,
+                    rank: getOrdinalSuffix(currentRank)
+                };
+            });
+
+            let csv = "Rank,Student Name,Batch No,Model Test 1,Model Test 2,Model Test 3,Model Test 4,Model Test 5,Total\n";
+            rankedList.forEach(item => {
+                const safeName = `"${(item.name || '').replace(/"/g, '""')}"`;
+                const safeBatch = `"${(item.batch || '').replace(/"/g, '""')}"`;
+                const row = [
+                    item.rank,
+                    safeName,
+                    safeBatch,
+                    ...item.scores.slice(0, 5),
+                    item.total
+                ];
+                csv += row.join(",") + "\n";
+            });
+
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            const batchPrefix = (crSelectedBatch && crSelectedBatch !== 'all') ? `${crSelectedBatch.replace(/[/\\?%*:|"<>]/g, '_')}_` : '';
+            a.setAttribute('href', url);
+            a.setAttribute('download', `${batchPrefix}Central_Ranking_${new Date().toISOString().split('T')[0]}.csv`);
+            a.click();
+            setTimeout(() => window.URL.revokeObjectURL(url), 1000);
+            showCRToast("Central Ranking CSV exported successfully!");
+        }
+
         function downloadCRPNG() {
             const element = document.getElementById('cr-sheet-capture-area');
             if (!element) { alert("Nothing to capture!"); return; }
 
             html2canvas(element, { scale: 2, useCORS: true, backgroundColor: '#ffffff', scrollX: 0, scrollY: 0 }).then(canvas => {
                 const link = document.createElement('a');
-                link.download = `Central Ranking - Model Test Result Sheet.png`;
+                const batchPrefix = (crSelectedBatch && crSelectedBatch !== 'all') ? `${crSelectedBatch} - ` : '';
+                link.download = `${batchPrefix}Central Ranking - Model Test Result Sheet.png`.replace(/[/\\?%*:|"<>]/g, '_');
                 link.href = canvas.toDataURL('image/png');
                 link.click();
             }).catch(err => {
@@ -2901,6 +3138,7 @@
 
                         const fmtScore = (val) => {
                             const num = parseFloat(val) || 0;
+                            if (num === 0) return '-';
                             return num % 1 === 0 ? num : num.toFixed(1);
                         };
 
@@ -2974,7 +3212,8 @@
 
                 }
 
-                pdf.save(`Central Ranking - Model Test Result Sheet.pdf`);
+                const batchPrefix = (crSelectedBatch && crSelectedBatch !== 'all') ? `${crSelectedBatch} - ` : '';
+                pdf.save(`${batchPrefix}Central Ranking - Model Test Result Sheet.pdf`.replace(/[/\\?%*:|"<>]/g, '_'));
                 showCRToast("PDF Download Complete!");
             } catch (err) {
 
@@ -2988,11 +3227,19 @@
         }
 
 
-        // Close on Escape key
+        // Close active modals on Escape key
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
-                closeTableMaker();
-                closeCentralRanking();
+                hideBulkModal();
+                closeCRImportModal();
+                closeCRConfigModal();
+            }
+        });
+
+        // Close modals when clicking outside modal content
+        window.addEventListener('click', function(e) {
+            if (e.target && e.target.classList && e.target.classList.contains('modal-backdrop')) {
+                hideBulkModal();
                 closeCRImportModal();
                 closeCRConfigModal();
             }
@@ -3000,39 +3247,83 @@
         // ─────────────────────────────────────────────────────────
 
         document.getElementById('cfg-date').valueAsDate = new Date();
-        let students = JSON.parse(localStorage.getItem('phoenix_v5')) || [];
+        let students = [];
+        try {
+            students = JSON.parse(localStorage.getItem('phoenix_v5')) || [];
+        } catch (e) {
+            students = [];
+        }
         
-        // Ensure all students have 5 score slots and clean old 6th slot
+        // Ensure all students have 6 score slots
         students.forEach(s => {
-            if (!s.scores) s.scores = [0, 0, 0, 0, 0];
-            while (s.scores.length < 5) s.scores.push(0);
-            if (s.scores.length > 5) s.scores = s.scores.slice(0, 5);
+            if (!s.scores) s.scores = [0, 0, 0, 0, 0, 0];
+            while (s.scores.length < 6) s.scores.push(0);
+            if (s.scores.length > 6) s.scores = s.scores.slice(0, 6);
         });
 
         function updateValue(i, field, val, scoreIdx = null) {
             if (scoreIdx !== null) {
-                if (students[i].type === 'NSU' && scoreIdx === 4) val = 0;
-                students[i].scores[scoreIdx] = parseFloat(val) || 0;
+                const numVal = parseFloat(val) || 0;
+                students[i].scores[scoreIdx] = numVal;
+                // Section 05 & 06 count as BRACU result. Anyone who answers section 05 or 06 will be a BRACU student.
+                if ((scoreIdx === 4 || scoreIdx === 5) && numVal > 0) {
+                    if (students[i].type !== 'BRACU') {
+                        students[i].type = 'BRACU';
+                        renderTable();
+                    }
+                }
             }
             else students[i][field] = val;
             localStorage.setItem('phoenix_v5', JSON.stringify(students));
             updateRankings();
         }
 
+        function updateStudentType(i, newType) {
+            students[i].type = newType;
+            if (newType === 'NSU') {
+                students[i].scores[4] = 0;
+                students[i].scores[5] = 0;
+            }
+            saveAndFullRender();
+        }
+
         function saveAndFullRender() {
-            students.forEach(s => {
-                if (s.type === 'NSU') {
-                    s.scores[4] = 0;
-                }
-            });
             localStorage.setItem('phoenix_v5', JSON.stringify(students));
             renderTable();
             updateRankings();
         }
 
-        function clearData() { if (confirm('Delete everything?')) { students = []; saveAndFullRender(); } }
-        function addStudent() { students.push({ name: "", type: "NSU", scores: [0, 0, 0, 0, 0] }); saveAndFullRender(); }
-        function removeStudent(i) { students.splice(i, 1); saveAndFullRender(); }
+        let studentSearchTerm = '';
+
+        function handleStudentSearch(val) {
+            studentSearchTerm = (val || '').trim().toLowerCase();
+            renderTable();
+        }
+
+        function clearData() {
+            if (confirm('Delete everything?')) {
+                students = [];
+                studentSearchTerm = '';
+                const searchInp = document.getElementById('student-search-input');
+                if (searchInp) searchInp.value = '';
+                saveAndFullRender();
+            }
+        }
+
+        function addStudent() {
+            students.push({ name: "", type: "NSU", scores: [0, 0, 0, 0, 0, 0] });
+            if (studentSearchTerm) {
+                studentSearchTerm = '';
+                const searchInp = document.getElementById('student-search-input');
+                if (searchInp) searchInp.value = '';
+            }
+            saveAndFullRender();
+        }
+
+        function removeStudent(i) {
+            students.splice(i, 1);
+            saveAndFullRender();
+        }
 
         function showBulkModal() { document.getElementById('bulk-modal').style.display = 'flex'; }
         function hideBulkModal() { document.getElementById('bulk-modal').style.display = 'none'; }
@@ -3041,86 +3332,146 @@
         function importBulk() {
             const text = document.getElementById('bulk-input').value;
             const type = document.getElementById('bulk-type').value;
-            text.split('\n').filter(l => l.trim()).forEach(line => {
-                const p = line.split('\t');
-                if (p[0]) {
-                    const rawScores = [0, 0, 0, 0, 0];
-                    for (let i = 0; i < 5; i++) {
-                        if (p[i + 1]) {
-                            let val = parseFloat(p[i + 1].replace(',', '')) || 0;
-                            rawScores[i] = val;
-                        }
+            text.split(/\r?\n/).filter(l => l.trim()).forEach(line => {
+                let p = line.split('\t').map(c => c.trim());
+                if (p.length <= 1) {
+                    if (line.includes(',')) {
+                        p = line.split(',').map(c => c.trim());
+                    } else {
+                        p = line.split(/\s{2,}/).map(c => c.trim());
                     }
-
-                    // Determine actual student type and final scores
-                    let studentType = type;
-                    let scores = [...rawScores];
-
-                    if (type === 'BOTH') {
-                        const hasBracuCols = (rawScores[4] || 0) !== 0;
-                        studentType = hasBracuCols ? 'BRACU' : 'NSU';
-                    }
-
-                    // For NSU, ignore S05
-                    if (studentType === 'NSU') {
-                        scores[4] = 0;
-                    }
-
-                    students.push({ name: p[0].trim(), type: studentType, scores });
                 }
+                if (!p[0]) return;
+
+                // Ignore header rows
+                const firstLower = p[0].toLowerCase();
+                if (firstLower === 'name' || firstLower === 'student name' || firstLower.includes('student') || (p.length > 1 && p[1].toLowerCase().includes('s01'))) {
+                    return;
+                }
+
+                let studentType = type;
+                let scoreStartIndex = 1;
+
+                // Check if 2nd column explicitly specifies NSU or BRACU
+                if (p[1] && (p[1].toUpperCase() === 'NSU' || p[1].toUpperCase() === 'BRACU')) {
+                    studentType = p[1].toUpperCase();
+                    scoreStartIndex = 2;
+                } else if (type === 'BOTH') {
+                    const lineUpper = line.toUpperCase();
+                    if (lineUpper.includes('BRACU') || lineUpper.includes('BRAC')) {
+                        studentType = 'BRACU';
+                    } else if (lineUpper.includes('NSU')) {
+                        studentType = 'NSU';
+                    } else {
+                        studentType = 'NSU';
+                    }
+                }
+
+                const rawScores = [0, 0, 0, 0, 0, 0];
+                for (let i = 0; i < 6; i++) {
+                    const colIdx = scoreStartIndex + i;
+                    if (p[colIdx] !== undefined && p[colIdx] !== '') {
+                        let val = parseFloat(String(p[colIdx]).replace(/,/g, ''));
+                        rawScores[i] = isNaN(val) ? 0 : val;
+                    }
+                }
+
+                // Section 05 and 06 count as BRACU result. Anyone who answers section 05 or 06 will be a BRACU student.
+                if ((rawScores[4] || 0) > 0 || (rawScores[5] || 0) > 0) {
+                    studentType = 'BRACU';
+                }
+
+                students.push({ name: p[0].trim(), type: studentType, scores: [...rawScores] });
             });
-            saveAndFullRender(); hideBulkModal();
+            saveAndFullRender();
+            hideBulkModal();
             document.getElementById('bulk-input').value = "";
         }
 
         function exportCSV() {
             if (students.length === 0) { alert("No data to export"); return; }
             const hideZeros = document.getElementById('set-hide-zeros').checked;
-            let csv = "Name,Type,S01,S02,S03,Essay,S05\n";
+            const hasS06 = students.some(s => (parseFloat(s.scores[5]) || 0) > 0);
+            const numCols = hasS06 ? 6 : 5;
+            let csv = hasS06 ? "Name,Type,S01,S02,S03,Essay,S05,S06\n" : "Name,Type,S01,S02,S03,Essay,S05\n";
             students.forEach(s => {
-                if (s.name) {
-                    const limit = s.type === 'NSU' ? 4 : 5;
-                    const total = s.scores.slice(0, limit).reduce((sum, val) => sum + (parseFloat(val) || 0), 0);
-                    if (hideZeros && total === 0) {
-                        return; // Exclude 0 marks student from CSV
-                    }
+                if (!s.name || !s.name.trim()) return;
+                const isBracu = s.type === 'BRACU' || (parseFloat(s.scores[4]) || 0) > 0 || (parseFloat(s.scores[5]) || 0) > 0;
+                const limit = isBracu ? (hasS06 ? 6 : 5) : 4;
+                const total = s.scores.slice(0, limit).reduce((sum, val) => sum + (parseFloat(val) || 0), 0);
+                if (hideZeros && total === 0) {
+                    return; // Exclude 0 marks student from CSV
                 }
                 const row = [
-                    `"${s.name}"`,
-                    s.type,
-                    ...s.scores.slice(0, 5)
+                    `"${(s.name || '').replace(/"/g, '""')}"`,
+                    isBracu ? 'BRACU' : 'NSU',
+                    ...s.scores.slice(0, numCols)
                 ];
                 csv += row.join(",") + "\n";
             });
-            const blob = new Blob([csv], { type: 'text/csv' });
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.setAttribute('href', url);
             a.setAttribute('download', `students_data_${new Date().toISOString().split('T')[0]}.csv`);
             a.click();
+            setTimeout(() => window.URL.revokeObjectURL(url), 1000);
         }
 
         function renderTable() {
             const tbody = document.getElementById('student-rows');
-            tbody.innerHTML = students.map((s, i) => `
+            const countEl = document.getElementById('student-filter-count');
+
+            const indexedStudents = students.map((s, origIdx) => ({ ...s, origIdx }));
+            const filtered = studentSearchTerm
+                ? indexedStudents.filter(s => (s.name || '').toLowerCase().includes(studentSearchTerm))
+                : indexedStudents;
+
+            if (countEl) {
+                if (studentSearchTerm) {
+                    countEl.textContent = `Showing ${filtered.length} of ${students.length} students`;
+                } else {
+                    countEl.textContent = `${students.length} student${students.length === 1 ? '' : 's'}`;
+                }
+            }
+
+            if (filtered.length === 0) {
+                if (students.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="9" style="text-align:center; padding:24px; color:var(--text-muted); font-size:0.9rem; font-weight:600;">No students entered yet. Click "Add New Student Row" or import from spreadsheet.</td></tr>`;
+                } else {
+                    tbody.innerHTML = `<tr><td colspan="9" style="text-align:center; padding:24px; color:var(--text-muted); font-size:0.9rem; font-weight:600;">No students matching "${escapeHtml(studentSearchTerm)}"</td></tr>`;
+                }
+                return;
+            }
+
+            tbody.innerHTML = filtered.map(s => {
+                const i = s.origIdx;
+                return `
                 <tr>
-                    <td style="width:250px"><input type="text" placeholder="Student Name..." value="${s.name}" oninput="updateValue(${i}, 'name', this.value)"></td>
-                    <td style="width:100px"><select onchange="students[${i}].type=this.value; saveAndFullRender()"><option value="NSU" ${s.type === 'NSU' ? 'selected' : ''}>NSU</option><option value="BRACU" ${s.type === 'BRACU' ? 'selected' : ''}>BRACU</option></select></td>
-                    ${[0, 1, 2, 3, 4].map(idx => {
-                        const isInvalidNSU = s.type === 'NSU' && idx === 4;
+                    <td style="width:240px"><input type="text" placeholder="Student Name..." value="${escapeHtml(s.name)}" oninput="updateValue(${i}, 'name', this.value)"></td>
+                    <td style="width:95px"><select onchange="updateStudentType(${i}, this.value)"><option value="NSU" ${s.type === 'NSU' ? 'selected' : ''}>NSU</option><option value="BRACU" ${s.type === 'BRACU' ? 'selected' : ''}>BRACU</option></select></td>
+                    ${[0, 1, 2, 3, 4, 5].map(idx => {
+                        const val = s.scores && s.scores[idx] !== undefined ? s.scores[idx] : 0;
                         return `<td><input type="number" step="0.5" class="subject-input" 
-                            value="${isInvalidNSU ? 0 : s.scores[idx]}" 
-                            ${isInvalidNSU ? 'disabled style="background:var(--bg); opacity:0.3; cursor:not-allowed"' : ''}
+                            value="${val}" 
                             onfocus="if(this.value=='0')this.value=''" onblur="if(this.value=='')this.value='0'" 
                             oninput="updateValue(${i}, 'scores', this.value, ${idx})"></td>`;
                     }).join('')}
                     <td style="width:40px"><button class="delete-btn" onclick="removeStudent(${i})">&times;</button></td>
                 </tr>
-            `).join('');
+            `;
+            }).join('');
         }
 
         function sort(arr) {
-            return arr.sort((a, b) => b.total - a.total).map((s, i) => ({ ...s, rank: (i + 1) + (['st', 'nd', 'rd'][i] || 'th') }));
+            const sorted = arr.sort((a, b) => b.total - a.total);
+            let currentRank = 1;
+            return sorted.map((s, i) => {
+                if (i > 0 && s.total < sorted[i - 1].total) {
+                    currentRank = i + 1;
+                }
+                return { ...s, rank: getOrdinalSuffix(currentRank) };
+            });
         }
 
         function renderSingleTable(type, data, headers, label, showTitle = true, preserveSpacer = false, cellPadding = '', fontSize = '', nameFontSize = '', namePadding = '', extraStyle = '') {
@@ -3155,8 +3506,12 @@
                                 const rankClass = s.rank === '1st' ? 'rank-1st' : s.rank === '2nd' ? 'rank-2nd' : s.rank === '3rd' ? 'rank-3rd' : 'rank-other';
                                 return `
                                 <tr>
-                                    <td class="name-cell" style="${nameFontSize ? `font-size:${nameFontSize} !important;` : ''} ${namePadding ? `padding:${namePadding} !important;` : ''}">${s.name}</td>
-                                    ${headers.map((_, idx) => `<td ${paddingStyle}>${s.scores[idx] || 0}</td>`).join('')}
+                                    <td class="name-cell" style="${nameFontSize ? `font-size:${nameFontSize} !important;` : ''} ${namePadding ? `padding:${namePadding} !important;` : ''}">${escapeHtml(s.name)}</td>
+                                    ${headers.map((_, idx) => {
+                                        const val = parseFloat(s.scores[idx]) || 0;
+                                        const displayVal = val === 0 ? '-' : (val % 1 === 0 ? val : val.toFixed(1));
+                                        return `<td ${paddingStyle}>${displayVal}</td>`;
+                                    }).join('')}
                                     <td class="total-cell" ${paddingStyle}>${s.total}</td>
                                     <td class="rank-cell" ${paddingStyle}><span class="rank-badge ${rankClass}">${s.rank}</span></td>
                                 </tr>
@@ -3168,9 +3523,9 @@
             `;
         }
 
-        function generatePrintHTML(nsuData, bracuData, label, batch, midHeader, desc, title, dateStr, showHeader, showNSUT, showBRACUT) {
-            const headerHtml = showHeader ? `<span>${batch}</span><span>${midHeader}</span><span>${desc}</span>` : "";
-            const footerHtml = showHeader ? `<span>Result Published: ${dateStr}</span><span>${title} - Result Sheet</span>` : "";
+        function generatePrintHTML(nsuData, bracuData, label, batch, midHeader, desc, title, dateStr, showHeader, showNSUT, showBRACUT, nsuHeaders = ['S01', 'S02', 'S03', 'Essay'], bracuHeaders = ['S01', 'S02', 'S03', 'Essay', 'S05']) {
+            const headerHtml = showHeader ? `<span>${escapeHtml(batch)}</span><span>${escapeHtml(midHeader)}</span><span>${escapeHtml(desc)}</span>` : "";
+            const footerHtml = showHeader ? `<span>Result Published: ${escapeHtml(dateStr)}</span><span>${escapeHtml(title)} - Result Sheet</span>` : "";
 
             // Dynamic Sizing based on maximum row counts (to guarantee it fits on 1 page)
             const maxRows = Math.max(nsuData.length, bracuData.length);
@@ -3196,12 +3551,7 @@
                 namePadding = '6.5px 10px';
             }
 
-
-
             const fontStyle = fontSize ? `style="font-size:${fontSize} !important;"` : '';
-
-            const nsuHeaders = ['S01', 'S02', 'S03', 'Essay'];
-            const bracuHeaders = ['S01', 'S02', 'S03', 'Essay', 'S05'];
 
             let leftTableHtml = '';
             let rightTableHtml = '';
@@ -3252,7 +3602,7 @@
 
             const badgeHtml = label ? `
                 <div class="test-label-badge-container" style="display: flex; justify-content: center; margin-top: 4px; margin-bottom: 4px;">
-                    <span class="test-label-badge" style="background: linear-gradient(180deg, #1e3a8a 0%, #1d4ed8 100%) !important; color: #ffffff !important; font-weight: 800 !important; font-size: 14px !important; letter-spacing: 0.12em !important; padding: 6px 26px !important; border-radius: 50px !important; box-shadow: 0 3px 10px rgba(30, 58, 138, 0.4) !important; border: 1.5px solid #2563eb !important; text-shadow: 0 1px 2px rgba(0,0,0,0.4) !important;">${label}</span>
+                    <span class="test-label-badge" style="background: linear-gradient(180deg, #1e3a8a 0%, #1d4ed8 100%) !important; color: #ffffff !important; font-weight: 800 !important; font-size: 14px !important; letter-spacing: 0.12em !important; padding: 6px 26px !important; border-radius: 50px !important; box-shadow: 0 3px 10px rgba(30, 58, 138, 0.4) !important; border: 1.5px solid #2563eb !important; text-shadow: 0 1px 2px rgba(0,0,0,0.4) !important;">${escapeHtml(label)}</span>
                 </div>
             ` : '';
 
@@ -3275,27 +3625,50 @@
         }
 
         function updateRankings() {
+            saveSheetConfig();
             const label = document.getElementById('cfg-label').value;
             const batch = document.getElementById('cfg-batch').value;
             const midHeader = document.getElementById('cfg-mid').value;
             const desc = document.getElementById('cfg-desc').value;
             const title = document.getElementById('cfg-title').value;
             const dateVal = document.getElementById('cfg-date').value;
-            const dateStr = dateVal ? new Date(dateVal).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : "";
+            let dateStr = "";
+            if (dateVal) {
+                const parts = dateVal.split('-').map(Number);
+                if (parts.length === 3 && parts[0] && parts[1] && parts[2]) {
+                    dateStr = new Date(parts[0], parts[1] - 1, parts[2]).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+                }
+            }
 
             const showHeader = document.getElementById('set-header').checked;
             const showNSUT = document.getElementById('set-nsu-title').checked;
             const showBRACUT = document.getElementById('set-bracu-title').checked;
             const hideZeros = document.getElementById('set-hide-zeros').checked;
 
-            // Build full NSU/BRACU lists (used for on-screen preview)
-            const nsuAll = students
-                .filter(s => s.type === 'NSU' && s.name)
-                .map(s => ({ ...s, total: s.scores.slice(0, 4).reduce((sum, val) => sum + (parseFloat(val) || 0), 0) }));
+            // Section 05 & 06 count as BRACU result. Anyone who answers section 05 or 06 will be a BRACU student.
+            const isBracuStudent = (s) => s.type === 'BRACU' || (parseFloat(s.scores[4]) || 0) > 0 || (parseFloat(s.scores[5]) || 0) > 0;
 
-            const bracuAll = students
-                .filter(s => s.type === 'BRACU' && s.name)
-                .map(s => ({ ...s, total: s.scores.slice(0, 5).reduce((sum, val) => sum + (parseFloat(val) || 0), 0) }));
+            // NSU Standard: strictly 4 sections (S01, S02, S03, Essay)
+            const nsuHeaders = ['S01', 'S02', 'S03', 'Essay'];
+            const nsuAll = students
+                .filter(s => s.name && !isBracuStudent(s))
+                .map(s => ({
+                    ...s,
+                    total: s.scores.slice(0, 4).reduce((sum, val) => sum + (parseFloat(val) || 0), 0)
+                }));
+
+            // BRACU Standard: includes anyone who answers S05 or S06 (5 sections, or 6 if S06 is present)
+            const bracuStudentsRaw = students.filter(s => s.name && isBracuStudent(s));
+            const bracuHasS06 = bracuStudentsRaw.some(s => (parseFloat(s.scores[5]) || 0) > 0);
+            const bracuLimit = bracuHasS06 ? 6 : 5;
+            const bracuHeaders = bracuHasS06
+                ? ['S01', 'S02', 'S03', 'Essay', 'S05', 'S06']
+                : ['S01', 'S02', 'S03', 'Essay', 'S05'];
+
+            const bracuAll = bracuStudentsRaw.map(s => ({
+                ...s,
+                total: s.scores.slice(0, bracuLimit).reduce((sum, val) => sum + (parseFloat(val) || 0), 0)
+            }));
 
             // Exclude students whose totals are zero if hideZeros is checked
             const nsuFiltered = hideZeros ? nsuAll.filter(s => s.total > 0) : nsuAll;
@@ -3305,11 +3678,11 @@
             const bracuSorted = sort([...bracuFiltered]);
 
             // Generate Layout HTML for Preview
-            const previewHTML = generatePrintHTML(nsuSorted, bracuSorted, label, batch, midHeader, desc, title, dateStr, showHeader, showNSUT, showBRACUT);
+            const previewHTML = generatePrintHTML(nsuSorted, bracuSorted, label, batch, midHeader, desc, title, dateStr, showHeader, showNSUT, showBRACUT, nsuHeaders, bracuHeaders);
             document.getElementById('preview-area').innerHTML = previewHTML;
 
             // Generate Layout HTML for Print
-            const printHTML = generatePrintHTML(nsuSorted, bracuSorted, label, batch, midHeader, desc, title, dateStr, showHeader, showNSUT, showBRACUT);
+            const printHTML = generatePrintHTML(nsuSorted, bracuSorted, label, batch, midHeader, desc, title, dateStr, showHeader, showNSUT, showBRACUT, nsuHeaders, bracuHeaders);
             document.getElementById('print-area').innerHTML = printHTML;
         }
 
@@ -3394,12 +3767,16 @@
                 link.href = canvas.toDataURL('image/png');
                 link.click();
             }).catch(err => {
+                element.style.boxShadow = originalBoxShadow;
+                element.style.border = originalBorder;
                 console.error("html2canvas error: ", err);
                 alert("Could not generate image. Make sure browser isn't blocking execution.");
             });
         }
 
 
+        initTheme();
+        loadSheetConfig();
         renderTable();
         updateRankings();
         renderCentralRanking();
