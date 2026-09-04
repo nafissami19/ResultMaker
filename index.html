@@ -1458,25 +1458,21 @@
             color: var(--primary) !important;
         }
 
-        /* GLOBAL PRINT WRAPPER (On-Screen Sheet Preview) */
-        /* GLOBAL PRINT WRAPPER (On-Screen Sheet Preview & PDF Render) */
+        /* ═════════════════════════════════════════════════════════════════
+           ROYAL ACADEMIC RESULT SHEET DESIGN SYSTEM
+           ═════════════════════════════════════════════════════════════════ */
         .print-page-wrapper {
-            --names-bg: #f8fafc;
-            --header-names: #0f172a;
-            --header-scores: #1e40af;
-            --border: #e2e8f0;
-
             background: #ffffff;
             color: #0f172a;
-            padding: 18px 28px;
+            padding: 22px 28px;
             font-family: 'Inter', sans-serif;
             display: flex;
             flex-direction: column;
             width: 100%;
             min-height: 750px;
-            margin-bottom: 2rem;
-            box-shadow: 0 20px 40px -15px rgba(15, 23, 42, 0.08), 0 0 0 1px rgba(15, 23, 42, 0.05);
-            border-radius: 12px;
+            margin-bottom: 2.5rem;
+            box-shadow: 0 20px 45px -10px rgba(15, 23, 42, 0.1), 0 0 0 1.5px #cbd5e1;
+            border-radius: 14px;
             box-sizing: border-box;
             transition: all 0.3s ease;
             position: relative;
@@ -1489,23 +1485,24 @@
             top: 0;
             left: 0;
             right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, #1e3a8a 0%, #2563eb 50%, #3b82f6 100%);
+            height: 5px;
+            background: linear-gradient(90deg, #0f172a 0%, #1e3a8a 25%, #2563eb 50%, #0ea5e9 75%, #1e3a8a 100%);
         }
 
         .no-print .print-page-wrapper:hover {
-            box-shadow: 0 25px 50px -12px rgba(37, 99, 235, 0.12), 0 0 0 1px rgba(37, 99, 235, 0.2);
+            box-shadow: 0 28px 60px -12px rgba(30, 58, 138, 0.18), 0 0 0 1.5px #94a3b8;
         }
 
         .sheet-meta-header {
             display: flex;
             align-items: center;
-            margin-bottom: 10px;
-            font-weight: 700;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            font-weight: 800;
             font-size: 13px;
             text-transform: uppercase;
             border-bottom: 2px solid #e2e8f0;
-            padding-bottom: 8px;
+            padding-bottom: 10px;
             font-family: 'Outfit', sans-serif;
             letter-spacing: 0.08em;
             color: #0f172a;
@@ -1517,35 +1514,57 @@
 
         .sheet-meta-header span:nth-child(1) {
             text-align: left;
+            color: #475569;
+            font-weight: 800;
+            letter-spacing: 0.12em;
+            font-size: 12px;
         }
 
         .sheet-meta-header span:nth-child(2) {
             text-align: center;
-            font-weight: 800;
-            letter-spacing: 0.1em;
-            color: #1e3a8a;
+            font-weight: 900;
+            letter-spacing: 0.18em;
+            color: #0f2c59;
+            font-size: 16px;
+            text-shadow: 0 1px 1px rgba(15, 44, 89, 0.1);
         }
 
         .sheet-meta-header span:nth-child(3) {
             text-align: right;
+            color: #1e3a8a;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            font-size: 12px;
         }
 
-        .sheet-meta-footer {
+        .test-label-badge-container {
             display: flex;
-            justify-content: space-between;
-            margin-top: auto;
-            padding-top: 12px;
-            border-top: 1.5px solid #e2e8f0;
-            font-size: 13px;
-            font-weight: 600;
-            color: #64748b;
+            justify-content: center;
+            margin-top: 4px;
+            margin-bottom: 6px;
+        }
+
+        .test-label-badge {
             font-family: 'Outfit', sans-serif;
-            letter-spacing: 0.04em;
+            font-size: 13px;
+            font-weight: 900 !important;
+            text-transform: uppercase;
+            letter-spacing: 0.18em;
+            background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 55%, #1d4ed8 100%) !important;
+            color: #ffffff !important;
+            padding: 5px 28px;
+            border-radius: 50px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 3px 12px rgba(30, 58, 138, 0.35) !important;
+            border: 1px solid rgba(255, 255, 255, 0.25) !important;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.35) !important;
         }
 
         .results-section {
             display: flex;
-            gap: 24px;
+            gap: 22px;
             margin-top: 8px;
             align-items: start;
         }
@@ -1572,48 +1591,30 @@
         .sheet-main-title {
             text-align: center;
             font-family: 'Outfit', sans-serif;
-            font-size: 14px;
-            font-weight: 700;
+            font-size: 13px;
+            font-weight: 850;
             margin-bottom: 10px;
-            border: 1px solid #93c5fd;
-            border-radius: 20px;
-            display: inline-block;
-            padding: 4px 22px;
-            align-self: center;
-            white-space: nowrap;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
-            color: #1e40af;
-            box-shadow: 0 1px 3px rgba(37, 99, 235, 0.1);
-        }
-
-        .test-label-badge {
-            font-family: 'Outfit', sans-serif;
-            font-size: 14px;
-            font-weight: 800 !important;
-            text-transform: uppercase;
-            letter-spacing: 0.12em;
-            background: #1e3a8a !important;
-            background: linear-gradient(180deg, #1e3a8a 0%, #1d4ed8 100%) !important;
-            color: #ffffff !important;
-            padding: 6px 26px;
+            border: 1.5px solid #2563eb;
             border-radius: 50px;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
-            box-shadow: 0 3px 10px rgba(30, 58, 138, 0.4) !important;
-            border: 1.5px solid #2563eb !important;
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4) !important;
+            padding: 5px 24px;
+            align-self: center;
+            white-space: nowrap;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            background: linear-gradient(135deg, #ffffff 0%, #f0f7ff 50%, #e0e7ff 100%);
+            color: #1e3a8a;
+            box-shadow: 0 2px 8px rgba(37, 99, 235, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.8);
         }
-
 
         .continued-title {
             color: #64748b;
             border-color: #cbd5e1 !important;
-            background-color: transparent !important;
-            font-weight: 500;
+            background: transparent !important;
+            box-shadow: none !important;
+            font-weight: 600;
         }
 
         .result-table {
@@ -1621,14 +1622,16 @@
             border-collapse: separate;
             border-spacing: 0;
             border: 1.5px solid #cbd5e1;
-            border-radius: 8px;
+            border-radius: 10px;
             overflow: hidden;
+            background: #ffffff;
+            box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04);
         }
 
         .result-table th,
         .result-table td {
-            border-right: 1px solid #cbd5e1;
-            border-bottom: 1px solid #cbd5e1;
+            border-right: 1px solid #e2e8f0;
+            border-bottom: 1px solid #e2e8f0;
             padding: 8px 6px;
             text-align: center;
             font-size: 14px;
@@ -1636,7 +1639,7 @@
             vertical-align: middle;
             font-family: 'Inter', sans-serif;
             font-variant-numeric: tabular-nums;
-            color: #0f172a !important;
+            color: #1e293b !important;
         }
 
         .result-table th:last-child,
@@ -1650,113 +1653,161 @@
 
         .result-table th {
             font-family: 'Outfit', sans-serif;
-            font-weight: 800 !important;
+            font-weight: 850 !important;
             text-transform: uppercase;
             letter-spacing: 0.06em;
+            padding: 9px 6px;
         }
 
         .result-table tbody tr:nth-child(even) {
             background-color: #f8fafc;
         }
 
+        .result-table tbody tr:nth-child(even) .name-cell {
+            background-color: #f8fafc !important;
+        }
+
         .result-table tbody tr:hover {
             background-color: #f1f5f9;
         }
 
+        .result-table tbody tr:hover .name-cell {
+            background-color: #f1f5f9 !important;
+        }
+
         .header-names-cell {
-            background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%) !important;
+            background: linear-gradient(180deg, #172554 0%, #0f172a 100%) !important;
             color: #ffffff !important;
-            font-weight: 800 !important;
-            font-size: 15px !important;
+            font-weight: 850 !important;
+            font-size: 13.5px !important;
             text-transform: uppercase;
-            letter-spacing: 0.08em !important;
+            letter-spacing: 0.1em !important;
             text-align: left !important;
             padding-left: 14px !important;
             width: 32% !important;
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+            border-right: 1px solid rgba(255, 255, 255, 0.15) !important;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
         }
 
         .header-scores-sub {
-            background: linear-gradient(180deg, #2563eb 0%, #1d4ed8 100%) !important;
+            background: linear-gradient(180deg, #1e40af 0%, #1e3a8a 100%) !important;
             color: #ffffff !important;
-            font-weight: 800 !important;
-            font-size: 14px !important;
+            font-weight: 850 !important;
+            font-size: 13px !important;
             text-transform: uppercase;
-            letter-spacing: 0.06em !important;
+            letter-spacing: 0.07em !important;
+            border-right: 1px solid rgba(255, 255, 255, 0.15) !important;
             text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
         }
 
+        .header-total-cell {
+            background: linear-gradient(180deg, #2563eb 0%, #1d4ed8 100%) !important;
+        }
+
+        .header-rank-cell {
+            background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%) !important;
+        }
 
         .name-cell {
-            background-color: #f1f5f9 !important;
-            color: #020617 !important;
+            background-color: #ffffff !important;
+            color: #0f172a !important;
             text-align: left !important;
             padding: 8px 14px !important;
-            font-weight: 800 !important;
+            font-weight: 750 !important;
             white-space: nowrap;
             line-height: 1.25;
-            font-size: 14px;
+            font-size: 13.5px;
+            border-right: 1.5px solid #cbd5e1 !important;
+            letter-spacing: 0.01em;
         }
 
         .total-cell {
-            font-weight: 800 !important;
+            font-weight: 900 !important;
             background: #eff6ff !important;
             color: #1d4ed8 !important;
+            font-size: 14px;
+            border-right: 1.5px solid #cbd5e1 !important;
+            letter-spacing: -0.01em;
         }
-
 
         .rank-cell {
             font-weight: 700;
-            padding: 4px 4px !important;
+            padding: 4px 6px !important;
+        }
+
+        .zero-dash {
+            color: #94a3b8;
+            font-weight: 600;
+            font-size: 1.1em;
+            display: inline-block;
         }
 
         .rank-badge {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            padding: 3px 12px;
+            min-width: 40px;
+            height: 22px;
+            padding: 1px 9px;
             border-radius: 50px;
             font-family: 'Outfit', sans-serif;
-            font-size: 0.82rem;
-            font-weight: 800;
-            line-height: 1.2;
-            letter-spacing: 0.02em;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            font-size: 11.5px;
+            font-weight: 850;
+            line-height: 1;
+            letter-spacing: 0.03em;
+            box-sizing: border-box;
         }
 
         /* ── Crisp Elegant Medals & Rank Badges ── */
         .rank-1st {
-            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%) !important;
+            background: linear-gradient(135deg, #fbbf24 0%, #d97706 100%) !important;
             color: #ffffff !important;
-            border: 1px solid #fbbf24 !important;
-            box-shadow: 0 2px 5px rgba(217, 119, 6, 0.25) !important;
-            font-weight: 800 !important;
-            text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+            border: 1px solid #fde68a !important;
+            box-shadow: 0 2px 6px rgba(217, 119, 6, 0.4) !important;
+            font-weight: 900 !important;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
         }
 
         .rank-2nd {
-            background: linear-gradient(135deg, #64748b 0%, #475569 100%) !important;
+            background: linear-gradient(135deg, #94a3b8 0%, #64748b 100%) !important;
             color: #ffffff !important;
-            border: 1px solid #94a3b8 !important;
-            box-shadow: 0 2px 5px rgba(71, 85, 105, 0.2) !important;
-            font-weight: 800 !important;
-            text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+            border: 1px solid #e2e8f0 !important;
+            box-shadow: 0 2px 6px rgba(100, 116, 139, 0.35) !important;
+            font-weight: 900 !important;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
         }
 
         .rank-3rd {
-            background: linear-gradient(135deg, #ea580c 0%, #c2410c 100%) !important;
+            background: linear-gradient(135deg, #f97316 0%, #c2410c 100%) !important;
             color: #ffffff !important;
-            border: 1px solid #fdba74 !important;
-            box-shadow: 0 2px 5px rgba(194, 65, 12, 0.25) !important;
-            font-weight: 800 !important;
-            text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+            border: 1px solid #ffedd5 !important;
+            box-shadow: 0 2px 6px rgba(194, 65, 12, 0.4) !important;
+            font-weight: 900 !important;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
         }
 
         .rank-other {
-            color: #1e3a8a;
-            font-weight: 800;
+            background: #f1f5f9 !important;
+            color: #1e3a8a !important;
+            border: 1px solid #cbd5e1 !important;
+            box-shadow: none !important;
+            font-weight: 800 !important;
+            font-size: 11px !important;
+        }
+
+        .sheet-meta-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+            padding-top: 10px;
+            border-top: 1.5px solid #e2e8f0;
+            font-size: 11.5px;
+            font-weight: 750;
+            color: #64748b;
             font-family: 'Outfit', sans-serif;
-            font-size: 0.85rem;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
         }
 
 
@@ -3496,8 +3547,8 @@
                             <tr>
                                 <th class="header-names-cell" ${fontStyleHeader}>NAMES</th>
                                 ${headers.map(h => `<th class="header-scores-sub" ${subHeaderPadding}>${h}</th>`).join('')}
-                                <th class="header-scores-sub" style="width:15%; ${fontSize ? `font-size:${fontSize} !important;` : ''} color:#ffffff !important; font-weight:800 !important;">TOTAL</th>
-                                <th class="header-scores-sub" style="width:15%; ${fontSize ? `font-size:${fontSize} !important;` : ''} color:#ffffff !important; font-weight:800 !important;">RANK</th>
+                                <th class="header-scores-sub header-total-cell" style="width:14%; ${fontSize ? `font-size:${fontSize} !important;` : ''} color:#ffffff !important; font-weight:850 !important;">TOTAL</th>
+                                <th class="header-scores-sub header-rank-cell" style="width:14%; ${fontSize ? `font-size:${fontSize} !important;` : ''} color:#ffffff !important; font-weight:850 !important;">RANK</th>
                             </tr>
                         </thead>
 
@@ -3509,7 +3560,7 @@
                                     <td class="name-cell" style="${nameFontSize ? `font-size:${nameFontSize} !important;` : ''} ${namePadding ? `padding:${namePadding} !important;` : ''}">${escapeHtml(s.name)}</td>
                                     ${headers.map((_, idx) => {
                                         const val = parseFloat(s.scores[idx]) || 0;
-                                        const displayVal = val === 0 ? '-' : (val % 1 === 0 ? val : val.toFixed(1));
+                                        const displayVal = val === 0 ? '<span class="zero-dash">-</span>' : (val % 1 === 0 ? val : val.toFixed(1));
                                         return `<td ${paddingStyle}>${displayVal}</td>`;
                                     }).join('')}
                                     <td class="total-cell" ${paddingStyle}>${s.total}</td>
@@ -3601,8 +3652,8 @@
             }
 
             const badgeHtml = label ? `
-                <div class="test-label-badge-container" style="display: flex; justify-content: center; margin-top: 4px; margin-bottom: 4px;">
-                    <span class="test-label-badge" style="background: linear-gradient(180deg, #1e3a8a 0%, #1d4ed8 100%) !important; color: #ffffff !important; font-weight: 800 !important; font-size: 14px !important; letter-spacing: 0.12em !important; padding: 6px 26px !important; border-radius: 50px !important; box-shadow: 0 3px 10px rgba(30, 58, 138, 0.4) !important; border: 1.5px solid #2563eb !important; text-shadow: 0 1px 2px rgba(0,0,0,0.4) !important;">${escapeHtml(label)}</span>
+                <div class="test-label-badge-container">
+                    <span class="test-label-badge">${escapeHtml(label)}</span>
                 </div>
             ` : '';
 
