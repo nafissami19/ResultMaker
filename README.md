@@ -1,6 +1,6 @@
 # 🦅 Phoenix Result Maker
 
-> A modern, high-performance web suite designed for university admission test preparation (NSU & BRACU). Generates single-page printable weekly result sheets, provides centralized cross-batch rankings, and exports high-fidelity PDF, PNG, and CSV reports.
+> Generates single-page printable weekly result sheets, provides centralized cross-batch rankings, and exports high-fidelity PDF, PNG, and CSV reports.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Vanilla JS](https://img.shields.io/badge/JavaScript-ES6+-F7DF1E?logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
@@ -14,7 +14,6 @@
 
 - [Overview](#-overview)
 - [Key Features](#-key-features)
-- [Exam Architecture & Standards](#-exam-architecture--standards)
 - [Screenshots & UI Preview](#-screenshots--ui-preview)
 - [Getting Started](#-getting-started)
 - [How to Use](#-how-to-use)
@@ -68,15 +67,6 @@ Everything operates **entirely client-side** in the browser—fast, private, and
 
 ---
 
-## 🏛️ Exam Architecture & Standards
-
-| Standard | Total Sections | Section Breakdown | Auto-Detection Rule |
-| :--- | :---: | :--- | :--- |
-| **NSU Standard** | **4** | • S01 (English)<br>• S02 (Quantitative Aptitude)<br>• S03 (Reading Comprehension)<br>• Essay (Section 04) | Default for candidates with scores in sections 1–4 only. |
-| **BRACU Standard** | **5 to 6** | • S01 (English)<br>• Essay (Section 02)<br>• S03 (General Math)<br>• S04 (Higher Math & Physics)<br>• S05 (Chemistry & Biology)<br>• S06 (Elective / Advanced) | Any student with scores in Section 05 or 06 is auto-assigned to BRACU. |
-
----
-
 ## 🚀 Getting Started
 
 Because Result Maker is a zero-dependency static web application, you can run it immediately without complex installation.
@@ -115,8 +105,8 @@ npx http-server -p 3000
 3. Copy rows from your Excel sheet or Google Sheet and paste them into the box:
    ```tsv
    Name                 S01    S02    S03    Essay    S05    S06
-   Abdul Aziz Al Akib   14     22     10     10       4      4
-   Diba Das Niha        11     18     9      9        -      -
+   John Doe             14     22     10     10       4      4
+   Jane Smith           11     18     9      9        -      -
    ```
 4. Click **"Process Import"**. Students will automatically populate the entry table.
 
