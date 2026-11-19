@@ -1,26 +1,23 @@
 # 🦅 Phoenix Result Maker
 
-> Generates single-page printable weekly result sheets, provides centralized cross-batch rankings, and exports high-fidelity PDF, PNG, and CSV reports.
+> Make one-page printable result sheets for NSU and BRACU model tests, keep a central ranking across batches, and turn solve sheets into checked answer keys.
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Vanilla JS](https://img.shields.io/badge/JavaScript-ES6+-F7DF1E?logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
-[![CSS3](https://img.shields.io/badge/CSS3-Modern_Flexbox_%26_Grid-1572B6?logo=css3&logoColor=white)](https://developer.mozilla.org/en-US/docs/Web/CSS)
-[![Responsive](https://img.shields.io/badge/Layout-A4_Landscape_Print_Ready-success)]()
-[![Platform](https://img.shields.io/badge/Platform-Web-lightgrey)]()
+[![Platform](https://img.shields.io/badge/Platform-Web_browser-lightgrey)](#-getting-started)
 
 ---
 
 ## 📋 Table of Contents
 
 - [Overview](#-overview)
-- [Key Features](#-key-features)
-- [Screenshots & UI Preview](#-screenshots--ui-preview)
+- [Features](#-features)
 - [Getting Started](#-getting-started)
 - [How to Use](#-how-to-use)
-  - [1. Data Entry & Spreadsheet Import](#1-data-entry--spreadsheet-import)
-  - [2. Result Sheet Customization](#2-result-sheet-customization)
-  - [3. Exporting Results](#3-exporting-results)
-  - [4. Central Ranking Management](#4-central-ranking-management)
+  - [1. Result Maker](#1-result-maker)
+  - [2. Central Ranking](#2-central-ranking)
+  - [3. Table Maker](#3-table-maker)
+- [Your Data](#-your-data)
 - [Technical Stack](#-technical-stack)
 - [Project Structure](#-project-structure)
 - [Contributing](#-contributing)
@@ -30,113 +27,140 @@
 
 ## 🌟 Overview
 
-**Phoenix Result Maker** is an institutional-grade result management tool engineered for competitive admission coaching centers. Built specifically around the testing criteria of **North South University (NSU)** and **BRAC University (BRACU)** admission tests, it solves the challenge of formatting, grading, ranking, and printing exam results across mixed-curriculum batches on a single page.
+**Phoenix Result Maker** is a result tool for admission coaching centres, built around the **North South University (NSU)** and **BRAC University (BRACU)** admission tests. It has three parts, each a tab in the top bar:
 
-Everything operates **entirely client-side** in the browser—fast, private, and requiring zero server or database setup.
+| Tab | What it does |
+| --- | --- |
+| **Result Maker** | Enter or paste marks and get a single A4 landscape result sheet with NSU and BRACU side by side. |
+| **Central Ranking** | Combine Model Test 1–5 results from several batches into one ranking. |
+| **Table Maker** | Upload a solve sheet (.docx or .pdf) and get a checked, printable answer key. |
+
+Everything runs in the browser. There is no server or database: your data stays on your computer.
 
 ---
 
-## ✨ Key Features
+## ✨ Features
 
-### 📄 1. Single-Page Weekly Result Sheet Generator
-- **Dual-Batch Side-by-Side View**: Compares NSU Standard and BRACU Standard test-takers side by side.
-- **Smart Adaptive Sizing**: Automatically adjusts cell padding, font size, and name column widths so sheets containing up to **35+ students** consistently fit onto a **single A4 landscape page** without overflowing.
-- **Side-by-Side Split for Large Single Batches**: When only one batch is selected and has over 15 students, the sheet automatically splits the list into two balanced columns to maximize readability.
-- **Royal Academic Modern Aesthetic**: Obsidian-navy table headers, celestial-blue cumulative total columns, and radiant Olympic medal badges (🥇 1st, 🥈 2nd, 🥉 3rd).
+### 📄 Result Maker
+- **Editor and live preview side by side**: the A4 sheet updates as you type.
+- **Spreadsheet-style grid**:
+  - Blank cells instead of zeros.
+  - A live total for each student.
+  - Enter moves down a column.
+- **NSU and BRACU sections handled for you**:
+  - NSU columns are `S01, S02, S03, Essay`.
+  - BRACU columns are `S01, Essay, S03, S04, S05` (and `S06` when used). For BRACU, Section 02 is always the Essay.
+  - Anyone with S05/S06 marks is treated as BRACU. NSU rows lock S05/S06.
+- **Fits one page**: font size and spacing shrink as the student list grows. A long single list splits into two columns.
+- **Ranks with ties**: equal totals share a rank (1st, 2nd, 2nd, 4th). The top three get medal badges.
+- **Saved tests**:
+  - Save each test (Weekly Test 01, 02, …) and reopen it later.
+  - The editor shows whether you have unsaved changes.
+- **Exports**: PDF and PNG (always A4-shaped), CSV, and Print.
 
-### 🎯 2. Specialized NSU & BRACU Exam Intelligence
-- **Distinct Curriculum Support**: Handles varying section structures between universities without manual reconfiguration.
-- **Automated BRACU Classification**: Students who attempt **Section 05** or **Section 06** are automatically recognized as BRACU candidates.
-- **Strict 4-Section Layout for NSU**: Ensures NSU result columns strictly display `S01`, `S02`, `S03`, and `Essay`.
-- **Zero-Mark Formatting**: Scores of `0` are styled as clean, professional hyphens (`-`) rather than distracting zeros.
+### 🏆 Central Ranking
+- Combines Model Tests 1–5 from several batches, with Top 30 / All and a batch filter.
+- Import by pasting from Excel or Google Sheets. Blank cells (a missed test) stay in the right column.
+- Set the total marks ("out of 600").
+- Exports: PDF (split into pages by the rows-per-page setting, 30 by default), PNG and CSV.
 
-### 🏆 3. Central Multi-Test Ranking Dashboard
-- **Cross-Batch Aggregation**: Aggregates Model Tests 1 through 5 across multiple batches.
-- **Dynamic Filters**: Instant toggle between **Top 30 Merit Rankers** and **All Students**, with batch-specific dropdown filters.
-- **Pagination & Sorting**: Paginated navigation with instant sorting by total marks.
+### 🧾 Table Maker
+- Reads **.docx**, **.pdf** or pasted text.
+- **Finds the solve sheet and splits it into sections** (e.g. `Section 1: …`, `Section A – […]`).
+- **Reads answers from the answer tables** (`01. B`). It **cross-checks them against the explanations** (`01. (B) …`), and uses the explanations when a section has no table.
+- **Checks for problems**:
+  - Table and explanation disagree.
+  - Missing answers.
+  - Answers that stop before the last question in the paper.
+- Skips written sections (composition / essay) and tells you it did.
+- **Lets you edit**: change any answer, rename or hide sections, and set the title and badges.
+- **Exports**: an A4 portrait answer key as PDF or PNG, with optional colour-coded letters.
 
-### ⚡ 4. Productivity & Workflow Tools
-- **Live Search / Filter**: Instant keyword search in the student entry table with real-time match counters.
-- **Spreadsheet Bulk Import**: One-click Tab-separated or Comma-separated paste directly from **Google Sheets** or **Microsoft Excel**.
-- **Form Config Auto-Save**: Automatically stores batch headers, dates, exam titles, and display preferences in `localStorage` so refreshing never loses your work.
-- **🌓 Dark / Light Mode Switcher**: Seamlessly toggle between light and dark UI themes with persistent user preference.
-- **Multi-Format Export**:
-  - 📥 **PDF Export**: Pixel-perfect vector PDF generation (`jsPDF` / `html2pdf.js`).
-  - 🖼️ **Image Export**: Ultra-crisp PNG capture (`html2canvas`).
-  - 📊 **CSV Export**: Clean spreadsheet export with quoted string escaping.
+### 🌓 General
+- Light and dark mode, remembered between visits.
+- Works on laptop, tablet and phone screens.
 
 ---
 
 ## 🚀 Getting Started
 
-Because Result Maker is a zero-dependency static web application, you can run it immediately without complex installation.
+The app is plain HTML, CSS and JavaScript, so there is nothing to install or build. It does need an **internet connection**, because it loads fonts and its PDF/Word libraries from a CDN.
 
-### Option 1: Direct File Launch
-Simply clone or download the repository, then double-click `index.html` to open it in Google Chrome, Microsoft Edge, or Mozilla Firefox:
+Run it through a small local web server (Table Maker needs this):
+
+**Windows (Python launcher):**
 ```bash
-git clone https://github.com/nafissami19/ResultMaker.git
-cd ResultMaker
-# Open index.html in your default browser
+py -m http.server 3000
 ```
 
-### Option 2: Local HTTP Server (Recommended)
-Running through a lightweight local server ensures full compatibility with iframe sub-modules and canvas exports:
-
-**Using Python:**
+**macOS / Linux:**
 ```bash
-python -m http.server 3000
-# Open http://localhost:3000 in your browser
+python3 -m http.server 3000
 ```
 
-**Using Node.js:**
+**Node.js:**
 ```bash
-npx serve .
-# Or
-npx http-server -p 3000
+npx http-server -p 3000 -c-1
 ```
+
+Then open <http://localhost:3000> in Chrome, Edge or Firefox.
+
+> **Not seeing your latest changes?** Python's server lets the browser keep old copies of pages. Press **Ctrl+F5** to reload everything. When Table Maker changes, raise the `?v=` number on its `<iframe>` in `index.html`.
 
 ---
 
 ## 📖 How to Use
 
-### 1. Data Entry & Spreadsheet Import
-1. Click **"Import from Spreadsheet"** on the dashboard.
-2. Select your target standard (`NSU`, `BRACU`, or `Both (Auto Detect)`).
-3. Copy rows from your Excel sheet or Google Sheet and paste them into the box:
+### 1. Result Maker
+1. **Add students**: type them in with **Add student**, or press **Import** and paste rows from a spreadsheet:
    ```tsv
-   Name                 S01    S02    S03    Essay    S05    S06
-   John Doe             14     22     10     10       4      4
-   Jane Smith           11     18     9      9        -      -
+   Name          S01   S02   S03   S04   S05   S06
+   John Doe      14    22    10    10
+   Jane Smith    11    18    9     9     4     4
    ```
-4. Click **"Process Import"**. Students will automatically populate the entry table.
+   For NSU, the 4th mark column is the Essay. For BRACU, the 2nd column is the Essay.
+2. **Switch a student's type**: click the **NSU / BRACU** pill on their row.
+3. **Set the headers**: open **Sheet settings** to change the headers, score label, footer title and date, and the display switches.
+4. **Save the test**: press **Save**. It's saved under the footer test title. Open **Saved tests** to reopen an older test, start a **New test** (the title number goes up by one), or delete one.
+5. **Export**: use **Download PDF**, **PNG** or **Print** above the preview, or **CSV** in the editor.
 
-### 2. Result Sheet Customization
-- **Batch Header**: Enter the batch identifier (e.g. `BATCH 87`, `OFFLINE COMBO`).
-- **Middle Header**: Main institutional masthead (defaults to `PHOENIX EDUCATION`).
-- **Test Title**: Name of the test (e.g. `Weekly Model Test 04`).
-- **Date**: Exam date (formats automatically to `Month Day, Year`).
-- **Toggles**: Enable/disable headers, batch titles, or hide zero-mark students.
+### 2. Central Ranking
+1. Open the **Central Ranking** tab. It starts empty.
+2. Press **Import batch**, enter the batch name, choose *Add to existing results* or *Replace the whole ranking*, and paste the rows.
+   Supported layouts: `Name, MT1…MT5`; `Name, Batch, MT1…MT5`; `Rank, Name, Batch, MT1…MT5`.
+3. Use **Top 30 / All** and the batch filter. **Export** gives PDF, PNG or CSV. **⋯** has Settings (total marks) and Clear all data.
 
-### 3. Exporting Results
-- Click **"Download PDF"** to generate an official vector A4 result sheet.
-- Click **"Download Image"** for a high-res PNG image suitable for social media sharing.
-- Click **"Export CSV"** to save student scores to a `.csv` file.
+### 3. Table Maker
+1. Open the **Table Maker** tab and drop in a solve sheet (.docx or .pdf), or paste its text.
+2. Read the **Checks** list. Fix anything marked amber or red under **Answers**.
+3. Adjust the title and badges if needed, then press **Download PDF** or **PNG**.
 
-### 4. Central Ranking Management
-1. Switch to the **Central Ranking** tab from the top navigation bar.
-2. Click **"Import Batch Data"** to load comprehensive model test scores.
-3. Use the **Batch Filter** to view single-batch standings or combined rankings.
-4. Export Central Ranking data directly via **"Export CSV"** or **"Download PDF"**.
+Old `.doc` files can't be read in the browser. Save them as `.docx` or PDF first.
+
+---
+
+## 💾 Your Data
+
+Everything is stored in your browser's `localStorage`:
+- students and sheet settings
+- saved tests
+- the central ranking
+- the last answer key
+- your theme
+
+Nothing is uploaded anywhere. This also means:
+- **Each browser and computer has its own data.** A different browser, or another PC, won't see it.
+- **Clearing your browser's site data deletes it.** Keep CSV/PDF exports of anything important.
 
 ---
 
 ## 🛠️ Technical Stack
 
-- **Core**: Vanilla HTML5, Modern CSS3 (Custom Variables, Flexbox, Grid), ES6+ JavaScript.
-- **Canvas & Rendering Engine**: [html2canvas](https://html2canvas.hertzen.com/) (v1.4.1) for DOM-to-canvas rendering.
-- **PDF Generation**: [jsPDF](https://github.com/parallax/jsPDF) (v2.5.1) and [html2pdf.js](https://ekoopmans.github.io/html2pdf.js/) (v0.10.1).
-- **Typography**: Google Fonts ([Outfit](https://fonts.google.com/specimen/Outfit) & [Inter](https://fonts.google.com/specimen/Inter)).
-- **Storage**: Browser `localStorage` for offline persistence and zero-config deployment.
+- **Core**: plain HTML5, CSS3 (custom properties, flexbox, grid) and ES6+ JavaScript. No build step.
+- **Rendering**: [html2canvas](https://html2canvas.hertzen.com/) 1.4.1 turns the sheets into images.
+- **PDF**: [jsPDF](https://github.com/parallax/jsPDF) 2.5.1. PDFs contain a high-resolution image of the sheet.
+- **Reading files (Table Maker)**: [mammoth.js](https://github.com/mwilliamson/mammoth.js) 1.6.0 for Word and [PDF.js](https://mozilla.github.io/pdf.js/) 3.11 for PDF.
+- **Fonts**: Google Fonts [Outfit](https://fonts.google.com/specimen/Outfit) and [Inter](https://fonts.google.com/specimen/Inter).
 
 ---
 
@@ -144,35 +168,34 @@ npx http-server -p 3000
 
 ```text
 ResultMaker/
-├── index.html                   # The whole app: markup, styles and scripts in one file
-├── tablemaker/                  # Modular iframe table builder component
-│   ├── index.html
-│   └── assets/
-├── .gitignore                   # Standard git ignore file
-├── LICENSE                      # MIT Open Source License
-└── README.md                    # Project documentation
+├── index.html                  # Result Maker and Central Ranking: markup, styles and scripts
+├── tablemaker/
+│   ├── index.html              # Table Maker page (loaded in a frame by index.html)
+│   └── answer-parser.js        # Reads answers from solve sheet text and runs the checks
+├── LICENSE                     # MIT License
+└── README.md
 ```
 
 ---
 
 ## 🤝 Contributing
 
-Contributions, feature suggestions, and pull requests are warmly welcomed!
+Suggestions and pull requests are welcome.
 
-1. Fork the Project (`https://github.com/nafissami19/ResultMaker/fork`)
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+1. Fork the project (`https://github.com/nafissami19/ResultMaker/fork`)
+2. Create a branch (`git checkout -b feature/your-feature`)
+3. Commit your changes (`git commit -m "Add your feature"`)
+4. Push the branch (`git push origin feature/your-feature`)
+5. Open a pull request
 
 ---
 
 ## 📄 License
 
-This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file for details.
+This project is licensed under the **MIT License**. See the [LICENSE](LICENSE) file for details.
 
 ---
 
 <p align="center">
-  Crafted with ❤️ for students, teachers, and educators.
+  Made for students, teachers and coaching centres.
 </p>

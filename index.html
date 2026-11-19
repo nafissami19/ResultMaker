@@ -854,6 +854,98 @@
             color: var(--text-subtle);
         }
 
+        /* ── Saved tests ── */
+        .save-state {
+            font-size: 0.76rem;
+            font-weight: 600;
+            white-space: nowrap;
+            color: var(--text-muted);
+        }
+
+        .save-state.saved { color: #059669; }
+        .save-state.dirty { color: #d97706; }
+        body.dark-theme .save-state.saved { color: #34d399; }
+        body.dark-theme .save-state.dirty { color: #fbbf24; }
+
+        .tests-current {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 14px;
+            margin-bottom: 14px;
+            border-radius: 10px;
+            background: var(--primary-soft);
+        }
+
+        .tests-current-label {
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        .tests-current-name {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        .tests-list {
+            display: flex;
+            flex-direction: column;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .test-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+        }
+
+        .test-row + .test-row {
+            border-top: 1px solid var(--border);
+        }
+
+        .test-row.is-current {
+            background: var(--surface-2);
+        }
+
+        .test-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .test-name {
+            font-weight: 600;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .test-meta {
+            font-size: 0.76rem;
+            color: var(--text-muted);
+        }
+
+        .test-badge {
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 20px;
+            background: var(--primary-soft);
+            color: var(--primary);
+            white-space: nowrap;
+        }
+
+        .tests-empty {
+            padding: 22px 14px;
+            text-align: center;
+            font-size: 0.84rem;
+            color: var(--text-muted);
+        }
+
         /* ── Central Ranking ── */
         .cr-kpi-grid {
             display: grid;
@@ -1697,6 +1789,7 @@
             <symbol id="i-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></symbol>
             <symbol id="i-layers" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></symbol>
             <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></symbol>
+            <symbol id="i-save" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></symbol>
             <symbol id="i-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></symbol>
             <symbol id="i-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></symbol>
         </defs>
@@ -1735,8 +1828,11 @@
                         <div class="seg" role="tablist">
                             <button class="seg-btn active" id="editor-tab-students" onclick="setEditorTab('students')">Students <span class="seg-count" id="student-total-count">0</span></button>
                             <button class="seg-btn" id="editor-tab-settings" onclick="setEditorTab('settings')">Sheet settings</button>
+                            <button class="seg-btn" id="editor-tab-tests" onclick="setEditorTab('tests')">Saved tests <span class="seg-count" id="saved-tests-count">0</span></button>
                         </div>
                         <span class="spacer"></span>
+                        <span class="save-state" id="save-state" aria-live="polite"></span>
+                        <button class="btn btn-secondary btn-sm" onclick="saveCurrentTest()" title="Save this test (named after the footer test title)"><svg width="15" height="15"><use href="#i-save"/></svg>Save</button>
                         <button class="btn btn-secondary btn-sm" onclick="showBulkModal()"><svg width="15" height="15"><use href="#i-upload"/></svg>Import</button>
                         <button class="btn btn-secondary btn-sm" onclick="exportCSV()"><svg width="15" height="15"><use href="#i-download"/></svg>CSV</button>
                     </div>
@@ -1782,6 +1878,20 @@
                             <span class="spacer"></span>
                             <button class="btn btn-danger-text btn-sm" onclick="clearData()"><svg width="14" height="14"><use href="#i-trash"/></svg>Clear all</button>
                         </div>
+                    </div>
+
+                    <!-- Saved tests tab -->
+                    <div class="panel-body" id="editor-pane-tests" hidden>
+                        <div class="tests-current">
+                            <div>
+                                <div class="tests-current-label">Now editing</div>
+                                <div class="tests-current-name" id="current-test-name">Unsaved test</div>
+                            </div>
+                            <span class="spacer"></span>
+                            <button class="btn btn-secondary btn-sm" onclick="newTest()"><svg width="15" height="15"><use href="#i-plus"/></svg>New test</button>
+                        </div>
+                        <div class="tests-list" id="saved-tests-list"></div>
+                        <p class="grid-hint" style="margin-top:12px;">Tests are kept in this browser. <b>Save</b> names the test after the footer test title in Sheet settings.</p>
                     </div>
 
                     <!-- Sheet settings tab -->
@@ -1979,7 +2089,7 @@
                     </div>
                 </div>
                 <div class="tm-frame-wrapper">
-                    <iframe id="tablemaker-frame" src="tablemaker/index.html" title="Table Maker"></iframe>
+                    <iframe id="tablemaker-frame" src="tablemaker/index.html?v=2" title="Table Maker"></iframe>
                 </div>
             </section>
         </div><!-- End view-tablemaker -->
@@ -2133,21 +2243,41 @@
         // ── Form Config Persistence ───────────────────────────────
         const CONFIG_STORAGE_KEY = 'phoenix_sheet_config_v1';
 
+        // Sheet settings fields: config key -> [element id, 'value' | 'checked']
+        const SHEET_FIELDS = {
+            batch: ['cfg-batch', 'value'],
+            mid: ['cfg-mid', 'value'],
+            desc: ['cfg-desc', 'value'],
+            label: ['cfg-label', 'value'],
+            title: ['cfg-title', 'value'],
+            date: ['cfg-date', 'value'],
+            showHeader: ['set-header', 'checked'],
+            hideZeros: ['set-hide-zeros', 'checked'],
+            showNSU: ['set-nsu-title', 'checked'],
+            showBRACU: ['set-bracu-title', 'checked']
+        };
+
+        function getSheetConfig() {
+            const cfg = {};
+            for (const [key, [id, prop]] of Object.entries(SHEET_FIELDS)) {
+                const el = document.getElementById(id);
+                if (el) cfg[key] = el[prop];
+            }
+            return cfg;
+        }
+
+        function applySheetConfig(cfg) {
+            for (const [key, [id, prop]] of Object.entries(SHEET_FIELDS)) {
+                const el = document.getElementById(id);
+                if (!el || cfg[key] === undefined) continue;
+                if (key === 'date' && !cfg.date) continue;
+                el[prop] = cfg[key];
+            }
+        }
+
         function saveSheetConfig() {
             try {
-                const cfg = {
-                    batch: document.getElementById('cfg-batch')?.value,
-                    mid: document.getElementById('cfg-mid')?.value,
-                    desc: document.getElementById('cfg-desc')?.value,
-                    label: document.getElementById('cfg-label')?.value,
-                    title: document.getElementById('cfg-title')?.value,
-                    date: document.getElementById('cfg-date')?.value,
-                    showHeader: document.getElementById('set-header')?.checked,
-                    hideZeros: document.getElementById('set-hide-zeros')?.checked,
-                    showNSU: document.getElementById('set-nsu-title')?.checked,
-                    showBRACU: document.getElementById('set-bracu-title')?.checked
-                };
-                localStorage.setItem(CONFIG_STORAGE_KEY, JSON.stringify(cfg));
+                localStorage.setItem(CONFIG_STORAGE_KEY, JSON.stringify(getSheetConfig()));
             } catch (e) {
                 console.error("Failed to auto-save sheet configuration:", e);
             }
@@ -2156,18 +2286,7 @@
         function loadSheetConfig() {
             try {
                 const raw = localStorage.getItem(CONFIG_STORAGE_KEY);
-                if (!raw) return;
-                const cfg = JSON.parse(raw);
-                if (cfg.batch !== undefined && document.getElementById('cfg-batch')) document.getElementById('cfg-batch').value = cfg.batch;
-                if (cfg.mid !== undefined && document.getElementById('cfg-mid')) document.getElementById('cfg-mid').value = cfg.mid;
-                if (cfg.desc !== undefined && document.getElementById('cfg-desc')) document.getElementById('cfg-desc').value = cfg.desc;
-                if (cfg.label !== undefined && document.getElementById('cfg-label')) document.getElementById('cfg-label').value = cfg.label;
-                if (cfg.title !== undefined && document.getElementById('cfg-title')) document.getElementById('cfg-title').value = cfg.title;
-                if (cfg.date && document.getElementById('cfg-date')) document.getElementById('cfg-date').value = cfg.date;
-                if (cfg.showHeader !== undefined && document.getElementById('set-header')) document.getElementById('set-header').checked = cfg.showHeader;
-                if (cfg.hideZeros !== undefined && document.getElementById('set-hide-zeros')) document.getElementById('set-hide-zeros').checked = cfg.hideZeros;
-                if (cfg.showNSU !== undefined && document.getElementById('set-nsu-title')) document.getElementById('set-nsu-title').checked = cfg.showNSU;
-                if (cfg.showBRACU !== undefined && document.getElementById('set-bracu-title')) document.getElementById('set-bracu-title').checked = cfg.showBRACU;
+                if (raw) applySheetConfig(JSON.parse(raw));
             } catch (e) {
                 console.error("Failed to load sheet configuration:", e);
             }
@@ -2202,49 +2321,13 @@
         let crMaxMarks = parseInt(localStorage.getItem('phoenix_cr_max_marks')) || 600;
 
 
-        const defaultCRSampleData = [
-            { name: "Fuad Hasan Susmit", batch: "BATCH 87 - Offline Combo Batch", scores: [90.5, 101.5, 87, 95.5, 108] },
-            { name: "Raiyan Rana Raad", batch: "BATCH 89 - Offline Combo Batch [02]", scores: [74, 83, 86, 72, 90] },
-            { name: "Mushfique Saleheen", batch: "BATCH 87 - Offline Combo Batch", scores: [64.5, 80, 83, 90, 75] },
-            { name: "Nazmul Islam Tanim", batch: "BATCH 87 - Offline Combo Batch", scores: [0, 87, 88.5, 84, 89] },
-            { name: "Farin Rahman", batch: "BATCH 87 - Offline Combo Batch", scores: [59.5, 70.5, 70.5, 69, 75] },
-            { name: "Tahsin Tarmim", batch: "BATCH 89 - Offline Combo Batch [02]", scores: [53.5, 78, 61, 64.5, 79] },
-            { name: "Probourtona Saha Trisha", batch: "BATCH 87 - Offline Combo Batch", scores: [47, 74, 57.5, 67.5, 84] },
-            { name: "Jannatul Mahbuba", batch: "BATCH 87 - Offline Combo Batch", scores: [49, 61, 63, 59, 56.5] },
-            { name: "Mumtahana Kabir", batch: "BATCH 87 - Offline Combo Batch", scores: [48.5, 53, 63.5, 61, 60] },
-            { name: "Mardia khan sanja", batch: "BATCH 87 - Offline Combo Batch", scores: [48, 61, 42, 55, 80] },
-            { name: "Mahir daiyan talukder", batch: "BATCH 89 - Offline Combo Batch [02]", scores: [55, 0, 74, 69, 79] },
-            { name: "Abrar islam", batch: "BATCH 89 - Offline Combo Batch [02]", scores: [57, 71.5, 0, 67.5, 79.5] },
-            { name: "Shamema Ahmed Meem", batch: "BATCH 89 - Offline Combo Batch [02]", scores: [64.5, 74, 76.5, 59, 0] },
-            { name: "Ramisha Anjum Noushin", batch: "BATCH 87 - Offline Combo Batch", scores: [54, 0, 69.5, 65, 63] },
-            { name: "Sanaf Sunvi", batch: "BATCH 87 - Offline Combo Batch", scores: [56.5, 73.5, 57, 61, 0] },
-            { name: "Tanveer Alam Shihab", batch: "BATCH 87 - Offline Combo Batch", scores: [49, 0, 61, 68, 61.5] },
-            { name: "Md Tanjim Hossain", batch: "BATCH 87 - Offline Combo Batch", scores: [60, 68, 0, 54, 55] },
-            { name: "Kabya Sarker", batch: "BATCH 89 - Offline Combo Batch [02]", scores: [0, 79.5, 63, 0, 78] },
-            { name: "Suchana Basher Shurme", batch: "BATCH 89 - Offline Combo Batch [02]", scores: [0, 0, 61, 60, 91] },
-            { name: "Abu Talha Jubayer", batch: "BATCH 87 - Offline Combo Batch", scores: [0, 53, 61, 54, 43] },
-            { name: "Saraf Rizvi", batch: "BATCH 87 - Offline Combo Batch", scores: [54, 58, 44, 48.5, 0] },
-            { name: "Ramisa Tabassum", batch: "BATCH 89 - Offline Combo Batch [02]", scores: [0, 101, 87, 0, 0] },
-            { name: "YEASIR ARAFAT", batch: "BATCH 87 - Offline Combo Batch", scores: [0, 0, 52, 65, 71] },
-            { name: "NAFIJ HOSSAIN LUBDHAK", batch: "BATCH 89 - Offline Combo Batch [02]", scores: [0, 0, 0, 85.5, 90] },
-            { name: "Aribo Islam Rafin", batch: "BATCH 87 - Offline Combo Batch", scores: [0, 0, 0, 69, 76] },
-            { name: "Baishaki Debnath Oishe", batch: "BATCH 87 - Offline Combo Batch", scores: [37, 0, 56, 0, 50.5] },
-            { name: "Jannatul Hammi", batch: "BATCH 87 - Offline Combo Batch", scores: [0, 0, 62, 54, 0] },
-            { name: "Karar Ibna Salam", batch: "BATCH 89 - Offline Combo Batch [02]", scores: [38.5, 0, 55, 0, 0] },
-            { name: "Rownak Mohammed Siraj", batch: "BATCH 89 - Offline Combo Batch [02]", scores: [0, 0, 0, 71, 0] },
-            { name: "MD. NAFIUL ISLAM", batch: "BATCH 87 - Offline Combo Batch", scores: [0, 65.5, 0, 0, 0] }
-        ];
-
+        // Starts empty: results only appear after "Import batch"
         function getCRData() {
-            const raw = localStorage.getItem(CR_STORAGE_KEY);
-            if (!raw) {
-                localStorage.setItem(CR_STORAGE_KEY, JSON.stringify(defaultCRSampleData));
-                return defaultCRSampleData;
-            }
             try {
-                return JSON.parse(raw);
-            } catch(e) {
-                return defaultCRSampleData;
+                const data = JSON.parse(localStorage.getItem(CR_STORAGE_KEY) || '[]');
+                return Array.isArray(data) ? data : [];
+            } catch (e) {
+                return [];
             }
         }
 
@@ -2879,13 +2962,10 @@
         }
 
         function clearData() {
-            if (confirm('Delete everything?')) {
-                students = [];
-                studentSearchTerm = '';
-                const searchInp = document.getElementById('student-search-input');
-                if (searchInp) searchInp.value = '';
-                saveAndFullRender();
-            }
+            if (!confirm('Remove all students from this sheet? Saved tests are not affected.')) return;
+            students.length = 0;
+            resetStudentSearch();
+            saveAndFullRender();
         }
 
         function addStudent() {
@@ -3254,6 +3334,7 @@
             document.getElementById('preview-area').innerHTML = `<div class="preview-page">${sheetHTML}</div>`;
             document.getElementById('print-area').innerHTML = sheetHTML;
             fitPreview();
+            updateSaveState();
         }
 
         // The sheet is laid out at a fixed A4-shaped size and scaled down to fit the preview panel
@@ -3271,13 +3352,193 @@
         }
 
         // ── Editor tabs (Students / Sheet settings) ──
+        const EDITOR_TABS = ['students', 'settings', 'tests'];
+
         function setEditorTab(tab) {
-            const isSettings = tab === 'settings';
-            document.getElementById('editor-pane-students').hidden = isSettings;
-            document.getElementById('editor-pane-settings').hidden = !isSettings;
-            document.getElementById('editor-tab-students').classList.toggle('active', !isSettings);
-            document.getElementById('editor-tab-settings').classList.toggle('active', isSettings);
-            try { localStorage.setItem('phoenix_editor_tab', isSettings ? 'settings' : 'students'); } catch (e) {}
+            if (!EDITOR_TABS.includes(tab)) tab = 'students';
+            for (const t of EDITOR_TABS) {
+                document.getElementById('editor-pane-' + t).hidden = t !== tab;
+                document.getElementById('editor-tab-' + t).classList.toggle('active', t === tab);
+            }
+            try { localStorage.setItem('phoenix_editor_tab', tab); } catch (e) {}
+        }
+
+        // ── Saved tests history ──
+        // Each saved test keeps its students and sheet settings, so any past test can be reopened.
+        const TESTS_KEY = 'phoenix_saved_tests_v1';
+        const CURRENT_TEST_KEY = 'phoenix_current_test_id';
+        let savedTests = [];
+        let currentTestId = null;
+        let savedSnapshot = null;   // what the current test looked like when last saved/opened
+
+        try {
+            const list = JSON.parse(localStorage.getItem(TESTS_KEY) || '[]');
+            savedTests = Array.isArray(list) ? list : [];
+            currentTestId = localStorage.getItem(CURRENT_TEST_KEY) || null;
+        } catch (e) { savedTests = []; }
+
+        function snapshotOf(studentList, config) {
+            return JSON.stringify({ students: studentList, config });
+        }
+
+        function getCurrentTest() {
+            return savedTests.find(t => t.id === currentTestId) || null;
+        }
+
+        function hasUnsavedChanges() {
+            if (!getCurrentTest()) return students.length > 0;
+            return snapshotOf(students, getSheetConfig()) !== savedSnapshot;
+        }
+
+        function persistTests() {
+            try {
+                localStorage.setItem(TESTS_KEY, JSON.stringify(savedTests));
+                if (currentTestId) localStorage.setItem(CURRENT_TEST_KEY, currentTestId);
+                else localStorage.removeItem(CURRENT_TEST_KEY);
+                return true;
+            } catch (e) {
+                alert('Could not save: the browser storage is full. Delete some old saved tests and try again.');
+                return false;
+            }
+        }
+
+        function testNameFromSheet() {
+            const v = id => (document.getElementById(id)?.value || '').trim();
+            return v('cfg-title') || v('cfg-label') || 'Untitled test';
+        }
+
+        function saveCurrentTest() {
+            const name = testNameFromSheet();
+            let test = getCurrentTest();
+            if (!test) {
+                const sameName = savedTests.find(t => t.name.toLowerCase() === name.toLowerCase());
+                if (sameName) {
+                    if (!confirm(`A saved test called "${name}" already exists. Replace it with this one?`)) return;
+                    test = sameName;
+                }
+            }
+            if (!students.length && !confirm('This test has no students yet. Save it anyway?')) return;
+
+            const data = {
+                name,
+                savedAt: new Date().toISOString(),
+                students: JSON.parse(JSON.stringify(students)),
+                config: getSheetConfig()
+            };
+            if (test) {
+                Object.assign(test, data);
+            } else {
+                test = { id: 't' + Date.now().toString(36), ...data };
+                savedTests.unshift(test);
+            }
+            currentTestId = test.id;
+            if (!persistTests()) return;
+            savedSnapshot = snapshotOf(test.students, test.config);
+            renderSavedTests();
+            updateSaveState();
+            showCRToast(`Saved "${name}"`);
+        }
+
+        function openTest(id) {
+            const test = savedTests.find(t => t.id === id);
+            if (!test) return;
+            if (hasUnsavedChanges() && !confirm('The test you are editing has unsaved changes. Open the other test anyway?')) return;
+            students.length = 0;
+            JSON.parse(JSON.stringify(test.students)).forEach(s => students.push(s));
+            applySheetConfig(test.config);
+            saveSheetConfig();
+            currentTestId = test.id;
+            savedSnapshot = snapshotOf(test.students, test.config);
+            persistTests();
+            resetStudentSearch();
+            saveAndFullRender();
+            renderSavedTests();
+            setEditorTab('students');
+            showCRToast(`Opened "${test.name}"`);
+        }
+
+        // "Weekly Test 01" -> "Weekly Test 02" (keeps the zero padding)
+        function nextTestTitle(title) {
+            const m = String(title || '').match(/^(.*?)(\d+)(\D*)$/);
+            if (!m) return title;
+            const next = String(parseInt(m[2], 10) + 1).padStart(m[2].length, '0');
+            return m[1] + next + m[3];
+        }
+
+        function newTest() {
+            if (hasUnsavedChanges() && !confirm('Start a new test? Unsaved changes to the current one will be lost.')) return;
+            students.length = 0;
+            currentTestId = null;
+            savedSnapshot = null;
+            const titleEl = document.getElementById('cfg-title');
+            if (titleEl && savedTests.some(t => t.name === titleEl.value.trim())) titleEl.value = nextTestTitle(titleEl.value.trim());
+            saveSheetConfig();
+            persistTests();
+            resetStudentSearch();
+            saveAndFullRender();
+            renderSavedTests();
+            setEditorTab('students');
+        }
+
+        function deleteTest(id) {
+            const test = savedTests.find(t => t.id === id);
+            if (!test || !confirm(`Delete the saved test "${test.name}"? This can't be undone.`)) return;
+            savedTests = savedTests.filter(t => t.id !== id);
+            if (currentTestId === id) {
+                currentTestId = null;
+                savedSnapshot = null;
+            }
+            persistTests();
+            renderSavedTests();
+            updateSaveState();
+        }
+
+        function resetStudentSearch() {
+            studentSearchTerm = '';
+            const searchInp = document.getElementById('student-search-input');
+            if (searchInp) searchInp.value = '';
+        }
+
+        function updateSaveState() {
+            const el = document.getElementById('save-state');
+            if (!el) return;
+            const current = getCurrentTest();
+            const dirty = hasUnsavedChanges();
+            el.className = 'save-state';
+            if (current && !dirty) { el.textContent = 'Saved'; el.classList.add('saved'); }
+            else if (current) { el.textContent = 'Unsaved changes'; el.classList.add('dirty'); }
+            else if (students.length) { el.textContent = 'Not saved yet'; el.classList.add('dirty'); }
+            else el.textContent = '';
+            const nameEl = document.getElementById('current-test-name');
+            if (nameEl) nameEl.textContent = current ? current.name + (dirty ? ' (unsaved changes)' : '') : (students.length ? 'New test (not saved yet)' : 'New test');
+        }
+
+        function renderSavedTests() {
+            const countEl = document.getElementById('saved-tests-count');
+            if (countEl) countEl.textContent = savedTests.length;
+            const list = document.getElementById('saved-tests-list');
+            if (!list) return;
+            if (!savedTests.length) {
+                list.innerHTML = `<div class="tests-empty">No saved tests yet. Enter the marks, then press <b>Save</b>.</div>`;
+                return;
+            }
+            const fmt = iso => new Date(iso).toLocaleString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', hour: 'numeric', minute: '2-digit' });
+            list.innerHTML = [...savedTests]
+                .sort((a, b) => String(b.savedAt).localeCompare(String(a.savedAt)))
+                .map(t => {
+                    const bracu = t.students.filter(s => s.type === 'BRACU').length;
+                    const nsu = t.students.length - bracu;
+                    const isCurrent = t.id === currentTestId;
+                    return `
+                    <div class="test-row ${isCurrent ? 'is-current' : ''}">
+                        <div class="test-info">
+                            <div class="test-name">${escapeHtml(t.name)}</div>
+                            <div class="test-meta">Saved ${fmt(t.savedAt)} · ${t.students.length} students (${nsu} NSU, ${bracu} BRACU)</div>
+                        </div>
+                        ${isCurrent ? '<span class="test-badge">Open now</span>' : `<button class="btn btn-secondary btn-sm" onclick="openTest('${t.id}')">Open</button>`}
+                        <button class="icon-btn" style="width:30px;height:30px;" onclick="deleteTest('${t.id}')" title="Delete saved test" aria-label="Delete ${escapeHtml(t.name)}"><svg width="15" height="15"><use href="#i-trash"/></svg></button>
+                    </div>`;
+                }).join('');
         }
 
         // ── Dropdown menus ──
@@ -3364,6 +3625,11 @@
         updateRankings();
         renderCentralRanking();
         try { setEditorTab(localStorage.getItem('phoenix_editor_tab') || 'students'); } catch (e) { setEditorTab('students'); }
+        const openTestOnLoad = getCurrentTest();
+        if (openTestOnLoad) savedSnapshot = snapshotOf(openTestOnLoad.students, openTestOnLoad.config);
+        else currentTestId = null;
+        renderSavedTests();
+        updateSaveState();
         document.getElementById('student-rows').addEventListener('keydown', handleGridKeydown);
         if (window.ResizeObserver) {
             new ResizeObserver(() => fitPreview()).observe(document.getElementById('preview-area'));
