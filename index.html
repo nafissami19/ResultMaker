@@ -11,24 +11,56 @@
         href="https://fonts.googleapis.com/css2?family=Outfit:wght@400..900&family=Inter:wght@400..900&display=swap"
         rel="stylesheet">
     <style>
+        /* ═════════════════════════════════════════════════════════════════
+           APP SHELL — tokens, layout, controls (the result sheet styles are further down)
+           ═════════════════════════════════════════════════════════════════ */
         :root {
             --primary: #2563eb;
-            --bg: #f8fafc;
+            --primary-hover: #1d4ed8;
+            --primary-soft: rgba(37, 99, 235, 0.10);
+            --bg: #f4f6fa;
             --surface: #ffffff;
+            --surface-2: #f8fafc;
             --text: #0f172a;
             --text-muted: #64748b;
+            --text-subtle: #94a3b8;
             --border: #e2e8f0;
+            --border-strong: #cbd5e1;
             --input-bg: #ffffff;
- /* Deep navy Slate-900 */ /* Professional deep royal blue */ /* Slate-100 high-contrast cell background */
+            --danger: #dc2626;
+            --danger-soft: rgba(220, 38, 38, 0.08);
+            --nsu: #2563eb;
+            --nsu-soft: rgba(37, 99, 235, 0.10);
+            --bracu: #7c3aed;
+            --bracu-soft: rgba(124, 58, 237, 0.10);
+            --radius: 12px;
+            --radius-sm: 8px;
+            --shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 4px 16px rgba(15, 23, 42, 0.05);
+            --shadow-pop: 0 10px 30px rgba(15, 23, 42, 0.14), 0 2px 6px rgba(15, 23, 42, 0.06);
+            --header-h: 60px;
         }
 
         body.dark-theme {
-            --bg: #080c14; /* Deep midnight obsidian */
-            --surface: #0f172a; /* Slate-900 rich card background */
-            --text: #f8fafc; /* Slate-50 ultra readability */
-            --text-muted: #94a3b8; /* Slate-400 soft text */
-            --border: rgba(255, 255, 255, 0.1); /* Subtle glowing border */
-            --input-bg: #090d16;
+            --primary: #3b82f6;
+            --primary-hover: #60a5fa;
+            --primary-soft: rgba(59, 130, 246, 0.16);
+            --bg: #0b1120;
+            --surface: #111a2e;
+            --surface-2: #0e1628;
+            --text: #e8edf5;
+            --text-muted: #94a3b8;
+            --text-subtle: #64748b;
+            --border: #1f2a40;
+            --border-strong: #2c3a55;
+            --input-bg: #0b1324;
+            --danger: #f87171;
+            --danger-soft: rgba(248, 113, 113, 0.12);
+            --nsu: #60a5fa;
+            --nsu-soft: rgba(96, 165, 250, 0.14);
+            --bracu: #a78bfa;
+            --bracu-soft: rgba(167, 139, 250, 0.14);
+            --shadow: 0 1px 2px rgba(0, 0, 0, 0.3), 0 4px 16px rgba(0, 0, 0, 0.25);
+            --shadow-pop: 0 12px 32px rgba(0, 0, 0, 0.5);
         }
 
         * {
@@ -41,504 +73,1051 @@
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             background-color: var(--bg);
             color: var(--text);
-            padding: 1.5rem;
             line-height: 1.5;
-            transition: background 0.3s ease, color 0.3s ease;
+            font-size: 14px;
             -webkit-font-smoothing: antialiased;
         }
 
+        button {
+            font-family: inherit;
+        }
+
+        svg {
+            flex-shrink: 0;
+        }
+
         .container {
-            max-width: 1540px;
+            max-width: 1680px;
             margin: 0 auto;
+            padding: 0 24px 32px;
         }
 
-        .card {
-            background: var(--surface);
-            border-radius: 20px;
-            border: 1px solid var(--border);
-            padding: 2.2rem;
-            margin-bottom: 2.5rem;
-            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.02);
-            transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .card::before {
-            content: '';
-            position: absolute;
+        /* ── Header & navigation ── */
+        .app-header {
+            position: sticky;
             top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, #2563eb 0%, #4f46e5 50%, #7c3aed 100%);
-        }
-
-        .card:hover {
-            border-color: rgba(37, 99, 235, 0.25);
-            box-shadow: 0 20px 40px -15px rgba(37, 99, 235, 0.1), 0 1px 5px rgba(0, 0, 0, 0.03);
-        }
-
-        .header-top {
+            z-index: 50;
+            height: var(--header-h);
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            margin-bottom: 2rem;
-            padding: 1.1rem 1.75rem;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.04);
-            backdrop-filter: blur(12px);
+            gap: 16px;
+            margin: 0 -24px 20px;
+            padding: 0 24px;
+            background: color-mix(in srgb, var(--bg) 88%, transparent);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
         }
 
         .main-title {
             font-family: 'Outfit', sans-serif;
+            font-size: 1.3rem;
             font-weight: 800;
-            font-size: 1.8rem;
-            color: #2563eb;
             letter-spacing: -0.02em;
-            line-height: 1.15;
-            background: linear-gradient(135deg, #0052d4, #4364f7);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            display: inline-block;
+            color: var(--primary);
+            white-space: nowrap;
         }
 
         .main-title .sub-brand {
-            color: #0f172a;
-            -webkit-text-fill-color: #0f172a;
-            background: none;
-            font-weight: 800;
+            color: var(--text);
         }
-
-        body.dark-theme .main-title .sub-brand {
-            color: #f8fafc;
-            -webkit-text-fill-color: #f8fafc;
-        }
-
-        /* ── Top Navigation Tabs & Tool Suite Router ── */
 
         .main-nav-tabs {
             display: flex;
-            align-items: center;
-            background: rgba(15, 23, 42, 0.06);
+            gap: 2px;
+            padding: 3px;
+            margin-left: auto;
+            background: var(--surface-2);
             border: 1px solid var(--border);
-            padding: 4px;
-            border-radius: 50px;
-            gap: 4px;
-        }
-
-        body.dark-theme .main-nav-tabs {
-            background: rgba(255, 255, 255, 0.05);
-            border-color: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
         }
 
         .nav-tab {
-            font-family: 'Outfit', sans-serif;
-            font-weight: 700;
-            font-size: 0.88rem;
-            letter-spacing: 0.03em;
-            padding: 9px 22px;
-            border-radius: 50px;
-            border: none;
-            background: transparent;
-            color: var(--text-muted);
-            cursor: pointer;
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
-            user-select: none;
+            gap: 7px;
+            padding: 6px 14px;
+            border: none;
+            border-radius: 7px;
+            background: transparent;
+            color: var(--text-muted);
+            font-size: 0.86rem;
+            font-weight: 600;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: background 0.15s ease, color 0.15s ease;
         }
 
         .nav-tab:hover {
             color: var(--text);
-            background: rgba(255, 255, 255, 0.6);
-        }
-
-        body.dark-theme .nav-tab:hover {
-            background: rgba(255, 255, 255, 0.1);
         }
 
         .nav-tab.active {
-            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
-            color: #ffffff !important;
-            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
-        }
-
-        /* ── Dark / Light Mode Switcher Button ── */
-        .btn-theme-toggle {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            border: 1.5px solid var(--border);
             background: var(--surface);
             color: var(--text);
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-            flex-shrink: 0;
+            box-shadow: 0 1px 2px rgba(15, 23, 42, 0.08), 0 0 0 1px var(--border);
         }
 
-        .btn-theme-toggle:hover {
-            transform: scale(1.08);
-            border-color: var(--primary);
-            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.25);
+        .nav-tab.active svg {
             color: var(--primary);
         }
 
-        body.dark-theme .btn-theme-toggle {
-            background: rgba(255, 255, 255, 0.08);
-            border-color: rgba(255, 255, 255, 0.15);
-            color: #f8fafc;
-        }
-
-        body.dark-theme .btn-theme-toggle:hover {
-            background: rgba(255, 255, 255, 0.15);
-            border-color: #60a5fa;
-            color: #60a5fa;
-        }
-
-        /* ── Dedicated Full Page Views ── */
         .app-page-view {
             display: none;
-            opacity: 0;
-            transform: translateY(8px);
-            transition: opacity 0.3s ease, transform 0.3s ease;
         }
 
         .app-page-view.active {
             display: block;
-            opacity: 1;
-            transform: translateY(0);
+            animation: viewIn 0.2s ease;
         }
 
-        /* ── Central Ranking KPI Cards & Page Layout ── */
+        @keyframes viewIn {
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: none; }
+        }
+
+        /* ── Panels ── */
+        .panel {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+
+        .panel-head {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .panel-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.02rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .panel-sub {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .panel-body {
+            padding: 16px;
+        }
+
+        .spacer {
+            flex: 1;
+        }
+
+        /* ── Buttons: primary, secondary, ghost, danger-text, icon ── */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            height: 36px;
+            padding: 0 14px;
+            border-radius: var(--radius-sm);
+            border: 1px solid transparent;
+            font-size: 0.86rem;
+            font-weight: 600;
+            white-space: nowrap;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .btn:focus-visible,
+        .nav-tab:focus-visible,
+        .seg-btn:focus-visible,
+        .type-pill:focus-visible,
+        .icon-btn:focus-visible {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: #ffffff;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-hover);
+        }
+
+        .btn-secondary {
+            background: var(--surface);
+            color: var(--text);
+            border-color: var(--border-strong);
+        }
+
+        .btn-secondary:hover {
+            background: var(--surface-2);
+            border-color: var(--text-subtle);
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--text-muted);
+        }
+
+        .btn-ghost:hover {
+            background: var(--surface-2);
+            color: var(--text);
+        }
+
+        .btn-danger-text {
+            background: transparent;
+            color: var(--danger);
+        }
+
+        .btn-danger-text:hover {
+            background: var(--danger-soft);
+        }
+
+        .btn-sm {
+            height: 30px;
+            padding: 0 10px;
+            font-size: 0.8rem;
+        }
+
+        .icon-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border-strong);
+            background: var(--surface);
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: background 0.15s ease, color 0.15s ease;
+        }
+
+        .icon-btn:hover {
+            background: var(--surface-2);
+            color: var(--text);
+        }
+
+        .btn-theme-toggle {
+            border-color: var(--border);
+        }
+
+        /* ── Segmented control (tabs, filters) ── */
+        .seg {
+            display: inline-flex;
+            gap: 2px;
+            padding: 3px;
+            background: var(--surface-2);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+        }
+
+        .seg-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            height: 30px;
+            padding: 0 12px;
+            border: none;
+            border-radius: 7px;
+            background: transparent;
+            color: var(--text-muted);
+            font-size: 0.83rem;
+            font-weight: 600;
+            white-space: nowrap;
+            cursor: pointer;
+        }
+
+        .seg-btn:hover {
+            color: var(--text);
+        }
+
+        .seg-btn.active {
+            background: var(--surface);
+            color: var(--text);
+            box-shadow: 0 1px 2px rgba(15, 23, 42, 0.08), 0 0 0 1px var(--border);
+        }
+
+        .seg-count {
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            background: var(--border);
+            border-radius: 20px;
+            padding: 1px 7px;
+        }
+
+        /* ── Dropdown menus ── */
+        .menu-wrap {
+            position: relative;
+        }
+
+        .menu {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: calc(100% + 6px);
+            min-width: 200px;
+            padding: 6px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            box-shadow: var(--shadow-pop);
+            z-index: 60;
+        }
+
+        .menu.open {
+            display: block;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            padding: 8px 10px;
+            border: none;
+            border-radius: 6px;
+            background: transparent;
+            color: var(--text);
+            font-size: 0.85rem;
+            font-weight: 500;
+            text-align: left;
+            cursor: pointer;
+        }
+
+        .menu-item:hover {
+            background: var(--surface-2);
+        }
+
+        .menu-item svg {
+            color: var(--text-muted);
+        }
+
+        .menu-item.danger,
+        .menu-item.danger svg {
+            color: var(--danger);
+        }
+
+        .menu-item.danger:hover {
+            background: var(--danger-soft);
+        }
+
+        .menu-sep {
+            height: 1px;
+            margin: 6px 4px;
+            background: var(--border);
+        }
+
+        /* ── Form controls ── */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+            gap: 12px 14px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            min-width: 0;
+        }
+
+        label {
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        input,
+        select,
+        textarea {
+            height: 36px;
+            padding: 0 12px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border-strong);
+            background: var(--input-bg);
+            color: var(--text);
+            font-family: inherit;
+            font-size: 0.88rem;
+            transition: border-color 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        textarea {
+            height: auto;
+            padding: 10px 12px;
+            resize: vertical;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px var(--primary-soft);
+        }
+
+        input::placeholder,
+        textarea::placeholder {
+            color: var(--text-subtle);
+        }
+
+        .search-box {
+            position: relative;
+            flex: 1;
+            min-width: 160px;
+            max-width: 320px;
+        }
+
+        .search-box svg {
+            position: absolute;
+            left: 11px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-subtle);
+            pointer-events: none;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding-left: 34px;
+        }
+
+        .muted-count {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            white-space: nowrap;
+        }
+
+        .settings-section + .settings-section {
+            margin-top: 22px;
+            padding-top: 18px;
+            border-top: 1px solid var(--border);
+        }
+
+        .settings-heading {
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.92rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        /* Switch rows (checkbox inputs keep their ids) */
+        .switch-list {
+            display: flex;
+            flex-direction: column;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .switch-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 11px 14px;
+            cursor: pointer;
+            font-size: 0.86rem;
+            font-weight: 500;
+            color: var(--text);
+        }
+
+        .switch-row + .switch-row {
+            border-top: 1px solid var(--border);
+        }
+
+        .switch-row:hover {
+            background: var(--surface-2);
+        }
+
+        .switch-text {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 1px;
+        }
+
+        .switch-hint {
+            font-size: 0.76rem;
+            font-weight: 400;
+            color: var(--text-muted);
+        }
+
+        .switch-row input {
+            position: absolute;
+            opacity: 0;
+            width: 1px;
+            height: 1px;
+            pointer-events: none;
+        }
+
+        .switch {
+            position: relative;
+            width: 36px;
+            height: 20px;
+            border-radius: 20px;
+            background: var(--border-strong);
+            transition: background 0.15s ease;
+            flex-shrink: 0;
+        }
+
+        .switch::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #ffffff;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+            transition: transform 0.15s ease;
+        }
+
+        .switch-row input:checked + .switch {
+            background: var(--primary);
+        }
+
+        .switch-row input:checked + .switch::after {
+            transform: translateX(16px);
+        }
+
+        .switch-row input:focus-visible + .switch {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
+
+        /* ── Result Maker workspace: editor + live preview ── */
+        .workspace {
+            display: grid;
+            grid-template-columns: minmax(0, 1.12fr) minmax(0, 1fr);
+            gap: 20px;
+            align-items: start;
+        }
+
+        .preview-panel {
+            position: sticky;
+            top: calc(var(--header-h) + 16px);
+        }
+
+        .preview-stage {
+            padding: 16px;
+            background: var(--surface-2);
+            border-radius: 0 0 var(--radius) var(--radius);
+            overflow: hidden;
+        }
+
+        #preview-area {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .preview-page {
+            width: 1500px;
+            transform-origin: top left;
+        }
+
+        .preview-page .print-page-wrapper {
+            min-height: 1060px;
+            margin: 0;
+            border-radius: 6px;
+            box-shadow: 0 0 0 1px #cbd5e1, 0 12px 40px rgba(15, 23, 42, 0.12);
+        }
+
+        /* Off-screen copy used for PDF/PNG export */
+        .capture-page .print-page-wrapper {
+            min-height: 1060px;
+            margin: 0;
+            border-radius: 0;
+            box-shadow: none;
+        }
+
+        .preview-note {
+            font-size: 0.76rem;
+            color: var(--text-muted);
+        }
+
+        .preview-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .export-dock {
+            display: none;
+        }
+
+        @media (max-width: 1180px) {
+            .workspace {
+                grid-template-columns: minmax(0, 1fr);
+            }
+            .preview-panel {
+                position: static;
+            }
+            .preview-actions {
+                display: none;
+            }
+            .export-dock {
+                display: flex;
+                gap: 8px;
+                position: fixed;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                z-index: 40;
+                padding: 10px 16px;
+                justify-content: flex-end;
+                background: var(--surface);
+                border-top: 1px solid var(--border);
+                box-shadow: 0 -4px 16px rgba(15, 23, 42, 0.08);
+            }
+            #view-resultmaker {
+                padding-bottom: 64px;
+            }
+        }
+
+        /* ── Student entry grid ── */
+        .grid-wrap {
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            overflow-x: auto;
+        }
+
+        .entry-table {
+            width: 100%;
+            min-width: 660px;
+            border-collapse: collapse;
+            table-layout: fixed;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .entry-table th {
+            position: sticky;
+            top: 0;
+            height: 40px;
+            padding: 0 4px;
+            background: var(--surface-2);
+            border-bottom: 1px solid var(--border);
+            color: var(--text-muted);
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            text-align: center;
+        }
+
+        .entry-table th.col-name {
+            text-align: left;
+            padding-left: 12px;
+        }
+
+        .entry-table td {
+            height: 38px;
+            padding: 0 2px;
+            border-bottom: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .entry-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .entry-table tbody tr:hover td {
+            background: var(--surface-2);
+        }
+
+        .entry-table td input {
+            width: 100%;
+            height: 30px;
+            padding: 0 6px;
+            border-color: transparent;
+            background: transparent;
+            border-radius: 6px;
+        }
+
+        .entry-table td input:hover {
+            border-color: var(--border);
+        }
+
+        .entry-table td input:focus {
+            background: var(--input-bg);
+            border-color: var(--primary);
+        }
+
+        .entry-table td.col-name input {
+            font-weight: 500;
+            padding-left: 10px;
+        }
+
+        .subject-input {
+            text-align: center;
+            font-weight: 600;
+            -moz-appearance: textfield;
+            appearance: textfield;
+        }
+
+        .subject-input::-webkit-outer-spin-button,
+        .subject-input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .subject-input:disabled {
+            cursor: not-allowed;
+            background: repeating-linear-gradient(135deg, transparent 0 5px, var(--border) 5px 6px);
+            opacity: 0.6;
+        }
+
+        .th-bracu {
+            display: block;
+            font-size: 0.6rem;
+            line-height: 1.1;
+            color: var(--bracu);
+            letter-spacing: 0.02em;
+        }
+
+        .row-total {
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .type-pill {
+            height: 24px;
+            min-width: 58px;
+            padding: 0 8px;
+            border-radius: 20px;
+            border: 1px solid transparent;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.03em;
+            cursor: pointer;
+        }
+
+        .type-pill.nsu {
+            background: var(--nsu-soft);
+            color: var(--nsu);
+        }
+
+        .type-pill.bracu {
+            background: var(--bracu-soft);
+            color: var(--bracu);
+        }
+
+        .type-pill:hover {
+            border-color: currentColor;
+        }
+
+        .delete-btn {
+            width: 26px;
+            height: 26px;
+            border: none;
+            border-radius: 6px;
+            background: transparent;
+            color: var(--text-subtle);
+            font-size: 1.1rem;
+            line-height: 1;
+            cursor: pointer;
+            opacity: 0.45;
+        }
+
+        .entry-table tr:hover .delete-btn,
+        .delete-btn:focus-visible {
+            opacity: 1;
+        }
+
+        .delete-btn:hover {
+            background: var(--danger-soft);
+            color: var(--danger);
+        }
+
+        .grid-empty {
+            padding: 28px 16px !important;
+            height: auto !important;
+            color: var(--text-muted);
+            font-size: 0.86rem;
+        }
+
+        .grid-foot {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .grid-hint {
+            font-size: 0.76rem;
+            color: var(--text-subtle);
+        }
+
+        /* ── Central Ranking ── */
         .cr-kpi-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 16px;
-            margin-bottom: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 14px;
+            margin-bottom: 16px;
         }
 
         .cr-kpi-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 16px 20px;
             display: flex;
             align-items: center;
-            gap: 16px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
-            transition: all 0.25s ease;
-        }
-
-        .cr-kpi-card:hover {
-            transform: translateY(-2px);
-            border-color: rgba(37, 99, 235, 0.3);
-            box-shadow: 0 8px 25px rgba(37, 99, 235, 0.08);
+            gap: 14px;
+            padding: 16px 18px;
         }
 
         .cr-kpi-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.4rem;
             flex-shrink: 0;
         }
+
+        .kpi-blue { background: var(--primary-soft); color: var(--primary); }
+        .kpi-amber { background: rgba(217, 119, 6, 0.12); color: #d97706; }
+        .kpi-green { background: rgba(5, 150, 105, 0.12); color: #059669; }
+        .kpi-violet { background: var(--bracu-soft); color: var(--bracu); }
 
         .cr-kpi-val {
             font-family: 'Outfit', sans-serif;
             font-size: 1.35rem;
             font-weight: 800;
             color: var(--text);
-            line-height: 1.1;
+            line-height: 1.15;
             white-space: nowrap;
         }
 
         .cr-kpi-lbl {
             font-size: 0.78rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .cr-batch-select {
+            min-width: 220px;
+            max-width: 340px;
+        }
+
+        .cr-table-scroll {
+            overflow: auto;
+            max-height: calc(100vh - var(--header-h) - 120px);
+            padding: 16px;
+            background: var(--surface-2);
+        }
+
+        .cr-table-scroll thead {
+            position: sticky;
+            top: -16px;
+            z-index: 2;
+        }
+
+        /* clip (not hidden) so the sticky table header keeps working */
+        .cr-table-scroll .cr-sheet-container {
+            overflow: clip;
+            box-shadow: 0 1px 3px rgba(15, 23, 42, 0.12);
+        }
+
+        .cr-pagination-bar {
+            display: none;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px;
+            border-top: 1px solid var(--border);
+        }
+
+        .cr-page-indicator {
+            font-size: 0.82rem;
             font-weight: 600;
             color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            margin-top: 2px;
+            min-width: 90px;
+            text-align: center;
         }
 
-        .cr-page-container {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            padding: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
-            margin-bottom: 2rem;
+        .cr-page-size {
+            height: 30px;
+            font-size: 0.8rem;
+            padding: 0 8px;
         }
 
-        /* ── TableMaker Page View Layout ── */
-        .tm-page-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 18px;
-            padding: 1.25rem 2rem;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        .tm-page-title {
-            font-family: 'Outfit', sans-serif;
-            font-size: 1.25rem;
-            font-weight: 800;
-            color: var(--text);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .tm-page-desc {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            margin-top: 2px;
-        }
-
+        /* ── Table Maker ── */
         .tm-frame-wrapper {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 18px;
+            height: calc(100vh - var(--header-h) - 150px);
+            min-height: 520px;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
-            height: calc(100vh - 220px);
-            min-height: 650px;
-        }
-
-        .tm-frame-wrapper iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-
-        /* ── TableMaker Buttons & Frame ── */
-
-        .tm-close-btn {
-            cursor: pointer;
-            background: rgba(255,255,255,0.15);
-            border: 1.5px solid rgba(255,255,255,0.25);
-            color: #ffffff;
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            font-weight: 700;
-            transition: all 0.2s ease;
-            line-height: 1;
-        }
-
-        .btn-tm-head-png {
-            background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 50%, #4c1d95 100%);
-            color: #ffffff;
-            font-family: 'Outfit', sans-serif;
-            font-weight: 800;
-            font-size: 0.92rem;
-            text-transform: uppercase;
-            letter-spacing: 0.06em;
-            padding: 9px 24px;
-            border-radius: 50px;
-            border: 1.5px solid rgba(255, 255, 255, 0.4);
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            box-shadow: 0 4px 18px rgba(124, 58, 237, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.3);
-            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-
-        .btn-tm-head-png:hover {
-            transform: translateY(-2px) scale(1.04);
-            box-shadow: 0 8px 25px rgba(124, 58, 237, 0.6);
-            filter: brightness(1.12);
-        }
-
-        .tm-close-btn:hover {
-            background: rgba(255,255,255,0.28);
-            transform: scale(1.08);
+            border-radius: 0 0 var(--radius) var(--radius);
         }
 
         #tablemaker-frame {
-            flex: 1;
-            border: none;
             width: 100%;
-            background: #ffffff;
-            animation: tmSlideUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-        }
-
-        @keyframes tmSlideUp {
-            from { transform: translateY(20px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-
-        /* ── Central Ranking Segment Styling ── */
-
-        .cr-modal-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 12px 24px;
-            background: linear-gradient(135deg, #0f2c59 0%, #16325b 50%, #1e40af 100%);
-            border-bottom: 2px solid #3b82f6;
-            flex-shrink: 0;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-            flex-wrap: wrap;
-            gap: 12px;
-        }
-
-        .cr-modal-title {
-            font-family: 'Outfit', sans-serif;
-            font-size: 1.1rem;
-            font-weight: 800;
-            color: #ffffff;
-            letter-spacing: 0.04em;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            text-transform: uppercase;
-        }
-
-        .cr-header-actions {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex-wrap: wrap;
-            margin-left: auto;
-        }
-
-        .cr-filter-toggle {
-            display: flex;
-            background: rgba(255, 255, 255, 0.12);
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            border-radius: 50px;
-            padding: 3px;
-            gap: 4px;
-        }
-
-        .cr-toggle-btn {
-            background: transparent;
+            height: 100%;
             border: none;
-            color: rgba(255, 255, 255, 0.8);
-            font-family: 'Outfit', sans-serif;
-            font-weight: 700;
-            font-size: 0.78rem;
-            padding: 6px 16px;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.25s ease;
-            text-transform: uppercase;
-            letter-spacing: 0.04em;
-        }
-
-        .cr-toggle-btn.active {
             background: #ffffff;
-            color: #0f2c59;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
         }
 
-        .cr-btn {
-            font-family: 'Outfit', sans-serif;
-            font-weight: 700;
-            font-size: 0.82rem;
-            padding: 8px 16px;
-            border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            cursor: pointer;
-            display: inline-flex;
+        /* ── Modals ── */
+        .modal-backdrop {
+            position: fixed;
+            inset: 0;
+            display: none;
             align-items: center;
-            gap: 6px;
-            transition: all 0.2s ease;
-            text-transform: uppercase;
-            letter-spacing: 0.03em;
-        }
-
-        .cr-btn-import {
-            background: linear-gradient(135deg, #059669 0%, #10b981 100%);
-            color: #ffffff;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
-        }
-        .cr-btn-import:hover {
-            transform: translateY(-1px);
-            filter: brightness(1.1);
-        }
-
-        .cr-btn-export-png {
-            background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
-            color: #ffffff;
-            box-shadow: 0 2px 8px rgba(124, 58, 237, 0.3);
-        }
-        .cr-btn-export-png:hover {
-            transform: translateY(-1px);
-            filter: brightness(1.1);
-        }
-
-        .cr-btn-export-pdf {
-            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
-            color: #ffffff;
-            box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
-        }
-        .cr-btn-export-pdf:hover {
-            transform: translateY(-1px);
-            filter: brightness(1.1);
-        }
-
-        .cr-btn-export-csv {
-            background: linear-gradient(135deg, #0d9488 0%, #0f766e 100%);
-            color: #ffffff;
-            box-shadow: 0 2px 8px rgba(13, 148, 136, 0.3);
-        }
-        .cr-btn-export-csv:hover {
-            transform: translateY(-1px);
-            filter: brightness(1.1);
-        }
-
-        .cr-btn-danger {
-            background: rgba(239, 68, 68, 0.2);
-            color: #fca5a5;
-            border: 1px solid rgba(239, 68, 68, 0.3);
-        }
-        .cr-btn-danger:hover {
-            background: #ef4444;
-            color: #ffffff;
-        }
-
-        .cr-btn-secondary {
-            background: rgba(255, 255, 255, 0.15);
-            color: #ffffff;
-        }
-        .cr-btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.25);
-        }
-
-        .cr-body-content {
-            flex: 1;
-            overflow-y: auto;
-            padding: 24px;
-            display: flex;
             justify-content: center;
-            background: #090d16;
+            padding: 16px;
+            background: rgba(15, 23, 42, 0.45);
+            z-index: 1000;
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
         }
 
+        .modal-backdrop[style*="display: flex"],
+        .modal-backdrop[style*="display:flex"] {
+            animation: fadeIn 0.18s ease forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-card {
+            width: 100%;
+            max-width: 600px;
+            max-height: calc(100vh - 32px);
+            overflow-y: auto;
+            padding: 20px 22px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            box-shadow: var(--shadow-pop);
+        }
+
+        .modal-card.modal-sm {
+            max-width: 440px;
+        }
+
+        .modal-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .modal-heading {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .modal-text {
+            font-size: 0.84rem;
+            color: var(--text-muted);
+            line-height: 1.55;
+            margin-bottom: 14px;
+        }
+
+        .modal-text code {
+            font-size: 0.78rem;
+            background: var(--surface-2);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 1px 5px;
+        }
+
+        .modal-card .form-group {
+            margin-bottom: 14px;
+        }
+
+        .radio-row {
+            display: flex;
+            gap: 18px;
+        }
+
+        .radio-option {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            font-size: 0.86rem;
+            font-weight: 500;
+            color: var(--text);
+            cursor: pointer;
+        }
+
+        .radio-option input {
+            height: auto;
+            accent-color: var(--primary);
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+            margin-top: 16px;
+        }
+
+        .paste-box {
+            width: 100%;
+            font-family: ui-monospace, Consolas, monospace;
+            font-size: 0.84rem;
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            z-index: 100000;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 16px;
+            border-radius: 10px;
+            background: var(--text);
+            color: var(--surface);
+            font-size: 0.86rem;
+            font-weight: 600;
+            box-shadow: var(--shadow-pop);
+            opacity: 0;
+            transform: translateY(8px);
+            transition: opacity 0.2s ease, transform 0.2s ease;
+            pointer-events: none;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: none;
+        }
+
+        @media (max-width: 720px) {
+            .container {
+                padding: 0 12px 24px;
+            }
+            .app-header {
+                margin: 0 -12px 14px;
+                padding: 0 12px;
+            }
+            .app-header {
+                gap: 8px;
+            }
+            .nav-tab {
+                padding: 6px 10px;
+            }
+            .nav-tab span,
+            .main-title .sub-brand,
+            .grid-hint {
+                display: none;
+            }
+            .main-title {
+                font-size: 1.15rem;
+            }
+        }
+
+        /* ── Central Ranking result table (also used for its PNG/PDF) ── */
         .cr-sheet-container {
             background: #ffffff;
             color: #0f172a;
@@ -676,556 +1255,6 @@
             background: rgba(224, 235, 248, 0.95) !important;
         }
 
-        .cr-btn-page {
-            background: #143564;
-            color: #ffffff;
-            border: 1px solid #295286;
-            border-radius: 6px;
-            padding: 4px 10px;
-            font-size: 0.78rem;
-            font-family: 'Outfit', sans-serif;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-        .cr-btn-page:hover {
-            background: #2563eb;
-            border-color: #3b82f6;
-        }
-        .cr-btn-page:disabled {
-            opacity: 0.4;
-            cursor: not-allowed;
-        }
-
-        .form-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 1.25rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 0.4rem;
-            flex: 1 1 180px;
-        }
-
-        .form-group.fg-wide {
-            flex: 2 1 280px;
-        }
-
-        .form-group.fg-mid {
-            flex: 1.3 1 200px;
-        }
-
-        .form-group.fg-narrow {
-            flex: 0.8 1 140px;
-        }
-
-        .form-group.fg-compact {
-            flex: 0.5 1 120px;
-            max-width: 150px;
-        }
-
-        label {
-            font-size: 0.72rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            color: var(--text-muted);
-        }
-
-        input,
-        select,
-        textarea {
-            padding: 0.65rem 1rem;
-            border-radius: 8px;
-            border: 1.5px solid var(--border);
-            background: var(--input-bg);
-            color: var(--text);
-            font-family: inherit;
-            font-size: 0.92rem;
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        input:focus,
-        select:focus,
-        textarea:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
-            background: var(--surface);
-        }
-
-        .btn {
-            padding: 0.6rem 1.25rem;
-            border-radius: 8px;
-            border: 1.5px solid transparent;
-            font-family: 'Outfit', sans-serif;
-            font-size: 0.9rem;
-            font-weight: 600;
-            letter-spacing: 0.01em;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
-            user-select: none;
-            position: relative;
-            overflow: hidden;
-            z-index: 1;
-        }
-
-        .btn::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(
-                90deg,
-                transparent,
-                rgba(255, 255, 255, 0.2),
-                transparent
-            );
-            transition: none;
-            z-index: 2;
-        }
-
-        .btn:hover::after {
-            left: 100%;
-            transition: left 0.75s cubic-bezier(0.25, 0.8, 0.25, 1);
-        }
-
-        .btn:active {
-            transform: scale(0.96) translateY(0) !important;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary), #1d4ed8);
-            color: white;
-            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.35);
-            filter: brightness(1.08);
-        }
-
-        .btn-secondary {
-            background: var(--surface);
-            border: 1.5px solid var(--border);
-            color: var(--text);
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
-        }
-
-        .btn-secondary:hover {
-            border-color: var(--primary);
-            color: var(--primary);
-            background: rgba(37, 99, 235, 0.02);
-            transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(37, 99, 235, 0.06);
-        }
-
-        body.dark-theme .btn-secondary:hover {
-            background: rgba(37, 99, 235, 0.08);
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        .entry-container {
-            overflow: visible;
-            border: 1px solid var(--border);
-            border-radius: 14px;
-            margin-bottom: 2rem;
-            background: var(--bg);
-            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.02);
-            max-height: 550px;
-            overflow-y: auto;
-        }
-
-        .entry-table {
-            width: 100%;
-            border-collapse: separate;
-            border-spacing: 0;
-        }
-
-        .entry-table th {
-            padding: 1.25rem 1rem;
-            background: #0f172a;
-            color: #fff;
-            font-family: 'Outfit', sans-serif;
-            font-size: 0.8rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            border: none;
-            position: sticky;
-            top: -1px;
-            z-index: 20;
-            text-align: center;
-            transition: background-color 0.3s;
-        }
-
-        body.dark-theme .entry-table th {
-            background: #070a13;
-            border-bottom: 1.5px solid var(--border);
-        }
-
-        .entry-table th:first-child {
-            border-top-left-radius: 12px;
-        }
-
-        .entry-table th:last-child {
-            border-top-right-radius: 12px;
-        }
-
-        .entry-table td {
-            padding: 0.35rem 0.25rem;
-            border-bottom: 1px solid var(--border);
-            border-right: 1px solid var(--border);
-            background: var(--surface);
-            transition: background 0.2s;
-        }
-
-        .entry-table td:last-child {
-            border-right: none;
-        }
-
-        .entry-table tr:hover td {
-            background: rgba(37, 99, 235, 0.01);
-        }
-
-        .entry-table tr:focus-within td {
-            background: rgba(37, 99, 235, 0.02);
-        }
-
-        .entry-table input,
-        .entry-table select {
-            width: 100%;
-            height: 38px;
-            padding: 0 12px;
-            border: 1.5px solid transparent;
-            background: transparent;
-            color: var(--text);
-            font-family: inherit;
-            font-size: 0.95rem;
-            border-radius: 6px;
-            transition: all 0.2s ease;
-        }
-
-        .entry-table input:hover,
-        .entry-table select:hover {
-            background: rgba(0, 0, 0, 0.015);
-        }
-
-        body.dark-theme .entry-table input:hover,
-        body.dark-theme .entry-table select:hover {
-            background: rgba(255, 255, 255, 0.025);
-        }
-
-        .entry-table input:focus,
-        .entry-table select:focus {
-            background: var(--surface);
-            border-color: var(--primary);
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
-        }
-
-        .subject-input {
-            text-align: center;
-            font-weight: 700;
-            color: var(--primary);
-        }
-
-        .add-row-btn {
-            width: 100%;
-            border: 1.5px dashed #93c5fd;
-            background: #eff6ff;
-            color: #1d4ed8;
-            padding: 0.9rem;
-            border-radius: 12px;
-            font-family: 'Outfit', sans-serif;
-            font-weight: 700;
-            font-size: 0.88rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            cursor: pointer;
-            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-            margin-top: 1.25rem;
-        }
-
-        .add-row-btn:hover {
-            background: linear-gradient(135deg, #2563eb, #1d4ed8);
-            border-color: transparent;
-            color: #ffffff;
-            box-shadow: 0 6px 18px rgba(37, 99, 235, 0.25);
-            transform: translateY(-2px);
-        }
-
-        .add-row-btn:active {
-            transform: translateY(0);
-        }
-
-        body.dark-theme .add-row-btn {
-            background: rgba(37, 99, 235, 0.1);
-            border-color: rgba(96, 165, 250, 0.3);
-            color: #93c5fd;
-        }
-
-        body.dark-theme .add-row-btn:hover {
-            background: linear-gradient(135deg, #2563eb, #1d4ed8);
-            border-color: transparent;
-            color: #ffffff;
-        }
-
-        .delete-btn {
-            color: #94a3b8;
-            background: transparent;
-            border: none;
-            cursor: pointer;
-            width: 100%;
-            height: 44px;
-            font-size: 1.4rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s;
-        }
-
-        .delete-btn:hover {
-            background: #fee2e2;
-            color: #ef4444;
-        }
-
-        body.dark-theme .delete-btn:hover {
-            background: rgba(239, 68, 68, 0.15);
-            color: #fca5a5;
-        }
-
-        /* Scrollbar Styling */
-        ::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: var(--border);
-            border-radius: 99px;
-            transition: background 0.2s;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--text-muted);
-        }
-
-        /* Modal Backdrop & Slide-up Animations */
-        .modal-backdrop {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(15, 23, 42, 0.4);
-            display: none;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-        }
-
-        body.dark-theme .modal-backdrop {
-            background: rgba(3, 7, 18, 0.6);
-        }
-
-        .modal-backdrop[style*="display: flex"],
-        .modal-backdrop[style*="display:flex"] {
-            animation: fadeIn 0.25s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-        }
-
-        /* Shared modal pieces (used by the import and settings modals) */
-        .modal-backdrop.modal-top {
-            z-index: 100005;
-        }
-
-        .modal-head {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-        }
-
-        .modal-heading {
-            font-family: 'Outfit', sans-serif;
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: var(--text);
-        }
-
-        .tm-close-btn.modal-close-plain,
-        .tm-close-btn.modal-close-plain:hover {
-            color: var(--text);
-            background: transparent;
-            border: none;
-            font-size: 1.5rem;
-        }
-
-        .modal-backdrop .form-group {
-            margin-bottom: 1rem;
-        }
-
-        .form-group label.radio-option {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-weight: normal;
-            text-transform: none;
-            cursor: pointer;
-        }
-
-        .modal-actions {
-            display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-            margin-top: 1rem;
-        }
-
-        .paste-box {
-            width: 100%;
-            padding: 10px;
-            font-family: monospace;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        @keyframes modalSlideUp {
-            from {
-                transform: translateY(24px) scale(0.95);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0) scale(1);
-                opacity: 1;
-            }
-        }
-
-        .modal-backdrop[style*="display: flex"] .card,
-        .modal-backdrop[style*="display:flex"] .card {
-            animation: modalSlideUp 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-            max-width: 600px;
-            width: 90%;
-        }
-
-        /* Controls Layout Card & Custom Checkbox Styling */
-        .controls-card {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
-            gap: 1.25rem;
-            padding: 1.25rem;
-            background: #f8fafc;
-            border: 1.5px solid var(--border);
-            border-radius: 16px;
-            margin-top: 1.75rem;
-            transition: all 0.3s;
-        }
-
-        body.dark-theme .controls-card {
-            background: rgba(255, 255, 255, 0.03);
-            border-color: var(--border);
-        }
-
-        .control-option {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            cursor: pointer;
-            padding: 0.85rem 1.25rem;
-            background: #ffffff;
-            border: 1.5px solid var(--border);
-            border-radius: 12px;
-            transition: all 0.25s ease;
-            user-select: none;
-        }
-
-        body.dark-theme .control-option {
-            background: var(--surface);
-            border-color: var(--border);
-        }
-
-        .control-option:hover {
-            border-color: var(--primary);
-            background: #eff6ff;
-            transform: translateY(-1px);
-        }
-
-        body.dark-theme .control-option:hover {
-            background: rgba(37, 99, 235, 0.12);
-            border-color: var(--primary);
-        }
-
-        .control-option input[type="checkbox"] {
-            display: none;
-        }
-
-        .control-checkbox-box {
-            width: 20px;
-            height: 20px;
-            border: 2px solid var(--text-muted);
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s ease;
-            position: relative;
-        }
-
-        .control-option input[type="checkbox"]:checked + .control-checkbox-box {
-            border-color: var(--primary);
-            background: var(--primary);
-        }
-
-        .control-checkbox-box::after {
-            content: "";
-            width: 5px;
-            height: 9px;
-            border: solid white;
-            border-width: 0 2px 2px 0;
-            transform: rotate(45deg) scale(0);
-            transition: transform 0.15s ease;
-            margin-bottom: 2px;
-        }
-
-        .control-option input[type="checkbox"]:checked + .control-checkbox-box::after {
-            transform: rotate(45deg) scale(1);
-        }
-
-        .control-option-text {
-            font-size: 0.9rem !important;
-            font-weight: 700 !important;
-            color: var(--text) !important;
-            text-transform: none !important;
-            letter-spacing: normal !important;
-        }
-
-        .control-option input[type="checkbox"]:checked ~ .control-option-text {
-            color: var(--primary) !important;
-        }
-
         /* ═════════════════════════════════════════════════════════════════
            ROYAL ACADEMIC RESULT SHEET DESIGN SYSTEM
            ═════════════════════════════════════════════════════════════════ */
@@ -1340,15 +1369,6 @@
         .results-section > * {
             flex: 1;
             min-width: 0;
-        }
-
-        @media (max-width: 1200px) {
-            .results-section {
-                flex-direction: column;
-            }
-            .results-section > * {
-                width: 100%;
-            }
         }
 
         .rank-sheet-view {
@@ -1506,12 +1526,12 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            min-width: 40px;
-            height: 22px;
-            padding: 1px 9px;
+            min-width: 46px;
+            height: 25px;
+            padding: 1px 10px;
             border-radius: 50px;
             font-family: 'Outfit', sans-serif;
-            font-size: 11.5px;
+            font-size: 13px;
             font-weight: 850;
             line-height: 1;
             letter-spacing: 0.03em;
@@ -1552,7 +1572,7 @@
             border: 1px solid #cbd5e1 !important;
             box-shadow: none !important;
             font-weight: 800 !important;
-            font-size: 11px !important;
+            font-size: 12.5px !important;
         }
 
         .sheet-meta-footer {
@@ -1570,188 +1590,6 @@
             text-transform: uppercase;
         }
 
-        /* Export Card & Buttons Styling */
-        .export-card {
-            background: var(--surface);
-            border-radius: 16px;
-            border: 1.5px solid var(--border);
-            padding: 1.5rem 2rem;
-            margin-top: 2.5rem;
-            margin-bottom: 3.5rem;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 1.5rem;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .export-card:hover {
-            border-color: var(--primary);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.08), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-            transform: translateY(-2px);
-        }
-
-        .export-info {
-            display: flex;
-            flex-direction: column;
-            gap: 0.3rem;
-        }
-
-        .export-title {
-            font-family: 'Outfit', sans-serif;
-            font-size: 1.25rem;
-            font-weight: 700;
-            color: var(--text);
-            letter-spacing: 0.01em;
-        }
-
-        .export-subtitle {
-            font-size: 0.88rem;
-            color: var(--text-muted);
-            font-weight: 500;
-        }
-
-        .export-actions {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-            align-items: center;
-        }
-
-        .btn-export {
-            font-family: 'Outfit', sans-serif;
-            font-size: 0.92rem;
-            font-weight: 600;
-            letter-spacing: 0.03em;
-            padding: 0.8rem 1.6rem;
-            border-radius: 10px;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
-            user-select: none;
-            border: 1.5px solid transparent;
-            text-transform: uppercase;
-            position: relative;
-            overflow: hidden;
-            z-index: 1;
-        }
-
-        .btn-export::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(
-                90deg,
-                transparent,
-                rgba(255, 255, 255, 0.2),
-                transparent
-            );
-            transition: none;
-            z-index: 2;
-        }
-
-        .btn-export:hover::after {
-            left: 100%;
-            transition: left 0.75s cubic-bezier(0.25, 0.8, 0.25, 1);
-        }
-
-        .btn-export:active {
-            transform: scale(0.96) translateY(0) !important;
-        }
-
-        .btn-export svg {
-            transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        /* Top Action Buttons Styling */
-        .btn-top-action {
-            font-family: 'Outfit', sans-serif;
-            font-size: 0.95rem;
-            font-weight: 700;
-            padding: 10px 20px;
-            border-radius: 10px;
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
-            user-select: none;
-            box-sizing: border-box;
-        }
-
-        .btn-top-import {
-            background: var(--surface);
-            color: var(--text);
-            border: 1.5px solid var(--border);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-        }
-        .btn-top-import:hover {
-            border-color: var(--primary);
-            color: var(--primary);
-            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.15);
-            transform: translateY(-2px);
-        }
-
-        .btn-top-csv {
-            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
-            color: #ffffff;
-            border: none;
-            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.3);
-        }
-        .btn-top-csv:hover {
-            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.45);
-            filter: brightness(1.08);
-            transform: translateY(-2px);
-        }
-
-        .btn-top-clear {
-            background: #fff5f5;
-            color: #e11d48;
-            border: 1.5px solid #fecdd3;
-            box-shadow: 0 2px 8px rgba(225, 29, 72, 0.05);
-        }
-        .btn-top-clear:hover {
-            background: #ffe4e6;
-            border-color: #fda4af;
-            color: #be123c;
-            box-shadow: 0 4px 14px rgba(225, 29, 72, 0.15);
-            transform: translateY(-2px);
-        }
-
-        .btn-export-pdf {
-            background: linear-gradient(135deg, #059669 0%, #10b981 100%);
-            color: #ffffff;
-            box-shadow: 0 4px 14px rgba(16, 185, 129, 0.25);
-            border: none;
-        }
-
-        .btn-export-pdf:hover {
-            box-shadow: 0 8px 24px rgba(16, 185, 129, 0.35);
-            filter: brightness(1.08);
-            transform: translateY(-2px);
-        }
-
-        .btn-export-img {
-            background: linear-gradient(135deg, #7c3aed 0%, #6366f1 100%);
-            color: #ffffff;
-            box-shadow: 0 4px 14px rgba(124, 58, 237, 0.25);
-            border: none;
-        }
-
-        .btn-export-img:hover {
-            box-shadow: 0 8px 24px rgba(124, 58, 237, 0.35);
-            filter: brightness(1.08);
-            transform: translateY(-2px);
-        }
-
-        /* PRINT SYSTEM */
         .print-only {
             display: none;
             width: 100%;
@@ -1763,7 +1601,9 @@
                 print-color-adjust: exact !important;
                 color-adjust: exact !important;
             }
-            .no-print {
+            .no-print,
+            .toast,
+            .modal-backdrop {
                 display: none !important;
             }
             .print-only {
@@ -1835,297 +1675,262 @@
 </head>
 
 <body>
-    <!-- PRINT ENGINE: This section ONLY appears during printing and contains paginated page wrappers -->
+    <!-- Icon set: use with <svg class="ic"><use href="#i-name"/></svg> -->
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+        <defs>
+            <symbol id="i-file" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></symbol>
+            <symbol id="i-trophy" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.45 1-1 1H7.5"/><path d="M14 14.66V17c0 .55.45 1 1 1h1.5"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></symbol>
+            <symbol id="i-grid" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/></symbol>
+            <symbol id="i-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></symbol>
+            <symbol id="i-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2m-7.07-17.07 1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></symbol>
+            <symbol id="i-upload" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></symbol>
+            <symbol id="i-download" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></symbol>
+            <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></symbol>
+            <symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></symbol>
+            <symbol id="i-trash" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></symbol>
+            <symbol id="i-printer" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></symbol>
+            <symbol id="i-image" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></symbol>
+            <symbol id="i-settings" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></symbol>
+            <symbol id="i-dots" viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/></symbol>
+            <symbol id="i-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></symbol>
+            <symbol id="i-users" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+            <symbol id="i-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></symbol>
+            <symbol id="i-layers" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></symbol>
+            <symbol id="i-x" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></symbol>
+            <symbol id="i-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></symbol>
+            <symbol id="i-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></symbol>
+        </defs>
+    </svg>
+
+    <!-- PRINT ENGINE: only shown when printing -->
     <div id="print-area" class="print-only"></div>
 
     <div class="container no-print">
         <!-- Top Navigation Bar -->
-        <div class="header-top no-print">
+        <header class="app-header">
             <h1 class="main-title">Phoenix <span class="sub-brand">Result Maker</span></h1>
-            <div style="display: flex; align-items: center; gap: 12px;">
-                <div class="main-nav-tabs">
-                    <button class="nav-tab active" id="tab-resultmaker" onclick="switchView('resultmaker')">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
-                        <span>Result Maker</span>
-                    </button>
-                    <button class="nav-tab" id="tab-centralranking" onclick="switchView('centralranking')">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.45 1-1 1H7.5"/><path d="M14 14.66V17c0 .55.45 1 1 1h1.5"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
-                        <span>Central Ranking</span>
-                    </button>
-                    <button class="nav-tab" id="tab-tablemaker" onclick="switchView('tablemaker')">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/></svg>
-                        <span>Table Maker</span>
-                    </button>
-                </div>
-                <button class="btn-theme-toggle" id="btn-theme-toggle" onclick="toggleTheme()" title="Switch to Dark Mode" aria-label="Toggle Theme">
-                    <svg id="theme-icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
-                    <svg id="theme-icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none;"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+            <nav class="main-nav-tabs" aria-label="Sections">
+                <button class="nav-tab active" id="tab-resultmaker" onclick="switchView('resultmaker')">
+                    <svg width="16" height="16"><use href="#i-file"/></svg><span>Result Maker</span>
                 </button>
-            </div>
-        </div>
+                <button class="nav-tab" id="tab-centralranking" onclick="switchView('centralranking')">
+                    <svg width="16" height="16"><use href="#i-trophy"/></svg><span>Central Ranking</span>
+                </button>
+                <button class="nav-tab" id="tab-tablemaker" onclick="switchView('tablemaker')">
+                    <svg width="16" height="16"><use href="#i-grid"/></svg><span>Table Maker</span>
+                </button>
+            </nav>
+            <button class="icon-btn btn-theme-toggle" id="btn-theme-toggle" onclick="toggleTheme()" title="Switch to dark mode" aria-label="Switch to dark mode">
+                <svg id="theme-icon-moon" width="17" height="17"><use href="#i-moon"/></svg>
+                <svg id="theme-icon-sun" width="17" height="17" style="display:none;"><use href="#i-sun"/></svg>
+            </button>
+        </header>
 
         <!-- ── VIEW 1: RESULT MAKER ── -->
         <div id="view-resultmaker" class="app-page-view active">
-            <div class="card no-print">
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.2rem; flex-wrap:wrap; gap:1rem">
-                    <h3 class="modal-heading">Student Data Input</h3>
-                    <div style="display:flex; gap:12px; flex-wrap:wrap; align-items:center;">
-                        <button class="btn-top-action btn-top-import" onclick="showBulkModal()">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-                            Import from Spreadsheet
-                        </button>
-                        <button class="btn-top-action btn-top-csv" onclick="exportCSV()">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                            Export CSV
-                        </button>
-                        <button class="btn-top-action btn-top-clear" onclick="clearData()">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
-                            Clear All
-                        </button>
+            <div class="workspace">
+                <!-- Editor: students and sheet settings -->
+                <section class="panel editor-panel">
+                    <div class="panel-head">
+                        <div class="seg" role="tablist">
+                            <button class="seg-btn active" id="editor-tab-students" onclick="setEditorTab('students')">Students <span class="seg-count" id="student-total-count">0</span></button>
+                            <button class="seg-btn" id="editor-tab-settings" onclick="setEditorTab('settings')">Sheet settings</button>
+                        </div>
+                        <span class="spacer"></span>
+                        <button class="btn btn-secondary btn-sm" onclick="showBulkModal()"><svg width="15" height="15"><use href="#i-upload"/></svg>Import</button>
+                        <button class="btn btn-secondary btn-sm" onclick="exportCSV()"><svg width="15" height="15"><use href="#i-download"/></svg>CSV</button>
                     </div>
-                </div>
 
-                <!-- Live Search Box -->
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; gap: 12px; flex-wrap: wrap;">
-                    <div style="position: relative; flex: 1; max-width: 340px;">
-                        <svg style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-muted); pointer-events: none;" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                        <input type="text" id="student-search-input" placeholder="Search student name..." oninput="handleStudentSearch(this.value)" style="width: 100%; padding: 8px 12px 8px 36px; border-radius: 10px; border: 1.5px solid var(--border); background: var(--input-bg); color: var(--text); font-size: 0.88rem; outline: none; transition: all 0.2s ease;">
-                    </div>
-                    <span id="student-filter-count" style="font-size: 0.84rem; color: var(--text-muted); font-family: 'Outfit', sans-serif; font-weight: 600;"></span>
-                </div>
+                    <!-- Students tab -->
+                    <div class="panel-body" id="editor-pane-students">
+                        <div style="display:flex; align-items:center; gap:10px; margin-bottom:12px;">
+                            <div class="search-box">
+                                <svg width="15" height="15"><use href="#i-search"/></svg>
+                                <input type="text" id="student-search-input" placeholder="Search students" oninput="handleStudentSearch(this.value)">
+                            </div>
+                            <span class="muted-count" id="student-filter-count"></span>
+                        </div>
 
-                <div class="entry-container">
-                    <table class="entry-table">
-                        <thead>
-                            <tr>
-                                <th style="text-align:left; padding-left:20px">Student Name</th>
-                                <th>Type</th>
-                                <th>S01</th>
-                                <th>S02</th>
-                                <th>S03</th>
-                                <th>Essay</th>
-                                <th>S05</th>
-                                <th>S06</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody id="student-rows"></tbody>
-                    </table>
-                </div>
+                        <div class="grid-wrap">
+                            <table class="entry-table">
+                                <colgroup>
+                                    <col><col style="width:76px">
+                                    <col style="width:56px"><col style="width:56px"><col style="width:56px"><col style="width:60px"><col style="width:56px"><col style="width:56px">
+                                    <col style="width:60px"><col style="width:34px">
+                                </colgroup>
+                                <thead>
+                                    <tr>
+                                        <th class="col-name">Name</th>
+                                        <th>Type</th>
+                                        <th>S01</th>
+                                        <th title="NSU: S02 · BRACU: Essay">S02<span class="th-bracu">Essay</span></th>
+                                        <th>S03</th>
+                                        <th title="NSU: Essay · BRACU: S04">Essay<span class="th-bracu">S04</span></th>
+                                        <th>S05</th>
+                                        <th>S06</th>
+                                        <th>Total</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="student-rows"></tbody>
+                            </table>
+                        </div>
 
-                <button class="add-row-btn" onclick="addStudent()">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-                    Add New Student Row
-                </button>
+                        <div class="grid-foot">
+                            <button class="btn btn-ghost btn-sm" onclick="addStudent()"><svg width="15" height="15"><use href="#i-plus"/></svg>Add student</button>
+                            <span class="grid-hint">Enter moves down · click NSU/BRACU to switch</span>
+                            <span class="spacer"></span>
+                            <button class="btn btn-danger-text btn-sm" onclick="clearData()"><svg width="14" height="14"><use href="#i-trash"/></svg>Clear all</button>
+                        </div>
+                    </div>
 
-                <hr style="border:0; border-top:1px solid var(--border); margin:1.5rem 0">
+                    <!-- Sheet settings tab -->
+                    <div class="panel-body" id="editor-pane-settings" hidden>
+                        <div class="settings-section">
+                            <h3 class="settings-heading">Header and footer</h3>
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="cfg-batch">Batch header (left)</label>
+                                    <input type="text" id="cfg-batch" value="BATCH" oninput="updateRankings()">
+                                </div>
+                                <div class="form-group">
+                                    <label for="cfg-mid">Middle header</label>
+                                    <input type="text" id="cfg-mid" value="PHOENIX EDUCATION" oninput="updateRankings()">
+                                </div>
+                                <div class="form-group">
+                                    <label for="cfg-desc">Right header</label>
+                                    <input type="text" id="cfg-desc" value="NSU BRACU COMBO OFFLINE" oninput="updateRankings()">
+                                </div>
+                                <div class="form-group">
+                                    <label for="cfg-label">Score label (e.g. WT03)</label>
+                                    <input type="text" id="cfg-label" value="Weekly Test" oninput="updateRankings()">
+                                </div>
+                                <div class="form-group">
+                                    <label for="cfg-title">Footer test title</label>
+                                    <input type="text" id="cfg-title" value="Weekly Test 01" oninput="updateRankings()">
+                                </div>
+                                <div class="form-group">
+                                    <label for="cfg-date">Footer date</label>
+                                    <input type="date" id="cfg-date" oninput="updateRankings()">
+                                </div>
+                            </div>
+                        </div>
 
-                <div class="form-grid">
-                    <div class="form-group fg-narrow">
-                        <label>Batch Header</label>
-                        <input type="text" id="cfg-batch" value="BATCH" oninput="updateRankings()">
+                        <div class="settings-section">
+                            <h3 class="settings-heading">Display</h3>
+                            <div class="switch-list">
+                                <label class="switch-row">
+                                    <span class="switch-text">Show header and footer</span>
+                                    <input type="checkbox" id="set-header" checked onchange="updateRankings()"><span class="switch"></span>
+                                </label>
+                                <label class="switch-row">
+                                    <span class="switch-text">Exclude 0 marks<span class="switch-hint">Hide students whose total is 0</span></span>
+                                    <input type="checkbox" id="set-hide-zeros" checked onchange="updateRankings()"><span class="switch"></span>
+                                </label>
+                                <label class="switch-row">
+                                    <span class="switch-text">NSU Standard title</span>
+                                    <input type="checkbox" id="set-nsu-title" checked onchange="updateRankings()"><span class="switch"></span>
+                                </label>
+                                <label class="switch-row">
+                                    <span class="switch-text">BRACU Standard title</span>
+                                    <input type="checkbox" id="set-bracu-title" checked onchange="updateRankings()"><span class="switch"></span>
+                                </label>
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group fg-mid">
-                        <label>Middle Header</label>
-                        <input type="text" id="cfg-mid" value="PHOENIX EDUCATION" oninput="updateRankings()">
-                    </div>
-                    <div class="form-group fg-wide">
-                        <label>Right Header</label>
-                        <input type="text" id="cfg-desc" value="NSU BRACU COMBO OFFLINE" oninput="updateRankings()">
-                    </div>
-                    <div class="form-group fg-narrow">
-                        <label>Score Label (e.g. WT03)</label>
-                        <input type="text" id="cfg-label" value="Weekly Test" oninput="updateRankings()">
-                    </div>
-                    <div class="form-group fg-mid">
-                        <label>Footer Test Title</label>
-                        <input type="text" id="cfg-title" value="Weekly Test 01" oninput="updateRankings()">
-                    </div>
-                    <div class="form-group fg-compact">
-                        <label>Footer Date</label>
-                        <input type="date" id="cfg-date" oninput="updateRankings()">
-                    </div>
-                </div>
+                </section>
 
-                <div class="controls-card">
-                    <label class="control-option">
-                        <input type="checkbox" id="set-header" checked onchange="updateRankings()">
-                        <span class="control-checkbox-box"></span>
-                        <span class="control-option-text">Header/Footer ON</span>
-                    </label>
-                    <label class="control-option">
-                        <input type="checkbox" id="set-hide-zeros" checked onchange="updateRankings()">
-                        <span class="control-checkbox-box"></span>
-                        <span class="control-option-text">Exclude 0 Marks</span>
-                    </label>
-                    <label class="control-option">
-                        <input type="checkbox" id="set-nsu-title" checked onchange="updateRankings()">
-                        <span class="control-checkbox-box"></span>
-                        <span class="control-option-text">NSU Standard Box</span>
-                    </label>
-                    <label class="control-option">
-                        <input type="checkbox" id="set-bracu-title" checked onchange="updateRankings()">
-                        <span class="control-checkbox-box"></span>
-                        <span class="control-option-text">BRACU Standard Box</span>
-                    </label>
-                    <label class="control-option" title="BRACU system: Section 02 is the Essay; other sections become S01, S03, S04, S05/S06. Leave unchecked for NSU-style naming (default).">
-                        <input type="checkbox" id="set-bracu-essay-s02" onchange="updateRankings()">
-                        <span class="control-checkbox-box"></span>
-                        <span class="control-option-text">BRACU: Essay on S02</span>
-                    </label>
-                </div>
+                <!-- Live preview -->
+                <section class="panel preview-panel">
+                    <div class="panel-head">
+                        <div>
+                            <div class="panel-title">Preview</div>
+                            <div class="preview-note">A4 landscape · updates as you type</div>
+                        </div>
+                        <span class="spacer"></span>
+                        <div class="preview-actions">
+                            <button class="icon-btn" onclick="window.print()" title="Print" aria-label="Print"><svg width="16" height="16"><use href="#i-printer"/></svg></button>
+                            <button class="btn btn-secondary" onclick="downloadImageDirect()"><svg width="16" height="16"><use href="#i-image"/></svg>PNG</button>
+                            <button class="btn btn-primary" onclick="downloadPDFDirect()"><svg width="16" height="16"><use href="#i-download"/></svg>Download PDF</button>
+                        </div>
+                    </div>
+                    <div class="preview-stage">
+                        <div id="preview-area"></div>
+                    </div>
+                </section>
             </div>
 
-            <!-- DASHBOARD PREVIEW: Stays on screen, hidden during print -->
-            <div id="preview-area" class="no-print"></div>
-
-            <div class="no-print export-card">
-                <div class="export-info">
-                    <span class="export-title">Export & Publish Results</span>
-                    <span class="export-subtitle">Download PDF, PNG, or print the results sheet</span>
-                </div>
-                <div class="export-actions">
-                    <button class="btn-export btn-export-pdf" onclick="downloadPDFDirect()">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-                        Download PDF
-                    </button>
-                    <button class="btn-export btn-export-img" onclick="downloadImageDirect()">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
-                        Download PNG Image
-                    </button>
-                </div>
+            <!-- Bottom export bar for narrow screens -->
+            <div class="export-dock">
+                <button class="btn btn-secondary" onclick="downloadImageDirect()"><svg width="16" height="16"><use href="#i-image"/></svg>PNG</button>
+                <button class="btn btn-primary" onclick="downloadPDFDirect()"><svg width="16" height="16"><use href="#i-download"/></svg>Download PDF</button>
             </div>
         </div><!-- End view-resultmaker -->
 
         <!-- ── VIEW 2: CENTRAL RANKING PAGE ── -->
         <div id="view-centralranking" class="app-page-view">
-            <!-- Central Ranking KPI Summary Cards -->
             <div class="cr-kpi-grid">
-                <div class="cr-kpi-card">
-                    <div class="cr-kpi-icon" style="background: rgba(37,99,235,0.12); color:#2563eb;">👥</div>
+                <div class="panel cr-kpi-card">
+                    <div class="cr-kpi-icon kpi-blue"><svg width="20" height="20"><use href="#i-users"/></svg></div>
                     <div>
                         <div class="cr-kpi-val" id="cr-kpi-candidates">0</div>
-                        <div class="cr-kpi-lbl">Exam Takers</div>
+                        <div class="cr-kpi-lbl">Exam takers</div>
                     </div>
                 </div>
-                <div class="cr-kpi-card">
-                    <div class="cr-kpi-icon" style="background: rgba(245,158,11,0.12); color:#d97706;">🥇</div>
+                <div class="panel cr-kpi-card">
+                    <div class="cr-kpi-icon kpi-amber"><svg width="20" height="20"><use href="#i-trophy"/></svg></div>
                     <div>
                         <div class="cr-kpi-val" id="cr-kpi-topscore">0 / 600</div>
-                        <div class="cr-kpi-lbl">Highest Score</div>
+                        <div class="cr-kpi-lbl">Highest score</div>
                     </div>
                 </div>
-                <div class="cr-kpi-card">
-                    <div class="cr-kpi-icon" style="background: rgba(16,185,129,0.12); color:#10b981;">📈</div>
+                <div class="panel cr-kpi-card">
+                    <div class="cr-kpi-icon kpi-green"><svg width="20" height="20"><use href="#i-chart"/></svg></div>
                     <div>
                         <div class="cr-kpi-val" id="cr-kpi-avgscore">0 Marks</div>
-                        <div class="cr-kpi-lbl">Class Average</div>
+                        <div class="cr-kpi-lbl">Class average</div>
                     </div>
                 </div>
-                <div class="cr-kpi-card">
-                    <div class="cr-kpi-icon" style="background: rgba(124,58,237,0.12); color:#7c3aed;">📚</div>
+                <div class="panel cr-kpi-card">
+                    <div class="cr-kpi-icon kpi-violet"><svg width="20" height="20"><use href="#i-layers"/></svg></div>
                     <div>
                         <div class="cr-kpi-val" id="cr-kpi-batches">0 Batches</div>
-                        <div class="cr-kpi-lbl">Active Batches</div>
+                        <div class="cr-kpi-lbl">Active batches</div>
                     </div>
                 </div>
             </div>
 
-            <!-- Central Ranking Page Layout -->
-            <div class="cr-page-container">
-                <div class="cr-modal-header" style="border-radius: 12px 12px 0 0;">
-                    <div class="cr-modal-title">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/>
-                            <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/>
-                            <path d="M4 22h16"/>
-                            <path d="M10 14.66V17c0 .55-.45 1-1 1H7.5"/>
-                            <path d="M14 14.66V17c0 .55.45 1 1 1h1.5"/>
-                            <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/>
-                        </svg>
-                        Phoenix Central Ranking Result
+            <section class="panel">
+                <div class="panel-head">
+                    <div class="panel-title">Central ranking</div>
+                    <div class="seg">
+                        <button id="cr-toggle-top30" class="seg-btn active" onclick="setCRFilterMode(true)">Top 30</button>
+                        <button id="cr-toggle-all" class="seg-btn" onclick="setCRFilterMode(false)">All <span class="seg-count" id="cr-total-count">0</span></button>
                     </div>
-
-                    <div class="cr-header-actions">
-                        <div class="cr-filter-toggle">
-                            <button id="cr-toggle-top30" class="cr-toggle-btn active" onclick="setCRFilterMode(true)">
-                                Top 30 Only
-                            </button>
-                            <button id="cr-toggle-all" class="cr-toggle-btn" onclick="setCRFilterMode(false)">
-                                Show All Exam Takers (<span id="cr-total-count">0</span>)
-                            </button>
+                    <select id="cr-batch-filter-select" class="cr-batch-select" onchange="changeCRBatchFilter(this.value)" aria-label="Filter by batch">
+                        <option value="all">All batches combined</option>
+                    </select>
+                    <span class="spacer"></span>
+                    <button class="btn btn-primary" onclick="openCRImportModal()"><svg width="16" height="16"><use href="#i-upload"/></svg>Import batch</button>
+                    <div class="menu-wrap">
+                        <button class="btn btn-secondary" onclick="toggleMenu('cr-export-menu', event)" aria-haspopup="true"><svg width="16" height="16"><use href="#i-download"/></svg>Export<svg width="14" height="14"><use href="#i-chevron"/></svg></button>
+                        <div class="menu" id="cr-export-menu">
+                            <button class="menu-item" onclick="closeMenus(); downloadCRPDF()"><svg width="16" height="16"><use href="#i-file"/></svg>Download PDF</button>
+                            <button class="menu-item" onclick="closeMenus(); downloadCRPNG()"><svg width="16" height="16"><use href="#i-image"/></svg>Download PNG</button>
+                            <button class="menu-item" onclick="closeMenus(); exportCRCSV()"><svg width="16" height="16"><use href="#i-download"/></svg>Export CSV</button>
                         </div>
-
-                        <!-- Batch Filter Dropdown -->
-                        <div class="cr-batch-filter-wrap" style="display:inline-flex; align-items:center;">
-                            <select id="cr-batch-filter-select" onchange="changeCRBatchFilter(this.value)" style="background: rgba(255,255,255,0.12); color:#ffffff; border:1.5px solid rgba(255,255,255,0.25); border-radius:30px; padding:6px 14px; font-size:0.82rem; font-family:'Outfit',sans-serif; font-weight:700; cursor:pointer; outline:none; transition:all 0.2s ease; box-shadow:0 2px 8px rgba(0,0,0,0.15);">
-                                <option value="all" style="background:#0a101d; color:#fff;">All Batches Combined</option>
-                            </select>
+                    </div>
+                    <div class="menu-wrap">
+                        <button class="icon-btn" onclick="toggleMenu('cr-more-menu', event)" title="More" aria-label="More options" aria-haspopup="true"><svg width="16" height="16"><use href="#i-dots"/></svg></button>
+                        <div class="menu" id="cr-more-menu">
+                            <button class="menu-item" onclick="closeMenus(); openCRConfigModal()"><svg width="16" height="16"><use href="#i-settings"/></svg>Settings</button>
+                            <div class="menu-sep"></div>
+                            <button class="menu-item danger" onclick="closeMenus(); clearCRAllData()" title="Clear the entire ranking dataset"><svg width="16" height="16"><use href="#i-trash"/></svg>Clear all data</button>
                         </div>
-
-
-                        <!-- Page Navigation System -->
-                        <div class="cr-pagination-bar" id="cr-pagination-controls" style="display:none; align-items:center; gap:6px; background:rgba(255,255,255,0.08); padding:3px 8px; border-radius:8px; border:1px solid rgba(255,255,255,0.15);">
-                            <button class="cr-btn-page" onclick="prevCRPage()" id="cr-btn-prev">◀ Prev</button>
-                            <span id="cr-page-indicator" style="color:#ffffff; font-family:'Outfit',sans-serif; font-size:0.8rem; font-weight:700; min-width:85px; text-align:center;">Page 1 of 1</span>
-                            <button class="cr-btn-page" onclick="nextCRPage()" id="cr-btn-next">Next ▶</button>
-                            <select id="cr-page-size-select" onchange="changeCRPageSize(this.value)" style="background:#0F2C59; color:#fff; border:1px solid #295286; border-radius:6px; padding:3px 6px; font-size:0.78rem; font-family:'Outfit',sans-serif; font-weight:600; cursor:pointer;">
-                                <option value="30" selected>30 Rows / Page (Default)</option>
-                                <option value="20">20 Rows / Page</option>
-                                <option value="32">32 Rows / Page</option>
-                                <option value="all">All Rows</option>
-                            </select>
-                        </div>
-
-                        <button class="cr-btn cr-btn-import" onclick="openCRImportModal()">
-                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                                <polyline points="14 2 14 8 20 8"/>
-                                <line x1="12" y1="18" x2="12" y2="12"/>
-                                <line x1="9" y1="15" x2="15" y2="15"/>
-                            </svg>
-                            Import Batch Data
-                        </button>
-
-                        <button class="cr-btn cr-btn-secondary" onclick="openCRConfigModal()">
-                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                <circle cx="12" cy="12" r="3"/>
-                                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
-                            </svg>
-                            Settings
-                        </button>
-
-                        <button class="cr-btn cr-btn-export-csv" onclick="exportCRCSV()" title="Export Central Ranking to CSV">
-                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                            Export CSV
-                        </button>
-
-                        <button class="cr-btn cr-btn-export-png" onclick="downloadCRPNG()">
-                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-                                <circle cx="8.5" cy="8.5" r="1.5"/>
-                                <polyline points="21 15 16 10 5 21"/>
-                            </svg>
-                            Download PNG
-                        </button>
-
-                        <button class="cr-btn cr-btn-export-pdf" onclick="downloadCRPDF()">
-                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                                <polyline points="14 2 14 8 20 8"/>
-                                <path d="M12 18v-6"/>
-                                <path d="m9 15 3 3 3-3"/>
-                            </svg>
-                            Download PDF
-                        </button>
-
-                        <button class="cr-btn cr-btn-danger" onclick="clearCRAllData()" title="Clear the entire ranking dataset">
-                            Clear All
-                        </button>
                     </div>
                 </div>
 
-                <div class="cr-body-content" style="border-radius: 0 0 12px 12px;">
+                <div class="cr-table-scroll">
                     <div class="cr-sheet-container" id="cr-sheet-capture-area">
                         <table class="cr-result-table">
                             <thead>
@@ -2144,125 +1949,136 @@
                                     <th class="cr-th-sub">5</th>
                                 </tr>
                             </thead>
-                            <tbody id="cr-table-body">
-                                <!-- Dynamic central ranking rows -->
-                            </tbody>
+                            <tbody id="cr-table-body"></tbody>
                         </table>
                     </div>
                 </div>
-            </div>
+
+                <div class="cr-pagination-bar" id="cr-pagination-controls">
+                    <span class="spacer"></span>
+                    <select id="cr-page-size-select" class="cr-page-size" onchange="changeCRPageSize(this.value)" aria-label="Rows per page">
+                        <option value="30" selected>30 rows per page</option>
+                        <option value="20">20 rows per page</option>
+                        <option value="32">32 rows per page</option>
+                        <option value="all">All rows</option>
+                    </select>
+                    <button class="icon-btn" onclick="prevCRPage()" id="cr-btn-prev" aria-label="Previous page"><svg width="16" height="16"><use href="#i-left"/></svg></button>
+                    <span id="cr-page-indicator" class="cr-page-indicator">Page 1 of 1</span>
+                    <button class="icon-btn" onclick="nextCRPage()" id="cr-btn-next" aria-label="Next page"><svg width="16" height="16"><use href="#i-right"/></svg></button>
+                </div>
+            </section>
         </div><!-- End view-centralranking -->
 
         <!-- ── VIEW 3: TABLE MAKER PAGE ── -->
         <div id="view-tablemaker" class="app-page-view">
-            <div class="tm-page-header">
-                <div class="tm-page-info">
-                    <h2 class="tm-page-title">
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/></svg>
-                        Table Maker — Answer Key Extractor
-                    </h2>
-                    <p class="tm-page-desc">Extract, format, and generate structured answer key tables with high-res PNG export.</p>
+            <section class="panel">
+                <div class="panel-head">
+                    <div>
+                        <div class="panel-title">Table Maker</div>
+                        <div class="panel-sub">Extract and format answer key tables, then export them as PNG.</div>
+                    </div>
+                    <span class="spacer"></span>
+                    <button class="btn btn-primary" onclick="document.getElementById('tablemaker-frame').contentWindow.downloadDocumentViewPNG()"><svg width="16" height="16"><use href="#i-image"/></svg>Download PNG</button>
                 </div>
-                <button class="btn-tm-head-png" onclick="document.getElementById('tablemaker-frame').contentWindow.downloadDocumentViewPNG()">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-                    Download Document View (.PNG)
-                </button>
-            </div>
-            <div class="tm-frame-wrapper">
-                <iframe id="tablemaker-frame" src="tablemaker/index.html" title="Table Maker"></iframe>
-            </div>
+                <div class="tm-frame-wrapper">
+                    <iframe id="tablemaker-frame" src="tablemaker/index.html" title="Table Maker"></iframe>
+                </div>
+            </section>
         </div><!-- End view-tablemaker -->
     </div>
 
 
     <!-- Bulk Import Modal (Spreadsheet) -->
     <div id="bulk-modal" class="modal-backdrop">
-        <div class="card">
-            <h2>Import from Spreadsheet</h2>
-            <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:1rem">Columns: Name [Tab] S01 [Tab] S02
-                [Tab] S03 [Tab] Essay [Tab] S05 [Tab] S06 <br>
-                <small>* Sections 05 & 06 count as BRACU (students with S05/S06 will be BRACU)</small></p>
+        <div class="modal-card">
+            <div class="modal-head">
+                <h2 class="modal-heading">Import students</h2>
+                <button class="icon-btn" onclick="hideBulkModal()" aria-label="Close"><svg width="16" height="16"><use href="#i-x"/></svg></button>
+            </div>
+            <p class="modal-text">Paste rows from Excel or Google Sheets.<br>
+                Columns: <code>Name</code> <code>S01</code> <code>S02</code> <code>S03</code> <code>S04</code> <code>S05</code> <code>S06</code><br>
+                For NSU the 4th mark column is the Essay; for BRACU the 2nd is the Essay.<br>
+                Anyone with S05 or S06 marks is counted as BRACU.</p>
             <div class="form-group">
-                <label>Target Standard:</label>
+                <label for="bulk-type">Target standard</label>
                 <select id="bulk-type">
                     <option value="NSU">NSU</option>
                     <option value="BRACU">BRACU</option>
-                    <option value="BOTH">Both (Auto Detect)</option>
+                    <option value="BOTH">Both (auto detect)</option>
                 </select>
             </div>
-            <textarea id="bulk-input" class="paste-box" rows="8"></textarea>
+            <textarea id="bulk-input" class="paste-box" rows="8" placeholder="Paste rows here"></textarea>
             <div class="modal-actions">
                 <button class="btn btn-secondary" onclick="hideBulkModal()">Cancel</button>
-                <button class="btn btn-primary" onclick="importBulk()">Process Import</button>
+                <button class="btn btn-primary" onclick="importBulk()">Import students</button>
             </div>
         </div>
     </div>
 
     <!-- Central Ranking Batch Import Modal -->
-    <div id="cr-import-modal" class="modal-backdrop modal-top">
-        <div class="card" style="max-width: 650px; width: 95%;">
+    <div id="cr-import-modal" class="modal-backdrop">
+        <div class="modal-card">
             <div class="modal-head">
-                <h2 class="modal-heading">Import Batch Result</h2>
-                <button class="tm-close-btn modal-close-plain" onclick="closeCRImportModal()">&times;</button>
+                <h2 class="modal-heading">Import batch result</h2>
+                <button class="icon-btn" onclick="closeCRImportModal()" aria-label="Close"><svg width="16" height="16"><use href="#i-x"/></svg></button>
             </div>
-            
-            <p style="font-size:0.82rem; color:var(--text-muted); margin-bottom:1rem; line-height: 1.4;">
-                Paste Tab-separated data from Excel or Google Sheets.<br>
-                <strong>Supported Formats:</strong><br>
-                1. <code>Name [Tab] MT1 [Tab] MT2 [Tab] MT3 [Tab] MT4 [Tab] MT5</code><br>
-                2. <code>Name [Tab] Batch Name [Tab] MT1 [Tab] MT2 [Tab] MT3 [Tab] MT4 [Tab] MT5</code><br>
-                3. <code>Rank [Tab] Name [Tab] Batch Name [Tab] MT1 [Tab] MT2 [Tab] MT3 [Tab] MT4 [Tab] MT5</code>
+
+            <p class="modal-text">
+                Paste tab-separated rows from Excel or Google Sheets. Supported layouts:<br>
+                1. <code>Name, MT1 … MT5</code><br>
+                2. <code>Name, Batch name, MT1 … MT5</code><br>
+                3. <code>Rank, Name, Batch name, MT1 … MT5</code>
             </p>
 
             <div class="form-group">
-                <label>Batch Name (Full Name):</label>
-                <input type="text" id="cr-batch-name-input" placeholder="e.g. BATCH 87 - Offline Combo Batch" value="BATCH 87 - Offline Combo Batch" style="width:100%">
+                <label for="cr-batch-name-input">Batch name (full name)</label>
+                <input type="text" id="cr-batch-name-input" placeholder="BATCH 87 - Offline Combo Batch" value="BATCH 87 - Offline Combo Batch">
             </div>
 
             <div class="form-group">
-                <label>Mode:</label>
-                <div style="display:flex; gap:15px; margin-top:4px;">
+                <label>Mode</label>
+                <div class="radio-row">
                     <label class="radio-option">
-                        <input type="radio" name="cr-import-mode" value="append" checked> Append / Add to Existing Results
+                        <input type="radio" name="cr-import-mode" value="append" checked> Add to existing results
                     </label>
                     <label class="radio-option">
-                        <input type="radio" name="cr-import-mode" value="replace"> Replace Entire Ranking Dataset
+                        <input type="radio" name="cr-import-mode" value="replace"> Replace the whole ranking
                     </label>
                 </div>
             </div>
 
             <div class="form-group">
-                <label>Spreadsheet Data (Paste here):</label>
-                <textarea id="cr-bulk-input" rows="8" placeholder="Fuad Hasan Susmit	90.5	101.5	87	95.5	108&#10;Raiyan Rana Raad	74	83	86	72	90" class="paste-box" style="font-size:0.88rem"></textarea>
+                <label for="cr-bulk-input">Spreadsheet data</label>
+                <textarea id="cr-bulk-input" rows="8" placeholder="Student name	90.5	101.5	87	95.5	108" class="paste-box"></textarea>
             </div>
 
             <div class="modal-actions">
                 <button class="btn btn-secondary" onclick="closeCRImportModal()">Cancel</button>
-                <button class="btn btn-primary" onclick="processCRImport()">Process Batch Import</button>
+                <button class="btn btn-primary" onclick="processCRImport()">Import batch</button>
             </div>
         </div>
     </div>
 
     <!-- Central Ranking Settings Modal -->
-    <div id="cr-config-modal" class="modal-backdrop modal-top">
-        <div class="card" style="max-width: 500px; width: 90%;">
+    <div id="cr-config-modal" class="modal-backdrop">
+        <div class="modal-card modal-sm">
             <div class="modal-head">
-                <h2 class="modal-heading" style="font-size:1.2rem">Central Ranking Settings</h2>
-                <button class="tm-close-btn modal-close-plain" onclick="closeCRConfigModal()">&times;</button>
+                <h2 class="modal-heading">Central ranking settings</h2>
+                <button class="icon-btn" onclick="closeCRConfigModal()" aria-label="Close"><svg width="16" height="16"><use href="#i-x"/></svg></button>
             </div>
 
             <div class="form-group">
-                <label>Total Max Marks (Out of):</label>
-                <input type="number" id="cr-max-marks-input" value="600" style="width:100%">
+                <label for="cr-max-marks-input">Total max marks (out of)</label>
+                <input type="number" id="cr-max-marks-input" value="600">
             </div>
-
 
             <div class="modal-actions">
                 <button class="btn btn-secondary" onclick="closeCRConfigModal()">Cancel</button>
-                <button class="btn btn-primary" onclick="saveCRSettings()">Save Changes</button>
+                <button class="btn btn-primary" onclick="saveCRSettings()">Save changes</button>
             </div>
         </div>
     </div>
+
 
     <script>
         // ── Navigation & Page View Router ─────────────────────────
@@ -2311,7 +2127,7 @@
                 sun.style.display = isDark ? 'block' : 'none';
             }
             if (btn) {
-                btn.title = isDark ? 'Switch to Light Mode' : 'Switch to Dark Mode';
+                btn.title = isDark ? 'Switch to light mode' : 'Switch to dark mode';
                 btn.setAttribute('aria-label', btn.title);
             }
         }
@@ -2331,8 +2147,7 @@
                     showHeader: document.getElementById('set-header')?.checked,
                     hideZeros: document.getElementById('set-hide-zeros')?.checked,
                     showNSU: document.getElementById('set-nsu-title')?.checked,
-                    showBRACU: document.getElementById('set-bracu-title')?.checked,
-                    bracuEssayS02: document.getElementById('set-bracu-essay-s02')?.checked
+                    showBRACU: document.getElementById('set-bracu-title')?.checked
                 };
                 localStorage.setItem(CONFIG_STORAGE_KEY, JSON.stringify(cfg));
             } catch (e) {
@@ -2355,7 +2170,6 @@
                 if (cfg.hideZeros !== undefined && document.getElementById('set-hide-zeros')) document.getElementById('set-hide-zeros').checked = cfg.hideZeros;
                 if (cfg.showNSU !== undefined && document.getElementById('set-nsu-title')) document.getElementById('set-nsu-title').checked = cfg.showNSU;
                 if (cfg.showBRACU !== undefined && document.getElementById('set-bracu-title')) document.getElementById('set-bracu-title').checked = cfg.showBRACU;
-                if (cfg.bracuEssayS02 !== undefined && document.getElementById('set-bracu-essay-s02')) document.getElementById('set-bracu-essay-s02').checked = cfg.bracuEssayS02;
             } catch (e) {
                 console.error("Failed to load sheet configuration:", e);
             }
@@ -2469,10 +2283,10 @@
 
             const uniqueBatches = Array.from(new Set(data.map(item => (item.batch || 'Default').trim()))).filter(Boolean);
 
-            let html = `<option value="all" style="background:#0a101d; color:#fff;" ${crSelectedBatch === 'all' ? 'selected' : ''}>All Batches Combined (${data.length})</option>`;
+            let html = `<option value="all" ${crSelectedBatch === 'all' ? 'selected' : ''}>All batches combined (${data.length})</option>`;
             uniqueBatches.forEach(b => {
                 const count = data.filter(item => (item.batch || 'Default').trim() === b).length;
-                html += `<option value="${escapeHtml(b)}" style="background:#0a101d; color:#fff;" ${crSelectedBatch === b ? 'selected' : ''}>Filter ${escapeHtml(b)} (${count})</option>`;
+                html += `<option value="${escapeHtml(b)}" ${crSelectedBatch === b ? 'selected' : ''}>${escapeHtml(b)} (${count})</option>`;
             });
 
             select.innerHTML = html;
@@ -2610,7 +2424,7 @@
             if (!tbody) return;
 
             if (displayList.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="9" style="padding: 30px; color: var(--text-muted);">No records found. Click "Import Batch Data" to add results.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="9" style="padding: 30px; color: var(--text-muted);">No results yet. Use "Import batch" to add a batch's model test marks.</td></tr>`;
                 return;
             }
 
@@ -2760,24 +2574,14 @@
             if (!toast) {
                 toast = document.createElement('div');
                 toast.id = 'cr-toast';
-                toast.style.cssText = `
-                    position: fixed; bottom: 2rem; right: 2rem;
-                    background: linear-gradient(135deg, #10b981, #059669); color: white;
-                    padding: 12px 24px; border-radius: 50px;
-                    box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4); z-index: 100000;
-                    font-family: 'Outfit', sans-serif; font-weight: 700; font-size: 0.9rem;
-                    transition: all 0.3s ease; opacity: 0; transform: translateY(10px);
-                    display: flex; align-items: center; gap: 8px;
-                `;
+                toast.className = 'toast';
+                toast.setAttribute('role', 'status');
                 document.body.appendChild(toast);
             }
             toast.textContent = msg;
-            toast.style.opacity = '1';
-            toast.style.transform = 'translateY(0)';
-            setTimeout(() => {
-                toast.style.opacity = '0';
-                toast.style.transform = 'translateY(10px)';
-            }, 2500);
+            toast.classList.add('show');
+            clearTimeout(showCRToast.timer);
+            showCRToast.timer = setTimeout(() => toast.classList.remove('show'), 2500);
         }
 
         function exportCRCSV() {
@@ -2821,22 +2625,47 @@
             showCRToast("Central Ranking CSV exported successfully!");
         }
 
-        function downloadCRPNG() {
+        // Render HTML in an off-screen box of a fixed width and capture it, so exports
+        // look the same whatever the window size is.
+        async function captureOffscreen(html, width, selector) {
+            const holder = document.createElement('div');
+            holder.style.cssText = `position:fixed; left:0; top:0; width:${width}px; z-index:-9999; opacity:0.01; pointer-events:none; background:#ffffff;`;
+            holder.innerHTML = html;
+            document.body.appendChild(holder);
+            try {
+                await new Promise(r => setTimeout(r, 60));
+                const target = selector ? holder.querySelector(selector) : holder.firstElementChild;
+                return await html2canvas(target, { scale: 2, useCORS: true, backgroundColor: '#ffffff', scrollX: 0, scrollY: 0 });
+            } finally {
+                holder.remove();
+            }
+        }
+
+        async function downloadCRPNG() {
             const element = document.getElementById('cr-sheet-capture-area');
             if (!element) { alert("Nothing to capture!"); return; }
-
-            html2canvas(element, { scale: 2, useCORS: true, backgroundColor: '#ffffff', scrollX: 0, scrollY: 0 }).then(canvas => {
+            try {
+                const html = element.outerHTML.replace('id="cr-sheet-capture-area"', '');
+                const canvas = await captureOffscreen(html, 1250, '.cr-sheet-container');
                 const link = document.createElement('a');
                 const batchPrefix = (crSelectedBatch && crSelectedBatch !== 'all') ? `${crSelectedBatch} - ` : '';
                 link.download = `${batchPrefix}Central Ranking - Model Test Result Sheet.png`.replace(/[/\\?%*:|"<>]/g, '_');
                 link.href = canvas.toDataURL('image/png');
                 link.click();
-            }).catch(err => {
+            } catch (err) {
                 console.error("Central Ranking PNG Error: ", err);
                 alert("Could not generate PNG.");
-            });
+            }
         }
 
+        // Place a captured image on an A4 landscape page, as large as fits, without stretching it
+        function addImageToA4(pdf, imgData, canvas) {
+            const pageW = 297, pageH = 210, marginX = 4, marginY = 3.5;
+            const maxW = pageW - marginX * 2, maxH = pageH - marginY * 2;
+            const ratio = Math.min(maxW / canvas.width, maxH / canvas.height);
+            const w = canvas.width * ratio, h = canvas.height * ratio;
+            pdf.addImage(imgData, 'JPEG', (pageW - w) / 2, (pageH - h) / 2, w, h);
+        }
 
         async function downloadCRPDF() {
             const processed = getCRRankedList();
@@ -2875,7 +2704,7 @@
 
 
                     tempDiv.innerHTML = `
-                        <div class="cr-sheet-container" style="border: 2px solid #0f2c59; border-radius: 0; box-shadow: none; width: 1414px; min-height: 995px; display: flex; flex-direction: column; justify-content: space-between; box-sizing: border-box; background: #ffffff;">
+                        <div class="cr-sheet-container" style="border: 2px solid #0f2c59; border-radius: 0; box-shadow: none; width: 1414px; max-width: none; min-height: 995px; display: flex; flex-direction: column; justify-content: space-between; box-sizing: border-box; background: #ffffff;">
                             <div style="flex: 1;">
                                 <table class="cr-result-table" style="width: 100%;">
                                     <thead>
@@ -2914,17 +2743,11 @@
                     });
 
                     const imgData = canvas.toDataURL('image/jpeg', 0.98);
-                    const pdfWidth = 297;
-                    const pdfHeight = 210;
-                    const marginX = 4;
-                    const marginY = 3.5;
-                    const renderWidth = pdfWidth - (marginX * 2);
-                    const renderHeight = pdfHeight - (marginY * 2);
 
                     if (p > 1) {
                         pdf.addPage();
                     }
-                    pdf.addImage(imgData, 'JPEG', marginX, marginY, renderWidth, renderHeight);
+                    addImageToA4(pdf, imgData, canvas);
 
                 }
 
@@ -2946,6 +2769,7 @@
         // Close active modals on Escape key
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
+                closeMenus();
                 hideBulkModal();
                 closeCRImportModal();
                 closeCRConfigModal();
@@ -2954,6 +2778,7 @@
 
         // Close modals when clicking outside modal content
         window.addEventListener('click', function(e) {
+            if (!e.target.closest || !e.target.closest('.menu-wrap')) closeMenus();
             if (e.target && e.target.classList && e.target.classList.contains('modal-backdrop')) {
                 hideBulkModal();
                 closeCRImportModal();
@@ -2982,30 +2807,64 @@
             if (s.scores.length > 6) s.scores = s.scores.slice(0, 6);
         });
 
+        // Column names per standard: NSU has Essay in the 4th column, BRACU has it in the 2nd
+        const SECTION_LABELS = {
+            NSU: ['S01', 'S02', 'S03', 'Essay', 'S05', 'S06'],
+            BRACU: ['S01', 'Essay', 'S03', 'S04', 'S05', 'S06']
+        };
+
+        function sectionLabel(type, idx) {
+            return (SECTION_LABELS[type] || SECTION_LABELS.NSU)[idx];
+        }
+
+        // NSU totals use S01–Essay; BRACU totals also add S05/S06
+        function studentTotal(s) {
+            return sumMarks(s.scores, s.type === 'BRACU' ? 6 : 4);
+        }
+
         function updateValue(i, field, val, scoreIdx = null) {
             if (scoreIdx !== null) {
-                const numVal = parseFloat(val) || 0;
-                students[i].scores[scoreIdx] = numVal;
-                // Section 05 & 06 count as BRACU result. Anyone who answers section 05 or 06 will be a BRACU student.
-                if ((scoreIdx === 4 || scoreIdx === 5) && numVal > 0) {
-                    if (students[i].type !== 'BRACU') {
-                        students[i].type = 'BRACU';
-                        renderTable();
-                    }
-                }
+                students[i].scores[scoreIdx] = parseFloat(val) || 0;
+                // Update this row's total in place (no re-render, so typing keeps focus)
+                const totalCell = document.querySelector(`#student-rows tr[data-row="${i}"] .row-total`);
+                if (totalCell) totalCell.textContent = studentTotal(students[i]) || '–';
             }
             else students[i][field] = val;
             localStorage.setItem('phoenix_v5', JSON.stringify(students));
             updateRankings();
         }
 
-        function updateStudentType(i, newType) {
-            students[i].type = newType;
-            if (newType === 'NSU') {
-                students[i].scores[4] = 0;
-                students[i].scores[5] = 0;
+        // S05/S06 only apply to BRACU, so switching to NSU clears them (after asking if they have marks)
+        function toggleStudentType(i) {
+            const s = students[i];
+            if (s.type === 'BRACU') {
+                const hasBracuMarks = (parseFloat(s.scores[4]) || 0) > 0 || (parseFloat(s.scores[5]) || 0) > 0;
+                if (hasBracuMarks && !confirm(`Switch ${s.name || 'this student'} to NSU? Their S05/S06 marks will be removed.`)) return;
+                s.type = 'NSU';
+                s.scores[4] = 0;
+                s.scores[5] = 0;
+            } else {
+                s.type = 'BRACU';
             }
             saveAndFullRender();
+            const pill = document.querySelector(`#student-rows tr[data-row="${i}"] .type-pill`);
+            if (pill) pill.focus();
+        }
+
+        // Spreadsheet-style keys in the grid: Enter moves down, Shift+Enter moves up
+        function handleGridKeydown(e) {
+            if (e.key !== 'Enter' || !e.target.matches('input')) return;
+            e.preventDefault();
+            const td = e.target.closest('td');
+            const tr = td.parentElement;
+            const col = Array.from(tr.children).indexOf(td);
+            let next = e.shiftKey ? tr.previousElementSibling : tr.nextElementSibling;
+            while (next) {
+                const input = next.children[col] && next.children[col].querySelector('input:not(:disabled)');
+                if (input) { input.focus(); input.select(); return; }
+                next = e.shiftKey ? next.previousElementSibling : next.nextElementSibling;
+            }
+            if (!e.shiftKey && col === 0) addStudent();
         }
 
         function saveAndFullRender() {
@@ -3039,6 +2898,8 @@
                 if (searchInp) searchInp.value = '';
             }
             saveAndFullRender();
+            const nameInput = document.querySelector('#student-rows tr:last-child td.col-name input');
+            if (nameInput) nameInput.focus();
         }
 
         function removeStudent(i) {
@@ -3114,7 +2975,9 @@
             const hideZeros = document.getElementById('set-hide-zeros').checked;
             const hasS06 = students.some(s => (parseFloat(s.scores[5]) || 0) > 0);
             const numCols = hasS06 ? 6 : 5;
-            let csv = hasS06 ? "Name,Type,S01,S02,S03,Essay,S05,S06\n" : "Name,Type,S01,S02,S03,Essay,S05\n";
+            // Column 2 is the Essay for BRACU, column 4 is the Essay for NSU
+            const csvCols = ['S01', 'S02 (BRACU Essay)', 'S03', 'Essay (BRACU S04)', 'S05', 'S06'].slice(0, numCols);
+            let csv = `Name,Type,${csvCols.map(c => `"${c}"`).join(',')}\n`;
             students.forEach(s => {
                 if (!s.name || !s.name.trim()) return;
                 const isBracu = s.type === 'BRACU' || (parseFloat(s.scores[4]) || 0) > 0 || (parseFloat(s.scores[5]) || 0) > 0;
@@ -3148,39 +3011,38 @@
                 ? indexedStudents.filter(s => (s.name || '').toLowerCase().includes(studentSearchTerm))
                 : indexedStudents;
 
+            const totalCountEl = document.getElementById('student-total-count');
+            if (totalCountEl) totalCountEl.textContent = students.length;
             if (countEl) {
-                if (studentSearchTerm) {
-                    countEl.textContent = `Showing ${filtered.length} of ${students.length} students`;
-                } else {
-                    countEl.textContent = `${students.length} student${students.length === 1 ? '' : 's'}`;
-                }
+                countEl.textContent = studentSearchTerm ? `${filtered.length} of ${students.length}` : '';
             }
 
             if (filtered.length === 0) {
-                if (students.length === 0) {
-                    tbody.innerHTML = `<tr><td colspan="9" style="text-align:center; padding:24px; color:var(--text-muted); font-size:0.9rem; font-weight:600;">No students entered yet. Click "Add New Student Row" or import from spreadsheet.</td></tr>`;
-                } else {
-                    tbody.innerHTML = `<tr><td colspan="9" style="text-align:center; padding:24px; color:var(--text-muted); font-size:0.9rem; font-weight:600;">No students matching "${escapeHtml(studentSearchTerm)}"</td></tr>`;
-                }
+                tbody.innerHTML = students.length === 0
+                    ? `<tr><td colspan="10" class="grid-empty">No students yet. Use <b>Add student</b> or <b>Import</b> to paste rows from a spreadsheet.</td></tr>`
+                    : `<tr><td colspan="10" class="grid-empty">No students match "${escapeHtml(studentSearchTerm)}"</td></tr>`;
                 return;
             }
 
             tbody.innerHTML = filtered.map(s => {
                 const i = s.origIdx;
+                const isBracu = s.type === 'BRACU';
+                const scoreCells = [0, 1, 2, 3, 4, 5].map(idx => {
+                    const val = roundMarks(s.scores && s.scores[idx]);
+                    if (idx >= 4 && !isBracu) {
+                        return `<td><input type="number" class="subject-input" disabled title="S05/S06 are for BRACU. Switch this student to BRACU to enter them." aria-label="S0${idx + 1} (BRACU only)"></td>`;
+                    }
+                    const label = sectionLabel(s.type, idx);
+                    return `<td><input type="number" step="0.5" class="subject-input" value="${val === 0 ? '' : val}" placeholder="·" title="${label}" aria-label="${label}" oninput="updateValue(${i}, 'scores', this.value, ${idx})"></td>`;
+                }).join('');
                 return `
-                <tr>
-                    <td style="width:240px"><input type="text" placeholder="Student Name..." value="${escapeHtml(s.name)}" oninput="updateValue(${i}, 'name', this.value)"></td>
-                    <td style="width:95px"><select onchange="updateStudentType(${i}, this.value)"><option value="NSU" ${s.type === 'NSU' ? 'selected' : ''}>NSU</option><option value="BRACU" ${s.type === 'BRACU' ? 'selected' : ''}>BRACU</option></select></td>
-                    ${[0, 1, 2, 3, 4, 5].map(idx => {
-                        const val = s.scores && s.scores[idx] !== undefined ? s.scores[idx] : 0;
-                        return `<td><input type="number" step="0.5" class="subject-input" 
-                            value="${val}" 
-                            onfocus="if(this.value=='0')this.value=''" onblur="if(this.value=='')this.value='0'" 
-                            oninput="updateValue(${i}, 'scores', this.value, ${idx})"></td>`;
-                    }).join('')}
-                    <td style="width:40px"><button class="delete-btn" onclick="removeStudent(${i})">&times;</button></td>
-                </tr>
-            `;
+                <tr data-row="${i}">
+                    <td class="col-name"><input type="text" placeholder="Student name" value="${escapeHtml(s.name)}" aria-label="Student name" oninput="updateValue(${i}, 'name', this.value)"></td>
+                    <td><button class="type-pill ${isBracu ? 'bracu' : 'nsu'}" onclick="toggleStudentType(${i})" title="Click to switch to ${isBracu ? 'NSU' : 'BRACU'}">${isBracu ? 'BRACU' : 'NSU'}</button></td>
+                    ${scoreCells}
+                    <td class="row-total">${studentTotal(s) || '–'}</td>
+                    <td><button class="delete-btn" onclick="removeStudent(${i})" title="Remove student" aria-label="Remove ${escapeHtml(s.name || 'student')}">&times;</button></td>
+                </tr>`;
             }).join('');
         }
 
@@ -3237,7 +3099,7 @@
             `;
         }
 
-        function generatePrintHTML(nsuData, bracuData, label, batch, midHeader, desc, title, dateStr, showHeader, showNSUT, showBRACUT, nsuHeaders = ['S01', 'S02', 'S03', 'Essay'], bracuHeaders = ['S01', 'S02', 'S03', 'Essay', 'S05']) {
+        function generatePrintHTML(nsuData, bracuData, label, batch, midHeader, desc, title, dateStr, showHeader, showNSUT, showBRACUT, nsuHeaders = ['S01', 'S02', 'S03', 'Essay'], bracuHeaders = ['S01', 'Essay', 'S03', 'S04', 'S05']) {
             const headerHtml = showHeader ? `<span>${escapeHtml(batch)}</span><span>${escapeHtml(midHeader)}</span><span>${escapeHtml(desc)}</span>` : "";
             const footerHtml = showHeader ? `<span>Result Published: ${escapeHtml(dateStr)}</span><span>${escapeHtml(title)} - Result Sheet</span>` : "";
 
@@ -3361,7 +3223,7 @@
             const isBracuStudent = (s) => s.type === 'BRACU' || (parseFloat(s.scores[4]) || 0) > 0 || (parseFloat(s.scores[5]) || 0) > 0;
 
             // NSU Standard: strictly 4 sections (S01, S02, S03, Essay)
-            const nsuHeaders = ['S01', 'S02', 'S03', 'Essay'];
+            const nsuHeaders = SECTION_LABELS.NSU.slice(0, 4);
             const nsuAll = students
                 .filter(s => s.name && !isBracuStudent(s))
                 .map(s => ({
@@ -3373,13 +3235,8 @@
             const bracuStudentsRaw = students.filter(s => s.name && isBracuStudent(s));
             const bracuHasS06 = bracuStudentsRaw.some(s => (parseFloat(s.scores[5]) || 0) > 0);
             const bracuLimit = bracuHasS06 ? 6 : 5;
-            // BRACU system option: Section 02 is the Essay, the rest are S01, S03, S04, S05/S06.
-            // Unchecked (default) keeps the NSU-style naming with Essay in the 4th column.
-            const bracuEssayS02 = document.getElementById('set-bracu-essay-s02')?.checked;
-            const bracuBaseHeaders = bracuEssayS02
-                ? ['S01', 'Essay', 'S03', 'S04', 'S05', 'S06']
-                : ['S01', 'S02', 'S03', 'Essay', 'S05', 'S06'];
-            const bracuHeaders = bracuBaseHeaders.slice(0, bracuLimit);
+            // BRACU: Section 02 is always the Essay; the rest are S01, S03, S04, S05/S06
+            const bracuHeaders = SECTION_LABELS.BRACU.slice(0, bracuLimit);
 
             const bracuAll = bracuStudentsRaw.map(s => ({
                 ...s,
@@ -3395,8 +3252,47 @@
 
             // Build the sheet once and use it for both the on-screen preview and printing
             const sheetHTML = generatePrintHTML(nsuSorted, bracuSorted, label, batch, midHeader, desc, title, dateStr, showHeader, showNSUT, showBRACUT, nsuHeaders, bracuHeaders);
-            document.getElementById('preview-area').innerHTML = sheetHTML;
+            currentSheetHTML = sheetHTML;
+            document.getElementById('preview-area').innerHTML = `<div class="preview-page">${sheetHTML}</div>`;
             document.getElementById('print-area').innerHTML = sheetHTML;
+            fitPreview();
+        }
+
+        // The sheet is laid out at a fixed A4-shaped size and scaled down to fit the preview panel
+        const SHEET_WIDTH = 1500;
+        const SHEET_MIN_HEIGHT = 1060;
+        let currentSheetHTML = '';
+
+        function fitPreview() {
+            const area = document.getElementById('preview-area');
+            const page = area && area.querySelector('.preview-page');
+            if (!page || !area.clientWidth) return;
+            const scale = Math.min(1, area.clientWidth / SHEET_WIDTH);
+            page.style.transform = `scale(${scale})`;
+            area.style.height = `${Math.ceil(page.offsetHeight * scale)}px`;
+        }
+
+        // ── Editor tabs (Students / Sheet settings) ──
+        function setEditorTab(tab) {
+            const isSettings = tab === 'settings';
+            document.getElementById('editor-pane-students').hidden = isSettings;
+            document.getElementById('editor-pane-settings').hidden = !isSettings;
+            document.getElementById('editor-tab-students').classList.toggle('active', !isSettings);
+            document.getElementById('editor-tab-settings').classList.toggle('active', isSettings);
+            try { localStorage.setItem('phoenix_editor_tab', isSettings ? 'settings' : 'students'); } catch (e) {}
+        }
+
+        // ── Dropdown menus ──
+        function toggleMenu(id, event) {
+            if (event) event.stopPropagation();
+            const menu = document.getElementById(id);
+            const wasOpen = menu.classList.contains('open');
+            closeMenus();
+            if (!wasOpen) menu.classList.add('open');
+        }
+
+        function closeMenus() {
+            document.querySelectorAll('.menu.open').forEach(m => m.classList.remove('open'));
         }
 
         function getDownloadFileName(ext) {
@@ -3412,36 +3308,28 @@
         }
 
         // Direct Download Actions
-        function downloadPDFDirect() {
-            const element = document.getElementById('preview-area').querySelector('.print-page-wrapper');
-            if (!element) { alert("No results to download"); return; }
-            
-            const originalBoxShadow = element.style.boxShadow;
-            const originalBorder = element.style.border;
-            const originalBorderRadius = element.style.borderRadius;
-            const originalMinHeight = element.style.minHeight;
+        // Capture the sheet at a fixed A4-shaped size (so the PDF/PNG never looks stretched)
+        function captureSheet() {
+            const html = `<div class="capture-page" style="width:${SHEET_WIDTH}px">${currentSheetHTML}</div>`;
+            return captureOffscreen(html, SHEET_WIDTH, '.print-page-wrapper');
+        }
 
-            element.style.boxShadow = 'none';
-            element.style.border = 'none';
-            element.style.borderRadius = '0';
-            element.style.minHeight = '1060px';
+        async function captureSheetForExport() {
+            if (!currentSheetHTML || !currentSheetHTML.includes('result-table')) {
+                alert("No results to download");
+                return null;
+            }
+            return captureSheet();
+        }
 
-
-            html2canvas(element, { scale: 2, useCORS: true, backgroundColor: '#ffffff', scrollX: 0, scrollY: 0 }).then(canvas => {
-                element.style.boxShadow = originalBoxShadow;
-                element.style.border = originalBorder;
-                element.style.borderRadius = originalBorderRadius;
-                element.style.minHeight = originalMinHeight;
+        async function downloadPDFDirect() {
+            try {
+                const canvas = await captureSheetForExport();
+                if (!canvas) return;
 
                 const imgData = canvas.toDataURL('image/jpeg', 0.98);
                 const jsPDFLib = (window.jspdf && window.jspdf.jsPDF) ? window.jspdf.jsPDF : window.jsPDF;
                 
-                const pdfWidth = 297;
-                const pdfHeight = 210;
-                const marginX = 4;
-                const marginY = 3.5;
-                const renderWidth = pdfWidth - (marginX * 2);
-                const renderHeight = pdfHeight - (marginY * 2);
 
                 const pdf = new jsPDFLib({
                     orientation: 'landscape',
@@ -3449,42 +3337,26 @@
                     format: 'a4'
                 });
 
-                pdf.addImage(imgData, 'JPEG', marginX, marginY, renderWidth, renderHeight);
+                addImageToA4(pdf, imgData, canvas);
                 pdf.save(getDownloadFileName('pdf'));
-            }).catch(err => {
-                element.style.boxShadow = originalBoxShadow;
-                element.style.border = originalBorder;
-                element.style.borderRadius = originalBorderRadius;
-                element.style.minHeight = originalMinHeight;
+            } catch (err) {
                 console.error("PDF generation error: ", err);
                 alert("Could not generate PDF.");
-            });
+            }
         }
 
-
-        function downloadImageDirect() {
-            const element = document.getElementById('preview-area').querySelector('.print-page-wrapper');
-            if (!element) { alert("No results to download"); return; }
-
-            const originalBoxShadow = element.style.boxShadow;
-            const originalBorder = element.style.border;
-            element.style.boxShadow = 'none';
-            element.style.border = 'none';
-
-            html2canvas(element, { scale: 2, useCORS: true, backgroundColor: '#ffffff', scrollX: 0, scrollY: 0 }).then(canvas => {
-                element.style.boxShadow = originalBoxShadow;
-                element.style.border = originalBorder;
-
+        async function downloadImageDirect() {
+            try {
+                const canvas = await captureSheetForExport();
+                if (!canvas) return;
                 const link = document.createElement('a');
                 link.download = getDownloadFileName('png');
                 link.href = canvas.toDataURL('image/png');
                 link.click();
-            }).catch(err => {
-                element.style.boxShadow = originalBoxShadow;
-                element.style.border = originalBorder;
+            } catch (err) {
                 console.error("html2canvas error: ", err);
                 alert("Could not generate image. Make sure browser isn't blocking execution.");
-            });
+            }
         }
 
 
@@ -3493,6 +3365,15 @@
         renderTable();
         updateRankings();
         renderCentralRanking();
+        try { setEditorTab(localStorage.getItem('phoenix_editor_tab') || 'students'); } catch (e) { setEditorTab('students'); }
+        document.getElementById('student-rows').addEventListener('keydown', handleGridKeydown);
+        if (window.ResizeObserver) {
+            new ResizeObserver(() => fitPreview()).observe(document.getElementById('preview-area'));
+        } else {
+            window.addEventListener('resize', fitPreview);
+        }
+        // Web fonts change text widths, so re-fit once they have loaded
+        if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitPreview);
     </script>
 </body>
 
