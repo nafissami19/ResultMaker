@@ -1,4 +1,4 @@
-# 🦅 Phoenix Result Maker
+# Phoenix Result Maker
 
 > Make one-page printable result sheets for NSU and BRACU model tests, keep a central ranking across batches, and turn solve sheets into checked answer keys.
 
