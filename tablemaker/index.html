@@ -1,99 +1,785 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="TableMaker - Automated Answer Key Extractor & Grid Table Generator from PDF, Word documents, and text." />
-    <title>TableMaker | Automatic Answer Key Grid Generator</title>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Table Maker | Answer Key Builder</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400..900&family=Inter:wght@400..800&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <script type="module" crossorigin src="./assets/index-tmB7VnsH.js"></script>
-    <link rel="stylesheet" crossorigin href="./assets/index-Bqfv8UOl.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="answer-parser.js"></script>
     <style>
-      .tm-download-bar {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        margin-left: auto;
-      }
-      .btn-download-png {
-        background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 50%, #4c1d95 100%) !important;
-        color: #ffffff !important;
-        font-family: 'Outfit', sans-serif !important;
-        font-weight: 800 !important;
-        font-size: 0.92rem !important;
-        text-transform: uppercase !important;
-        letter-spacing: 0.06em !important;
-        padding: 10px 24px !important;
-        border-radius: 50px !important;
-        border: 1.5px solid rgba(255, 255, 255, 0.4) !important;
-        cursor: pointer !important;
-        box-shadow: 0 4px 18px rgba(124, 58, 237, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.3) !important;
-        display: inline-flex !important;
-        align-items: center !important;
-        gap: 10px !important;
-        transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
-      }
-      .btn-download-png:hover {
-        transform: translateY(-2px) scale(1.04) !important;
-        box-shadow: 0 8px 25px rgba(124, 58, 237, 0.6) !important;
-        filter: brightness(1.12) !important;
-      }
+        :root {
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --primary-soft: rgba(37, 99, 235, 0.10);
+            --bg: #f8fafc;
+            --surface: #ffffff;
+            --surface-2: #f8fafc;
+            --text: #0f172a;
+            --text-muted: #64748b;
+            --text-subtle: #94a3b8;
+            --border: #e2e8f0;
+            --border-strong: #cbd5e1;
+            --input-bg: #ffffff;
+            --ok: #059669;
+            --info: #2563eb;
+            --warn: #d97706;
+            --error: #dc2626;
+            --radius-sm: 8px;
+        }
+
+        body.dark-theme {
+            --primary: #3b82f6;
+            --primary-hover: #60a5fa;
+            --primary-soft: rgba(59, 130, 246, 0.16);
+            --bg: #0e1628;
+            --surface: #111a2e;
+            --surface-2: #0e1628;
+            --text: #e8edf5;
+            --text-muted: #94a3b8;
+            --text-subtle: #64748b;
+            --border: #1f2a40;
+            --border-strong: #2c3a55;
+            --input-bg: #0b1324;
+            --ok: #34d399;
+            --info: #60a5fa;
+            --warn: #fbbf24;
+            --error: #f87171;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-size: 14px;
+            line-height: 1.5;
+            color: var(--text);
+            background: var(--bg);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        button, input, select, textarea { font-family: inherit; }
+
+        .tm-app {
+            display: grid;
+            grid-template-columns: minmax(300px, 400px) minmax(0, 1fr);
+            gap: 16px;
+            padding: 16px;
+            align-items: start;
+        }
+
+        .stack { display: flex; flex-direction: column; gap: 14px; }
+
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+        }
+
+        .card-head {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 14px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .card-title {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 0.95rem;
+        }
+
+        .card-body { padding: 14px; }
+        .spacer { flex: 1; }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+            height: 34px; padding: 0 13px;
+            border-radius: var(--radius-sm); border: 1px solid transparent;
+            font-size: 0.84rem; font-weight: 600; white-space: nowrap; cursor: pointer;
+            transition: background 0.15s ease, border-color 0.15s ease;
+        }
+        .btn:focus-visible, .seg-btn:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+        .btn-primary { background: var(--primary); color: #fff; }
+        .btn-primary:hover { background: var(--primary-hover); }
+        .btn-secondary { background: var(--surface); color: var(--text); border-color: var(--border-strong); }
+        .btn-secondary:hover { background: var(--surface-2); }
+        .btn-ghost { background: transparent; color: var(--text-muted); }
+        .btn-ghost:hover { background: var(--surface-2); color: var(--text); }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        .seg { display: inline-flex; gap: 2px; padding: 3px; background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px; }
+        .seg-btn {
+            height: 28px; padding: 0 12px; border: none; border-radius: 7px; background: transparent;
+            color: var(--text-muted); font-size: 0.8rem; font-weight: 600; cursor: pointer;
+        }
+        .seg-btn.active { background: var(--surface); color: var(--text); box-shadow: 0 1px 2px rgba(15,23,42,.08), 0 0 0 1px var(--border); }
+
+        /* Inputs */
+        label.field-label { display: block; font-size: 0.76rem; font-weight: 600; color: var(--text-muted); margin-bottom: 5px; }
+        input[type=text], select, textarea {
+            width: 100%; height: 34px; padding: 0 10px;
+            border: 1px solid var(--border-strong); border-radius: var(--radius-sm);
+            background: var(--input-bg); color: var(--text); font-size: 0.86rem;
+        }
+        textarea { height: auto; padding: 10px; resize: vertical; font-family: ui-monospace, Consolas, monospace; font-size: 0.8rem; }
+        input:focus, select:focus, textarea:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-soft); }
+        .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .field { margin-bottom: 10px; }
+
+        /* Drop zone */
+        .dropzone {
+            display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
+            padding: 22px 14px; text-align: center; cursor: pointer;
+            border: 1.5px dashed var(--border-strong); border-radius: 10px; background: var(--surface-2);
+            transition: border-color 0.15s ease, background 0.15s ease;
+        }
+        .dropzone:hover, .dropzone.dragover { border-color: var(--primary); background: var(--primary-soft); }
+        .dropzone svg { color: var(--primary); }
+        .dz-main { font-weight: 600; font-size: 0.88rem; }
+        .dz-sub { font-size: 0.76rem; color: var(--text-muted); }
+        .file-chip {
+            display: flex; align-items: center; gap: 10px; padding: 10px 12px; margin-top: 10px;
+            border: 1px solid var(--border); border-radius: 10px; font-size: 0.82rem;
+        }
+        .file-chip b { display: block; font-weight: 600; word-break: break-all; }
+        .file-chip span { color: var(--text-muted); font-size: 0.75rem; }
+        .status-line { margin-top: 10px; font-size: 0.8rem; color: var(--text-muted); }
+        .status-line.error { color: var(--error); }
+
+        /* Checks */
+        .notes { display: flex; flex-direction: column; gap: 8px; }
+        .note { display: flex; gap: 8px; font-size: 0.8rem; line-height: 1.45; }
+        .note-dot { width: 18px; height: 18px; flex-shrink: 0; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 800; color: #fff; margin-top: 1px; }
+        .note.ok .note-dot { background: var(--ok); }
+        .note.info .note-dot { background: var(--info); }
+        .note.warn .note-dot { background: var(--warn); }
+        .note.error .note-dot { background: var(--error); }
+        .summary-chips { display: flex; gap: 6px; flex-wrap: wrap; }
+        .chip { font-size: 0.72rem; font-weight: 700; padding: 2px 8px; border-radius: 20px; background: var(--surface-2); border: 1px solid var(--border); color: var(--text-muted); }
+
+        /* Switch */
+        .switch-row { display: flex; align-items: center; gap: 10px; font-size: 0.84rem; font-weight: 500; cursor: pointer; padding: 4px 0; }
+        .switch-row input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+        .switch { position: relative; width: 34px; height: 19px; border-radius: 20px; background: var(--border-strong); flex-shrink: 0; transition: background .15s; }
+        .switch::after { content: ''; position: absolute; top: 2px; left: 2px; width: 15px; height: 15px; border-radius: 50%; background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,.25); transition: transform .15s; }
+        .switch-row input:checked + .switch { background: var(--primary); }
+        .switch-row input:checked + .switch::after { transform: translateX(15px); }
+        .switch-row input:focus-visible + .switch { outline: 2px solid var(--primary); outline-offset: 2px; }
+
+        /* Answer editor */
+        .sec-edit + .sec-edit { margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--border); }
+        .sec-edit-head { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+        .sec-edit-head input[type=text] { font-weight: 600; }
+        .sec-include { width: 16px; height: 16px; accent-color: var(--primary); flex-shrink: 0; }
+        .ans-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(52px, 1fr)); gap: 5px; }
+        .ans-cell {
+            display: flex; align-items: center; gap: 3px; height: 30px; padding: 0 4px 0 6px;
+            border: 1px solid var(--border); border-radius: 6px; background: var(--surface-2);
+        }
+        .ans-cell span { font-size: 0.68rem; color: var(--text-muted); font-variant-numeric: tabular-nums; min-width: 15px; }
+        .ans-cell input {
+            width: 100%; height: 24px; padding: 0; border: none; background: transparent; box-shadow: none;
+            text-align: center; text-transform: uppercase; font-weight: 800; font-size: 0.86rem; color: var(--text);
+        }
+        .ans-cell input:focus { box-shadow: none; }
+        .ans-cell:focus-within { border-color: var(--primary); }
+        .ans-cell.from-explanation { border-style: dashed; }
+        .ans-cell.conflict { border-color: var(--error); background: rgba(220, 38, 38, 0.08); }
+        .ans-cell.missing { border-color: var(--warn); }
+        .legend { margin-top: 8px; font-size: 0.72rem; color: var(--text-subtle); }
+
+        /* Preview */
+        .preview-card { position: sticky; top: 16px; }
+        .preview-stage { padding: 16px; background: var(--surface-2); border-radius: 0 0 12px 12px; }
+        #sheet-viewport { position: relative; overflow: hidden; }
+        .sheet-scale { width: 794px; transform-origin: top left; }
+        .empty-preview {
+            display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
+            min-height: 320px; text-align: center; color: var(--text-muted); font-size: 0.86rem;
+        }
+        .empty-preview svg { color: var(--text-subtle); }
+
+        @media (max-width: 900px) {
+            .tm-app { grid-template-columns: minmax(0, 1fr); }
+            .preview-card { position: static; }
+        }
+
+        /* ═══ Answer key sheet (exported) — fixed colours, A4 portrait 794px wide ═══ */
+        .ak-sheet {
+            width: 794px;
+            min-height: 1123px;
+            padding: 34px 40px 28px;
+            display: flex;
+            flex-direction: column;
+            background: #ffffff;
+            color: #0f172a;
+            font-family: 'Inter', sans-serif;
+            position: relative;
+            box-shadow: 0 0 0 1px #cbd5e1, 0 12px 40px rgba(15, 23, 42, 0.12);
+        }
+        .ak-sheet::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 6px;
+            background: linear-gradient(90deg, #0f172a 0%, #1e3a8a 30%, #2563eb 60%, #0ea5e9 100%);
+        }
+        .ak-sheet.capture { box-shadow: none; }
+        .ak-top { display: flex; align-items: center; justify-content: space-between; font-family: 'Outfit', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: #475569; }
+        .ak-top .brand { color: #0f2c59; font-weight: 900; letter-spacing: 0.2em; font-size: 12px; }
+        .ak-title-block { text-align: center; margin: 14px 0 4px; }
+        .ak-title { font-family: 'Outfit', sans-serif; font-size: 28px; font-weight: 800; letter-spacing: -0.01em; color: #0f172a; line-height: 1.15; }
+        .ak-badges { display: flex; justify-content: center; gap: 8px; margin-top: 10px; }
+        .ak-badge {
+            font-family: 'Outfit', sans-serif; font-size: 11.5px; font-weight: 800; letter-spacing: 0.18em; text-transform: uppercase;
+            padding: 5px 18px; border-radius: 50px; background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 60%, #1d4ed8 100%); color: #fff;
+        }
+        .ak-badge.light { background: #eff6ff; color: #1e3a8a; border: 1px solid #bfdbfe; }
+        .ak-rule { height: 2px; background: #e2e8f0; margin: 14px 0 2px; }
+
+        .ak-section { margin-top: 14px; break-inside: avoid; }
+        .ak-sec-head { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+        .ak-sec-mark {
+            width: 26px; height: 26px; border-radius: 7px; background: #0f2c59; color: #fff;
+            display: flex; align-items: center; justify-content: center; font-family: 'Outfit', sans-serif; font-weight: 800; font-size: 13px;
+        }
+        .ak-sec-title { font-family: 'Outfit', sans-serif; font-size: 15.5px; font-weight: 800; color: #0f172a; }
+        .ak-sec-count { margin-left: auto; font-size: 11.5px; font-weight: 700; color: #64748b; letter-spacing: 0.04em; }
+
+        .ak-grid { width: 100%; border-collapse: separate; border-spacing: 0; table-layout: fixed; border: 1.5px solid #1e3a8a; border-radius: 10px; overflow: hidden; }
+        .ak-grid td { border-right: 1px solid #dbe3ef; border-bottom: 1px solid #dbe3ef; padding: 4px; text-align: center; height: 32px; }
+        .ak-grid tr:last-child td { border-bottom: none; }
+        .ak-grid td:last-child { border-right: none; }
+        .ak-grid tr:nth-child(even) td { background: #f8fafc; }
+        .ak-cell { display: inline-flex; align-items: center; gap: 7px; }
+        .ak-num { font-size: 12px; font-weight: 700; color: #64748b; font-variant-numeric: tabular-nums; min-width: 17px; text-align: right; }
+        .ak-letter {
+            width: 24px; height: 24px; border-radius: 50%;
+            display: inline-flex; align-items: center; justify-content: center;
+            font-family: 'Outfit', sans-serif; font-size: 13.5px; font-weight: 800;
+            background: #eef2f7; color: #0f2c59; border: 1px solid #cbd5e1;
+        }
+        .ak-letter.blank { color: #94a3b8; border-style: dashed; }
+        .colored .ak-letter.l-A { background: #dbeafe; color: #1d4ed8; border-color: #93c5fd; }
+        .colored .ak-letter.l-B { background: #d1fae5; color: #047857; border-color: #6ee7b7; }
+        .colored .ak-letter.l-C { background: #fef3c7; color: #b45309; border-color: #fcd34d; }
+        .colored .ak-letter.l-D { background: #ffe4e6; color: #be123c; border-color: #fda4af; }
+        .colored .ak-letter.l-E { background: #ede9fe; color: #6d28d9; border-color: #c4b5fd; }
+
+        .ak-foot {
+            margin-top: auto; padding-top: 14px; border-top: 1.5px solid #e2e8f0;
+            display: flex; justify-content: space-between; align-items: center;
+            font-family: 'Outfit', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #64748b;
+        }
+        .ak-legend { display: flex; gap: 10px; align-items: center; }
+        .ak-legend .ak-letter { width: 18px; height: 18px; font-size: 10.5px; }
     </style>
-  </head>
-  <body>
-    <div id="root"></div>
+</head>
+<body>
+    <div class="tm-app">
+        <!-- ── Left: source, checks, details, answers ── -->
+        <div class="stack">
+            <section class="card">
+                <div class="card-head">
+                    <div class="card-title">Solve sheet</div>
+                    <span class="spacer"></span>
+                    <div class="seg">
+                        <button class="seg-btn active" id="mode-file" onclick="setMode('file')">Upload</button>
+                        <button class="seg-btn" id="mode-paste" onclick="setMode('paste')">Paste text</button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div id="pane-file">
+                        <label class="dropzone" id="dropzone" for="file-input">
+                            <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                            <span class="dz-main">Drop a Word or PDF file here</span>
+                            <span class="dz-sub">or click to choose · .docx, .pdf, .txt</span>
+                        </label>
+                        <input type="file" id="file-input" accept=".docx,.pdf,.txt,.doc" hidden>
+                        <div id="file-chip"></div>
+                    </div>
+                    <div id="pane-paste" hidden>
+                        <textarea id="paste-input" rows="9" placeholder="Paste the solve sheet here, for example:&#10;Solve Sheet FMT 03&#10;Section 1: English Grammar&#10;01. B   02. A   03. D&#10;Explanations:&#10;01. (B) …"></textarea>
+                        <div style="display:flex; gap:8px; margin-top:10px;">
+                            <button class="btn btn-primary" onclick="extractFromPaste()">Build answer key</button>
+                            <button class="btn btn-ghost" onclick="document.getElementById('paste-input').value = ''">Clear</button>
+                        </div>
+                    </div>
+                    <div class="status-line" id="status-line" hidden></div>
+                </div>
+            </section>
+
+            <section class="card" id="checks-card" hidden>
+                <div class="card-head">
+                    <div class="card-title">Checks</div>
+                    <span class="spacer"></span>
+                    <div class="summary-chips" id="summary-chips"></div>
+                </div>
+                <div class="card-body">
+                    <div class="notes" id="notes"></div>
+                </div>
+            </section>
+
+            <section class="card" id="details-card" hidden>
+                <div class="card-head"><div class="card-title">Sheet details</div></div>
+                <div class="card-body">
+                    <div class="field">
+                        <label class="field-label" for="opt-title">Title</label>
+                        <input type="text" id="opt-title" oninput="updateOption('title', this.value)">
+                    </div>
+                    <div class="field-row field">
+                        <div>
+                            <label class="field-label" for="opt-badge">Badge</label>
+                            <input type="text" id="opt-badge" oninput="updateOption('badge', this.value)">
+                        </div>
+                        <div>
+                            <label class="field-label" for="opt-tag">Second badge (optional)</label>
+                            <input type="text" id="opt-tag" placeholder="e.g. BRACU" oninput="updateOption('tag', this.value)">
+                        </div>
+                    </div>
+                    <div class="field-row field">
+                        <div>
+                            <label class="field-label" for="opt-columns">Columns</label>
+                            <select id="opt-columns" onchange="updateOption('columns', this.value === 'auto' ? 'auto' : parseInt(this.value, 10))">
+                                <option value="auto">Automatic</option>
+                                <option value="5">5 per row</option>
+                                <option value="8">8 per row</option>
+                                <option value="10">10 per row</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="field-label" for="opt-footer">Footer note</label>
+                            <input type="text" id="opt-footer" oninput="updateOption('footer', this.value)">
+                        </div>
+                    </div>
+                    <label class="switch-row">
+                        <input type="checkbox" id="opt-colored" onchange="updateOption('colored', this.checked)"><span class="switch"></span>
+                        Colour-code answer letters
+                    </label>
+                </div>
+            </section>
+
+            <section class="card" id="answers-card" hidden>
+                <div class="card-head"><div class="card-title">Answers</div><span class="spacer"></span><span class="chip" id="answers-total"></span></div>
+                <div class="card-body">
+                    <div id="answer-editor"></div>
+                    <div class="legend">Type a letter to change an answer. Dashed = taken from the explanation · red = table and explanation disagree · amber = missing.</div>
+                </div>
+            </section>
+        </div>
+
+        <!-- ── Right: live answer key sheet ── -->
+        <section class="card preview-card">
+            <div class="card-head">
+                <div>
+                    <div class="card-title">Answer key</div>
+                    <div style="font-size:0.75rem; color:var(--text-muted);">A4 portrait · ready to print or share</div>
+                </div>
+                <span class="spacer"></span>
+                <button class="btn btn-secondary" id="btn-png" onclick="downloadPNG()" disabled>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>PNG
+                </button>
+                <button class="btn btn-primary" id="btn-pdf" onclick="downloadPDF()" disabled>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Download PDF
+                </button>
+            </div>
+            <div class="preview-stage">
+                <div id="sheet-viewport">
+                    <div class="empty-preview">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/></svg>
+                        <div>Upload a solve sheet to build its answer key.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
 
     <script>
-      window.downloadDocumentViewPNG = function() {
-        const tabs = document.querySelectorAll('.view-tab');
-        tabs.forEach(t => {
-          if (t.innerText.includes('Document')) t.click();
-        });
-        
-        setTimeout(() => {
-          const target = document.querySelector('.document-sheet') || document.querySelector('.document-paper-container') || document.querySelector('.sections-grid');
-          if (!target) {
-            alert("No document view found to download!");
-            return;
-          }
-          
-          if (window.html2canvas) {
-            window.html2canvas(target, {
-              scale: 2,
-              backgroundColor: '#ffffff',
-              useCORS: true
-            }).then(canvas => {
-              const link = document.createElement('a');
-              link.download = `document_view_${new Date().toISOString().split('T')[0]}.png`;
-              link.href = canvas.toDataURL('image/png');
-              link.click();
-            }).catch(err => {
-              console.error(err);
-              alert("Failed to capture image.");
-            });
-          }
-        }, 350);
-      };
+        'use strict';
 
-      // Periodically inject Download PNG button into TableMaker view-mode-bar
-      setInterval(() => {
-        const viewModeBar = document.querySelector('.view-mode-bar');
-        if (viewModeBar && !viewModeBar.querySelector('.tm-download-bar')) {
-          const bar = document.createElement('div');
-          bar.className = 'tm-download-bar';
-          bar.innerHTML = `
-            <button class="btn-download-png" onclick="window.downloadDocumentViewPNG()">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-              Download Document View (.PNG)
-            </button>
-          `;
-          viewModeBar.appendChild(bar);
+        const STORAGE_KEY = 'phoenix_tablemaker_v2';
+        const SHEET_W = 794;
+        const SHEET_H = 1123;
+
+        // Current answer key: { examTitle, solveTitle, sections: [{ id, name, include, answers: [{ n, letter, source, conflict }] }], notes, options }
+        let state = null;
+
+        if (window.pdfjsLib) {
+            pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
         }
-      }, 500);
+
+        function escapeHtml(str) {
+            return String(str ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        }
+
+        const pad = n => String(n).padStart(2, '0');
+
+        // ── Theme: follow the main app (same origin) ──
+        function syncTheme() {
+            try {
+                const dark = window.parent !== window && window.parent.document.body.classList.contains('dark-theme');
+                document.body.classList.toggle('dark-theme', dark);
+            } catch (e) { /* opened on its own */ }
+        }
+        syncTheme();
+        try {
+            if (window.parent !== window) {
+                new MutationObserver(syncTheme).observe(window.parent.document.body, { attributes: true, attributeFilter: ['class'] });
+            }
+        } catch (e) {}
+
+        // ── Input: file or pasted text ──
+        function setMode(mode) {
+            document.getElementById('pane-file').hidden = mode !== 'file';
+            document.getElementById('pane-paste').hidden = mode !== 'paste';
+            document.getElementById('mode-file').classList.toggle('active', mode === 'file');
+            document.getElementById('mode-paste').classList.toggle('active', mode === 'paste');
+        }
+
+        function setStatus(text, isError) {
+            const el = document.getElementById('status-line');
+            el.hidden = !text;
+            el.textContent = text || '';
+            el.classList.toggle('error', !!isError);
+        }
+
+        async function readFileText(file) {
+            const name = file.name.toLowerCase();
+            if (name.endsWith('.docx')) {
+                const { value } = await mammoth.extractRawText({ arrayBuffer: await file.arrayBuffer() });
+                return value;
+            }
+            if (name.endsWith('.pdf')) {
+                return readPdfText(await file.arrayBuffer());
+            }
+            if (name.endsWith('.txt')) {
+                return file.text();
+            }
+            if (name.endsWith('.doc')) {
+                throw new Error('Old .doc files can\'t be read. Open it in Word and use Save As → Word Document (.docx) or PDF.');
+            }
+            throw new Error('Please choose a .docx, .pdf or .txt file.');
+        }
+
+        // Rebuild text lines from PDF text items: items on the same baseline become one line
+        async function readPdfText(buffer) {
+            const pdf = await pdfjsLib.getDocument({ data: buffer }).promise;
+            const out = [];
+            for (let p = 1; p <= pdf.numPages; p++) {
+                const content = await (await pdf.getPage(p)).getTextContent();
+                const rows = [];
+                for (const item of content.items) {
+                    if (!item.str || !item.str.trim()) continue;
+                    const y = item.transform[5];
+                    const x = item.transform[4];
+                    let row = rows.find(r => Math.abs(r.y - y) < 3);
+                    if (!row) { row = { y, items: [] }; rows.push(row); }
+                    row.items.push({ x, str: item.str });
+                }
+                rows.sort((a, b) => b.y - a.y);
+                for (const row of rows) {
+                    out.push(row.items.sort((a, b) => a.x - b.x).map(i => i.str.trim()).join(' '));
+                }
+            }
+            return out.join('\n');
+        }
+
+        async function handleFile(file) {
+            if (!file) return;
+            document.getElementById('file-chip').innerHTML = `
+                <div class="file-chip">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                    <div><b>${escapeHtml(file.name)}</b><span>${(file.size / 1024).toFixed(0)} KB</span></div>
+                </div>`;
+            setStatus('Reading the file…');
+            try {
+                const text = await readFileText(file);
+                buildFromText(text, file.name);
+            } catch (err) {
+                console.error(err);
+                setStatus(err.message || 'Could not read this file.', true);
+            }
+        }
+
+        function extractFromPaste() {
+            const text = document.getElementById('paste-input').value;
+            if (!text.trim()) { setStatus('Paste the solve sheet text first.', true); return; }
+            buildFromText(text, 'Pasted text');
+        }
+
+        function buildFromText(text, sourceName) {
+            const parsed = AnswerParser.parse(text);
+            const total = parsed.sections.reduce((s, sec) => s + sec.answers.length, 0);
+            const prev = state && state.options;
+            state = {
+                examTitle: parsed.examTitle,
+                sourceName,
+                sections: parsed.sections.map(s => ({ ...s, include: true })),
+                notes: parsed.notes,
+                options: {
+                    title: parsed.examTitle || (parsed.solveTitle ? parsed.solveTitle.replace(/solve\s*sheet/i, '').trim() : '') || 'Answer Key',
+                    badge: 'Answer Key',
+                    tag: prev ? prev.tag : '',
+                    columns: prev ? prev.columns : 'auto',
+                    footer: parsed.solveTitle || '',
+                    colored: prev ? prev.colored : true
+                }
+            };
+            setStatus(total ? `Found ${total} answers in ${parsed.sections.length} section${parsed.sections.length === 1 ? '' : 's'}.` : 'No answers found in this file.', !total);
+            save();
+            renderAll();
+        }
+
+        // ── State updates ──
+        function updateOption(key, value) {
+            if (!state) return;
+            state.options[key] = value;
+            save();
+            renderSheet();
+        }
+
+        function updateSectionName(i, value) {
+            state.sections[i].name = value;
+            save();
+            renderSheet();
+        }
+
+        function toggleSection(i, include) {
+            state.sections[i].include = include;
+            save();
+            renderSheet();
+            renderTotals();
+        }
+
+        function updateAnswer(si, ai, input) {
+            const letter = input.value.replace(/[^a-eA-E]/g, '').slice(-1).toUpperCase();
+            input.value = letter;
+            const a = state.sections[si].answers[ai];
+            a.letter = letter;
+            a.edited = true;
+            a.conflict = false;
+            const cell = input.closest('.ans-cell');
+            cell.classList.remove('conflict', 'from-explanation');
+            cell.classList.toggle('missing', !letter);
+            save();
+            renderSheet();
+            // Move to the next answer after a valid letter, like filling an OMR key
+            if (letter) {
+                const next = cell.nextElementSibling && cell.nextElementSibling.querySelector('input');
+                if (next) next.select();
+            }
+        }
+
+        function save() {
+            try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch (e) {}
+        }
+
+        // ── Rendering ──
+        function renderAll() {
+            const has = !!(state && state.sections.length);
+            document.getElementById('checks-card').hidden = !state;
+            document.getElementById('details-card').hidden = !has;
+            document.getElementById('answers-card').hidden = !has;
+            document.getElementById('btn-png').disabled = !has;
+            document.getElementById('btn-pdf').disabled = !has;
+            if (!state) return;
+            renderNotes();
+            if (has) {
+                const o = state.options;
+                document.getElementById('opt-title').value = o.title;
+                document.getElementById('opt-badge').value = o.badge;
+                document.getElementById('opt-tag').value = o.tag;
+                document.getElementById('opt-columns').value = String(o.columns);
+                document.getElementById('opt-footer').value = o.footer;
+                document.getElementById('opt-colored').checked = o.colored;
+                renderEditor();
+            }
+            renderTotals();
+            renderSheet();
+        }
+
+        function renderNotes() {
+            const icon = { ok: '✓', info: 'i', warn: '!', error: '×' };
+            document.getElementById('notes').innerHTML = state.notes.map(n =>
+                `<div class="note ${n.level}"><span class="note-dot">${icon[n.level]}</span><span>${escapeHtml(n.text)}</span></div>`
+            ).join('') || '<div class="note ok"><span class="note-dot">✓</span><span>Everything looks consistent.</span></div>';
+            const count = lvl => state.notes.filter(n => n.level === lvl).length;
+            const problems = count('warn') + count('error');
+            document.getElementById('summary-chips').innerHTML = problems
+                ? `<span class="chip" style="color:var(--warn)">${problems} to check</span>`
+                : `<span class="chip" style="color:var(--ok)">All good</span>`;
+        }
+
+        function renderTotals() {
+            const total = state.sections.filter(s => s.include).reduce((t, s) => t + s.answers.length, 0);
+            document.getElementById('answers-total').textContent = `${total} answers`;
+        }
+
+        function renderEditor() {
+            document.getElementById('answer-editor').innerHTML = state.sections.map((s, si) => `
+                <div class="sec-edit">
+                    <div class="sec-edit-head">
+                        <input type="checkbox" class="sec-include" ${s.include ? 'checked' : ''} title="Include on the sheet" aria-label="Include ${escapeHtml(s.name)}" onchange="toggleSection(${si}, this.checked)">
+                        <input type="text" value="${escapeHtml(s.name)}" aria-label="Section name" oninput="updateSectionName(${si}, this.value)">
+                    </div>
+                    <div class="ans-grid">
+                        ${s.answers.map((a, ai) => {
+                            const cls = a.conflict ? 'conflict' : (!a.letter ? 'missing' : (a.source === 'explanation' && !a.edited ? 'from-explanation' : ''));
+                            return `<label class="ans-cell ${cls}"><span>${pad(a.n)}</span><input type="text" maxlength="2" value="${a.letter}" aria-label="Answer ${pad(a.n)}" oninput="updateAnswer(${si}, ${ai}, this)" onfocus="this.select()"></label>`;
+                        }).join('')}
+                    </div>
+                </div>`).join('');
+        }
+
+        // Automatic: 5 per row while the key fits on one A4 page, then denser grids for long keys
+        function columnsFor(total, setting) {
+            if (setting && setting !== 'auto') return setting;
+            if (total <= 115) return 5;
+            if (total <= 180) return 8;
+            return 10;
+        }
+
+        function sectionMark(s) {
+            return /^\d+$/.test(s.id) ? s.id : (s.id || '•');
+        }
+
+        function sheetHTML(forCapture) {
+            const o = state.options;
+            const sections = state.sections.filter(s => s.include && s.answers.length);
+            const total = sections.reduce((t, s) => t + s.answers.length, 0);
+            const cols = columnsFor(total, o.columns);
+            const used = new Set();
+            sections.forEach(s => s.answers.forEach(a => a.letter && used.add(a.letter)));
+
+            const sectionsHtml = sections.map(s => {
+                const rows = [];
+                for (let i = 0; i < s.answers.length; i += cols) rows.push(s.answers.slice(i, i + cols));
+                const body = rows.map(row => `<tr>${row.map(a => `
+                    <td><span class="ak-cell"><span class="ak-num">${pad(a.n)}</span><span class="ak-letter ${a.letter ? 'l-' + a.letter : 'blank'}">${a.letter || '–'}</span></span></td>`).join('')}${'<td></td>'.repeat(cols - row.length)}</tr>`).join('');
+                const title = s.name.replace(/^section\s*[0-9a-h]{1,2}\s*[-–—:]\s*/i, '') || s.name;
+                return `
+                    <div class="ak-section">
+                        <div class="ak-sec-head">
+                            <span class="ak-sec-mark">${escapeHtml(sectionMark(s))}</span>
+                            <span class="ak-sec-title">${escapeHtml(title)}</span>
+                            <span class="ak-sec-count">${s.answers.length} QUESTIONS</span>
+                        </div>
+                        <table class="ak-grid">${body}</table>
+                    </div>`;
+            }).join('');
+
+            const legend = o.colored ? `<span class="ak-legend">${'ABCDE'.split('').filter(l => used.has(l)).map(l => `<span class="ak-letter l-${l}">${l}</span>`).join('')}</span>` : '';
+            return `
+                <div class="ak-sheet ${o.colored ? 'colored' : ''} ${forCapture ? 'capture' : ''}">
+                    <div class="ak-top"><span class="brand">Phoenix Education</span><span>${total} Questions</span></div>
+                    <div class="ak-title-block">
+                        <div class="ak-title">${escapeHtml(o.title)}</div>
+                        <div class="ak-badges">
+                            ${o.badge ? `<span class="ak-badge">${escapeHtml(o.badge)}</span>` : ''}
+                            ${o.tag ? `<span class="ak-badge light">${escapeHtml(o.tag)}</span>` : ''}
+                        </div>
+                    </div>
+                    <div class="ak-rule"></div>
+                    ${sectionsHtml}
+                    <div class="ak-foot"><span>${escapeHtml(o.footer)}</span>${legend}</div>
+                </div>`;
+        }
+
+        function renderSheet() {
+            const vp = document.getElementById('sheet-viewport');
+            if (!state || !state.sections.length) return;
+            vp.innerHTML = `<div class="sheet-scale">${sheetHTML(false)}</div>`;
+            fitSheet();
+        }
+
+        function fitSheet() {
+            const vp = document.getElementById('sheet-viewport');
+            const scaleBox = vp.querySelector('.sheet-scale');
+            if (!scaleBox || !vp.clientWidth) return;
+            const scale = Math.min(1, vp.clientWidth / SHEET_W);
+            scaleBox.style.transform = `scale(${scale})`;
+            vp.style.height = `${Math.ceil(scaleBox.offsetHeight * scale)}px`;
+        }
+
+        // ── Export ──
+        async function captureSheet() {
+            const holder = document.createElement('div');
+            holder.style.cssText = `position:fixed; left:0; top:0; width:${SHEET_W}px; z-index:-1; opacity:0.01; pointer-events:none;`;
+            holder.innerHTML = sheetHTML(true);
+            document.body.appendChild(holder);
+            try {
+                await new Promise(r => setTimeout(r, 60));
+                return await html2canvas(holder.firstElementChild, { scale: 2, useCORS: true, backgroundColor: '#ffffff' });
+            } finally {
+                holder.remove();
+            }
+        }
+
+        function fileBaseName() {
+            return `${state.options.title || 'Answer Key'} - Answer Key`.replace(/[/\\?%*:|"<>]/g, '_');
+        }
+
+        async function downloadPNG() {
+            if (!state || !state.sections.length) { alert('Build an answer key first.'); return; }
+            try {
+                const canvas = await captureSheet();
+                const link = document.createElement('a');
+                link.download = `${fileBaseName()}.png`;
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            } catch (err) {
+                console.error(err);
+                alert('Could not create the image.');
+            }
+        }
+
+        async function downloadPDF() {
+            if (!state || !state.sections.length) { alert('Build an answer key first.'); return; }
+            try {
+                const canvas = await captureSheet();
+                const pdf = new window.jspdf.jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+                const pageW = 210, pageH = 297, margin = 5;
+                const ratio = Math.min((pageW - margin * 2) / canvas.width, (pageH - margin * 2) / canvas.height);
+                const w = canvas.width * ratio, h = canvas.height * ratio;
+                pdf.addImage(canvas.toDataURL('image/jpeg', 0.97), 'JPEG', (pageW - w) / 2, margin, w, h);
+                pdf.save(`${fileBaseName()}.pdf`);
+            } catch (err) {
+                console.error(err);
+                alert('Could not create the PDF.');
+            }
+        }
+
+        // Called by the main app's header button
+        window.downloadDocumentViewPNG = downloadPNG;
+
+        // ── Wiring ──
+        const dropzone = document.getElementById('dropzone');
+        document.getElementById('file-input').addEventListener('change', e => handleFile(e.target.files[0]));
+        dropzone.addEventListener('dragover', e => { e.preventDefault(); dropzone.classList.add('dragover'); });
+        dropzone.addEventListener('dragleave', () => dropzone.classList.remove('dragover'));
+        dropzone.addEventListener('drop', e => {
+            e.preventDefault();
+            dropzone.classList.remove('dragover');
+            if (e.dataTransfer.files && e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]);
+        });
+
+        if (window.ResizeObserver) new ResizeObserver(fitSheet).observe(document.getElementById('sheet-viewport'));
+        if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitSheet);
+
+        // Restore the last answer key
+        try {
+            const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
+            if (saved && saved.sections) {
+                state = saved;
+                if (state.sourceName) setStatus(`Last answer key: ${state.sourceName}`);
+                renderAll();
+            }
+        } catch (e) {}
     </script>
-  </body>
+</body>
 </html>
