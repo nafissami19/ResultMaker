@@ -1,4 +1,4 @@
-Phoenix Result Maker
+# Phoenix Result Maker
 
 > Generates single-page printable weekly result sheets, provides centralized cross-batch rankings, and exports high-fidelity PDF, PNG, and CSV reports.
 
