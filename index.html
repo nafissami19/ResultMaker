@@ -8,23 +8,18 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&family=Inter:wght@400;500;600&family=Playfair+Display:wght@700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@400..900&family=Inter:wght@400..900&display=swap"
         rel="stylesheet">
     <style>
         :root {
             --primary: #2563eb;
-            --primary-hover: #1d4ed8;
             --bg: #f8fafc;
             --surface: #ffffff;
             --text: #0f172a;
             --text-muted: #64748b;
             --border: #e2e8f0;
-            --radius: 14px;
             --input-bg: #ffffff;
-
-            --header-names: #0f172a; /* Deep navy Slate-900 */
-            --header-scores: #1e40af; /* Professional deep royal blue */
-            --names-bg: #f1f5f9; /* Slate-100 high-contrast cell background */
+ /* Deep navy Slate-900 */ /* Professional deep royal blue */ /* Slate-100 high-contrast cell background */
         }
 
         body.dark-theme {
@@ -100,33 +95,29 @@
         .main-title {
             font-family: 'Outfit', sans-serif;
             font-weight: 800;
-            font-size: 1.55rem;
+            font-size: 1.8rem;
             color: #2563eb;
             letter-spacing: -0.02em;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            line-height: 1.15;
+            background: linear-gradient(135deg, #0052d4, #4364f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
         }
 
         .main-title .sub-brand {
-            color: #0f172a !important;
-            -webkit-text-fill-color: #0f172a !important;
-            background: none !important;
+            color: #0f172a;
+            -webkit-text-fill-color: #0f172a;
+            background: none;
             font-weight: 800;
         }
 
         body.dark-theme .main-title .sub-brand {
-            color: #f8fafc !important;
-            -webkit-text-fill-color: #f8fafc !important;
+            color: #f8fafc;
+            -webkit-text-fill-color: #f8fafc;
         }
-
 
         /* ── Top Navigation Tabs & Tool Suite Router ── */
-        .header-actions {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
 
         .main-nav-tabs {
             display: flex;
@@ -269,6 +260,7 @@
             font-weight: 800;
             color: var(--text);
             line-height: 1.1;
+            white-space: nowrap;
         }
 
         .cr-kpi-lbl {
@@ -336,95 +328,7 @@
             border: none;
         }
 
-
-        .btn-tablemaker::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(
-                90deg,
-                transparent,
-                rgba(255, 255, 255, 0.25),
-                transparent
-            );
-            transition: none;
-            z-index: 2;
-        }
-
-        .btn-tablemaker:hover::after {
-            left: 100%;
-            transition: left 0.75s cubic-bezier(0.25, 0.8, 0.25, 1);
-        }
-
-        .btn-tablemaker:hover {
-            transform: translateY(-2px) scale(1.03);
-            box-shadow: 0 8px 24px rgba(79, 70, 229, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.4);
-            filter: brightness(1.08);
-        }
-
-        .btn-tablemaker:active {
-            transform: scale(0.96) translateY(0);
-        }
-
-        .btn-tablemaker svg {
-            flex-shrink: 0;
-            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-
-        .btn-tablemaker:hover svg {
-            transform: rotate(12deg) scale(1.15);
-        }
-
-        /* ── TableMaker Full-screen Modal ── */
-        #tablemaker-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(3, 7, 18, 0.7);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            z-index: 9999;
-            display: none;
-            flex-direction: column;
-            animation: tmFadeIn 0.25s ease forwards;
-        }
-
-        #tablemaker-overlay.visible {
-            display: flex;
-        }
-
-        @keyframes tmFadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .tm-modal-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 12px 24px;
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #1e3a8a 100%);
-            border-bottom: 2px solid #2563eb;
-            flex-shrink: 0;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-        }
-
-        .tm-modal-title {
-            font-family: 'Outfit', sans-serif;
-            font-size: 1rem;
-            font-weight: 700;
-            color: #ffffff;
-            letter-spacing: 0.03em;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .tm-modal-title svg {
-            opacity: 0.9;
-        }
+        /* ── TableMaker Buttons & Frame ── */
 
         .tm-close-btn {
             cursor: pointer;
@@ -441,28 +345,6 @@
             font-weight: 700;
             transition: all 0.2s ease;
             line-height: 1;
-        }
-
-        .btn-tm-head-csv {
-            background: linear-gradient(135deg, #d97706, #f59e0b);
-            color: #ffffff;
-            font-family: 'Outfit', sans-serif;
-            font-weight: 700;
-            font-size: 0.8rem;
-            padding: 7px 15px;
-            border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
-            transition: all 0.2s ease;
-        }
-
-        .btn-tm-head-csv:hover {
-            transform: translateY(-1px);
-            filter: brightness(1.1);
         }
 
         .btn-tm-head-png {
@@ -509,72 +391,6 @@
         }
 
         /* ── Central Ranking Segment Styling ── */
-        .btn-central-ranking {
-            cursor: pointer;
-            padding: 10px 24px;
-            border-radius: 50px;
-            background: linear-gradient(135deg, #0f2c59 0%, #1e40af 50%, #2563eb 100%);
-            border: 1.5px solid rgba(255, 255, 255, 0.4);
-            font-size: 0.84rem;
-            font-family: 'Outfit', sans-serif;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            color: #ffffff;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            box-shadow: 0 4px 16px rgba(15, 44, 89, 0.4), inset 0 1px 1px rgba(255, 255, 255, 0.3);
-            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-            user-select: none;
-            position: relative;
-            overflow: hidden;
-            z-index: 1;
-        }
-
-        .btn-central-ranking::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            transition: none;
-            z-index: 2;
-        }
-
-        .btn-central-ranking:hover::after {
-            left: 100%;
-            transition: left 0.75s cubic-bezier(0.25, 0.8, 0.25, 1);
-        }
-
-        .btn-central-ranking:hover {
-            transform: translateY(-2px) scale(1.03);
-            box-shadow: 0 8px 24px rgba(37, 99, 235, 0.5), inset 0 1px 1px rgba(255, 255, 255, 0.4);
-            filter: brightness(1.1);
-        }
-
-        .btn-central-ranking:active {
-            transform: scale(0.96) translateY(0);
-        }
-
-        #central-ranking-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(3, 7, 18, 0.85);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            z-index: 9999;
-            display: none;
-            flex-direction: column;
-            animation: tmFadeIn 0.25s ease forwards;
-            overflow: hidden;
-        }
-
-        #central-ranking-overlay.visible {
-            display: flex;
-        }
 
         .cr-modal-header {
             display: flex;
@@ -765,9 +581,6 @@
 
         .cr-result-table th.cr-th-sub {
             background: #143564;
-            font-size: 0.86rem;
-            padding: 6px 4px;
-            color: #ffffff !important;
         }
 
         .cr-result-table td {
@@ -780,7 +593,6 @@
             vertical-align: middle;
             background: rgba(255, 255, 255, 0.95);
         }
-
 
         .cr-result-table tr:nth-child(even) td {
             background: rgba(243, 246, 251, 0.95);
@@ -805,9 +617,6 @@
         .cr-result-table th.cr-th-name {
             text-align: center;
             padding: 10px 14px;
-            font-weight: 800;
-            color: #ffffff !important;
-            font-size: 0.92rem;
             white-space: nowrap;
             width: 1%;
         }
@@ -825,10 +634,6 @@
         .cr-result-table th.cr-th-batch {
             text-align: center;
             padding: 10px 14px;
-            font-weight: 800;
-            color: #ffffff !important;
-            font-family: 'Outfit', sans-serif;
-            font-size: 0.92rem;
             letter-spacing: 0.02em;
             white-space: nowrap;
             width: 1%;
@@ -855,18 +660,10 @@
             font-size: 0.88rem;
         }
 
+        /* Other styling comes from .cr-result-table th */
         .cr-result-table th.cr-th-total {
-            background: linear-gradient(180deg, #1e3a8a 0%, #0f2c59 100%) !important;
-            color: #ffffff !important;
-            font-family: 'Outfit', sans-serif;
-            font-weight: 800;
-            font-size: 0.92rem;
             width: 100px;
             min-width: 95px;
-            padding: 10px 8px;
-            text-align: center;
-            border: 1.5px solid #295286;
-            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
         }
 
         .cr-result-table td.cr-td-total {
@@ -898,63 +695,6 @@
         .cr-btn-page:disabled {
             opacity: 0.4;
             cursor: not-allowed;
-        }
-
-
-        .logo-area {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
-
-        .logo-box {
-            background: #ffffff;
-            border-radius: 14px;
-            padding: 6px;
-            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.08);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 50px;
-            height: 50px;
-            border: 1.5px solid rgba(37, 99, 235, 0.08);
-            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
-        }
-        
-        .logo-box:hover {
-            transform: translateY(-2px) scale(1.05);
-            box-shadow: 0 12px 24px rgba(37, 99, 235, 0.16);
-        }
-
-        .phoenix-logo {
-            width: 100%;
-            height: 100%;
-        }
-
-        .main-title {
-            font-family: 'Outfit', sans-serif;
-            font-size: 1.8rem;
-            font-weight: 800;
-            letter-spacing: -0.02em;
-            line-height: 1.15;
-            background: linear-gradient(135deg, #0052d4, #4364f7);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            display: inline-block;
-        }
-
-        .sub-brand {
-            color: var(--text);
-            -webkit-text-fill-color: var(--text);
-            font-weight: 600;
-        }
-
-        .tagline {
-            font-size: 0.8rem;
-            font-weight: 500;
-            color: var(--text-muted);
-            margin-top: 1px;
-            letter-spacing: 0.01em;
         }
 
         .form-grid {
@@ -997,7 +737,8 @@
         }
 
         input,
-        select {
+        select,
+        textarea {
             padding: 0.65rem 1rem;
             border-radius: 8px;
             border: 1.5px solid var(--border);
@@ -1009,13 +750,13 @@
         }
 
         input:focus,
-        select:focus {
+        select:focus,
+        textarea:focus {
             outline: none;
             border-color: var(--primary);
             box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
             background: var(--surface);
         }
-
 
         .btn {
             padding: 0.6rem 1.25rem;
@@ -1093,32 +834,6 @@
         body.dark-theme .btn-secondary:hover {
             background: rgba(37, 99, 235, 0.08);
             box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
-        }
-
-        .btn-sm {
-            padding: 0.45rem 1rem;
-            font-size: 0.8rem;
-            border-radius: 6px;
-        }
-
-        .btn-clear {
-            color: #ef4444 !important;
-            border-color: rgba(239, 68, 68, 0.25) !important;
-            background: transparent;
-        }
-
-        .btn-clear:hover {
-            background: linear-gradient(135deg, #ef4444, #dc2626) !important;
-            border-color: transparent !important;
-            color: #ffffff !important;
-            box-shadow: 0 6px 15px rgba(239, 68, 68, 0.25) !important;
-        }
-
-        body.dark-theme .btn-clear:hover {
-            background: linear-gradient(135deg, #ef4444, #e11d48) !important;
-            border-color: transparent !important;
-            color: #ffffff !important;
-            box-shadow: 0 6px 15px rgba(239, 68, 68, 0.35) !important;
         }
 
         .entry-container {
@@ -1338,6 +1053,59 @@
         .modal-backdrop[style*="display: flex"],
         .modal-backdrop[style*="display:flex"] {
             animation: fadeIn 0.25s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+        }
+
+        /* Shared modal pieces (used by the import and settings modals) */
+        .modal-backdrop.modal-top {
+            z-index: 100005;
+        }
+
+        .modal-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .modal-heading {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .tm-close-btn.modal-close-plain,
+        .tm-close-btn.modal-close-plain:hover {
+            color: var(--text);
+            background: transparent;
+            border: none;
+            font-size: 1.5rem;
+        }
+
+        .modal-backdrop .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label.radio-option {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: normal;
+            text-transform: none;
+            cursor: pointer;
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 1rem;
+        }
+
+        .paste-box {
+            width: 100%;
+            padding: 10px;
+            font-family: monospace;
         }
 
         @keyframes fadeIn {
@@ -1609,14 +1377,6 @@
             box-shadow: 0 2px 8px rgba(37, 99, 235, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.8);
         }
 
-        .continued-title {
-            color: #64748b;
-            border-color: #cbd5e1 !important;
-            background: transparent !important;
-            box-shadow: none !important;
-            font-weight: 600;
-        }
-
         .result-table {
             width: 100%;
             border-collapse: separate;
@@ -1810,8 +1570,6 @@
             text-transform: uppercase;
         }
 
-
-
         /* Export Card & Buttons Styling */
         .export-card {
             background: var(--surface);
@@ -1967,20 +1725,6 @@
             transform: translateY(-2px);
         }
 
-
-        .btn-export-primary {
-            background: linear-gradient(135deg, var(--primary), #1d4ed8);
-            color: #ffffff;
-            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.25);
-            border: none;
-        }
-
-        .btn-export-primary:hover {
-            box-shadow: 0 8px 24px rgba(37, 99, 235, 0.35);
-            filter: brightness(1.08);
-            transform: translateY(-2px);
-        }
-
         .btn-export-pdf {
             background: linear-gradient(135deg, #059669 0%, #10b981 100%);
             color: #ffffff;
@@ -2088,7 +1832,6 @@
     <!-- External Libraries for PDF and Image Download -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 
 <body>
@@ -2125,7 +1868,7 @@
         <div id="view-resultmaker" class="app-page-view active">
             <div class="card no-print">
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1.2rem; flex-wrap:wrap; gap:1rem">
-                    <h3 style="font-family:'Outfit', sans-serif; font-size:1.3rem; font-weight:700; color:var(--text)">Student Data Input</h3>
+                    <h3 class="modal-heading">Student Data Input</h3>
                     <div style="display:flex; gap:12px; flex-wrap:wrap; align-items:center;">
                         <button class="btn-top-action btn-top-import" onclick="showBulkModal()">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
@@ -2196,7 +1939,7 @@
                     </div>
                     <div class="form-group fg-mid">
                         <label>Footer Test Title</label>
-                        <input type="text" id="cfg-title" value="Weekly 01 Test" oninput="updateRankings()">
+                        <input type="text" id="cfg-title" value="Weekly Test 01" oninput="updateRankings()">
                     </div>
                     <div class="form-group fg-compact">
                         <label>Footer Date</label>
@@ -2223,7 +1966,12 @@
                     <label class="control-option">
                         <input type="checkbox" id="set-bracu-title" checked onchange="updateRankings()">
                         <span class="control-checkbox-box"></span>
-                        <span class="control-option-text">BracU Standard Box</span>
+                        <span class="control-option-text">BRACU Standard Box</span>
+                    </label>
+                    <label class="control-option" title="BRACU system: Section 02 is the Essay; other sections become S01, S03, S04, S05/S06. Leave unchecked for NSU-style naming (default).">
+                        <input type="checkbox" id="set-bracu-essay-s02" onchange="updateRankings()">
+                        <span class="control-checkbox-box"></span>
+                        <span class="control-option-text">BRACU: Essay on S02</span>
                     </label>
                 </div>
             </div>
@@ -2371,7 +2119,7 @@
                             Download PDF
                         </button>
 
-                        <button class="cr-btn cr-btn-danger" onclick="clearCRAllData()" title="Clear all ranking dataset">
+                        <button class="cr-btn cr-btn-danger" onclick="clearCRAllData()" title="Clear the entire ranking dataset">
                             Clear All
                         </button>
                     </div>
@@ -2434,7 +2182,7 @@
             <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:1rem">Columns: Name [Tab] S01 [Tab] S02
                 [Tab] S03 [Tab] Essay [Tab] S05 [Tab] S06 <br>
                 <small>* Sections 05 & 06 count as BRACU (students with S05/S06 will be BRACU)</small></p>
-            <div class="form-group" style="margin-bottom:1rem">
+            <div class="form-group">
                 <label>Target Standard:</label>
                 <select id="bulk-type">
                     <option value="NSU">NSU</option>
@@ -2442,8 +2190,8 @@
                     <option value="BOTH">Both (Auto Detect)</option>
                 </select>
             </div>
-            <textarea id="bulk-input" rows="8" style="width:100%; padding:10px; font-family:monospace"></textarea>
-            <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:1rem">
+            <textarea id="bulk-input" class="paste-box" rows="8"></textarea>
+            <div class="modal-actions">
                 <button class="btn btn-secondary" onclick="hideBulkModal()">Cancel</button>
                 <button class="btn btn-primary" onclick="importBulk()">Process Import</button>
             </div>
@@ -2451,11 +2199,11 @@
     </div>
 
     <!-- Central Ranking Batch Import Modal -->
-    <div id="cr-import-modal" class="modal-backdrop" style="z-index: 100005;">
+    <div id="cr-import-modal" class="modal-backdrop modal-top">
         <div class="card" style="max-width: 650px; width: 95%;">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
-                <h2 style="font-family:'Outfit', sans-serif; font-size:1.3rem; font-weight:700; color:var(--text)">Import Batch Result</h2>
-                <button class="tm-close-btn" onclick="closeCRImportModal()" style="color:var(--text); background:transparent; border:none; font-size:1.5rem;">&times;</button>
+            <div class="modal-head">
+                <h2 class="modal-heading">Import Batch Result</h2>
+                <button class="tm-close-btn modal-close-plain" onclick="closeCRImportModal()">&times;</button>
             </div>
             
             <p style="font-size:0.82rem; color:var(--text-muted); margin-bottom:1rem; line-height: 1.4;">
@@ -2466,29 +2214,29 @@
                 3. <code>Rank [Tab] Name [Tab] Batch Name [Tab] MT1 [Tab] MT2 [Tab] MT3 [Tab] MT4 [Tab] MT5</code>
             </p>
 
-            <div class="form-group" style="margin-bottom:1rem">
+            <div class="form-group">
                 <label>Batch Name (Full Name):</label>
                 <input type="text" id="cr-batch-name-input" placeholder="e.g. BATCH 87 - Offline Combo Batch" value="BATCH 87 - Offline Combo Batch" style="width:100%">
             </div>
 
-            <div class="form-group" style="margin-bottom:1rem">
+            <div class="form-group">
                 <label>Mode:</label>
                 <div style="display:flex; gap:15px; margin-top:4px;">
-                    <label style="display:flex; align-items:center; gap:6px; font-weight:normal; text-transform:none; cursor:pointer;">
+                    <label class="radio-option">
                         <input type="radio" name="cr-import-mode" value="append" checked> Append / Add to Existing Results
                     </label>
-                    <label style="display:flex; align-items:center; gap:6px; font-weight:normal; text-transform:none; cursor:pointer;">
+                    <label class="radio-option">
                         <input type="radio" name="cr-import-mode" value="replace"> Replace Entire Ranking Dataset
                     </label>
                 </div>
             </div>
 
-            <div class="form-group" style="margin-bottom:1rem">
+            <div class="form-group">
                 <label>Spreadsheet Data (Paste here):</label>
-                <textarea id="cr-bulk-input" rows="8" placeholder="Fuad Hasan Susmit	90.5	101.5	87	95.5	108&#10;Raiyan Rana Raad	74	83	86	72	90" style="width:100%; padding:10px; font-family:monospace; font-size:0.88rem; border-radius:8px; border:1px solid var(--border); background:var(--input-bg); color:var(--text);"></textarea>
+                <textarea id="cr-bulk-input" rows="8" placeholder="Fuad Hasan Susmit	90.5	101.5	87	95.5	108&#10;Raiyan Rana Raad	74	83	86	72	90" class="paste-box" style="font-size:0.88rem"></textarea>
             </div>
 
-            <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:1rem">
+            <div class="modal-actions">
                 <button class="btn btn-secondary" onclick="closeCRImportModal()">Cancel</button>
                 <button class="btn btn-primary" onclick="processCRImport()">Process Batch Import</button>
             </div>
@@ -2496,20 +2244,20 @@
     </div>
 
     <!-- Central Ranking Settings Modal -->
-    <div id="cr-config-modal" class="modal-backdrop" style="z-index: 100005;">
+    <div id="cr-config-modal" class="modal-backdrop modal-top">
         <div class="card" style="max-width: 500px; width: 90%;">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
-                <h2 style="font-family:'Outfit', sans-serif; font-size:1.2rem; font-weight:700; color:var(--text);">Central Ranking Settings</h2>
-                <button class="tm-close-btn" onclick="closeCRConfigModal()" style="color:var(--text); background:transparent; border:none; font-size:1.5rem;">&times;</button>
+            <div class="modal-head">
+                <h2 class="modal-heading" style="font-size:1.2rem">Central Ranking Settings</h2>
+                <button class="tm-close-btn modal-close-plain" onclick="closeCRConfigModal()">&times;</button>
             </div>
 
-            <div class="form-group" style="margin-bottom:1rem">
+            <div class="form-group">
                 <label>Total Max Marks (Out of):</label>
                 <input type="number" id="cr-max-marks-input" value="600" style="width:100%">
             </div>
 
 
-            <div style="display:flex; justify-content:flex-end; gap:10px; margin-top:1rem">
+            <div class="modal-actions">
                 <button class="btn btn-secondary" onclick="closeCRConfigModal()">Cancel</button>
                 <button class="btn btn-primary" onclick="saveCRSettings()">Save Changes</button>
             </div>
@@ -2534,22 +2282,6 @@
                     renderCentralRanking();
                 }
             }
-        }
-
-        function openTableMaker() {
-            switchView('tablemaker');
-        }
-
-        function closeTableMaker() {
-            switchView('resultmaker');
-        }
-
-        function openCentralRanking() {
-            switchView('centralranking');
-        }
-
-        function closeCentralRanking() {
-            switchView('resultmaker');
         }
 
         // ── Theme Manager ──────────────────────────────────────────
@@ -2599,7 +2331,8 @@
                     showHeader: document.getElementById('set-header')?.checked,
                     hideZeros: document.getElementById('set-hide-zeros')?.checked,
                     showNSU: document.getElementById('set-nsu-title')?.checked,
-                    showBRACU: document.getElementById('set-bracu-title')?.checked
+                    showBRACU: document.getElementById('set-bracu-title')?.checked,
+                    bracuEssayS02: document.getElementById('set-bracu-essay-s02')?.checked
                 };
                 localStorage.setItem(CONFIG_STORAGE_KEY, JSON.stringify(cfg));
             } catch (e) {
@@ -2622,6 +2355,7 @@
                 if (cfg.hideZeros !== undefined && document.getElementById('set-hide-zeros')) document.getElementById('set-hide-zeros').checked = cfg.hideZeros;
                 if (cfg.showNSU !== undefined && document.getElementById('set-nsu-title')) document.getElementById('set-nsu-title').checked = cfg.showNSU;
                 if (cfg.showBRACU !== undefined && document.getElementById('set-bracu-title')) document.getElementById('set-bracu-title').checked = cfg.showBRACU;
+                if (cfg.bracuEssayS02 !== undefined && document.getElementById('set-bracu-essay-s02')) document.getElementById('set-bracu-essay-s02').checked = cfg.bracuEssayS02;
             } catch (e) {
                 console.error("Failed to load sheet configuration:", e);
             }
@@ -2762,27 +2496,70 @@
             renderCentralRanking();
         }
 
-        function renderCentralRanking() {
-            const rawData = getCRData();
-            populateCRBatchDropdown(rawData);
+        // ── Shared marks & rank helpers ───────────────────────────
+        // Round to 2 decimals so sums like 0.1 + 0.2 don't show as 0.30000000000000004
+        function roundMarks(val) {
+            return Math.round((parseFloat(val) || 0) * 100) / 100;
+        }
 
-            let data = rawData;
-            if (crSelectedBatch !== 'all') {
-                data = rawData.filter(item => (item.batch || 'Default').trim() === crSelectedBatch);
-            }
-            
+        function sumMarks(scores, count) {
+            return roundMarks((scores || []).slice(0, count).reduce((sum, val) => sum + (parseFloat(val) || 0), 0));
+        }
+
+        // Standard competition ranking: equal totals share a rank (1st, 2nd, 2nd, 4th)
+        function addRanks(sortedList) {
+            let rankNum = 1;
+            return sortedList.map((item, i) => {
+                if (i > 0 && item.total < sortedList[i - 1].total) rankNum = i + 1;
+                return { ...item, rankNum, rank: getOrdinalSuffix(rankNum) };
+            });
+        }
+
+        function rankBadgeHtml(rankNum) {
+            const rankStr = getOrdinalSuffix(rankNum);
+            if (rankNum <= 3) return `<span class="rank-badge rank-${rankStr}">${rankStr}</span>`;
+            return `<span class="rank-other">${rankStr}</span>`;
+        }
+
+        // Central Ranking rows for the selected batch, sorted by total with tie-aware ranks
+        function getCRRankedList(rawData = getCRData()) {
+            const data = crSelectedBatch !== 'all'
+                ? rawData.filter(item => (item.batch || 'Default').trim() === crSelectedBatch)
+                : rawData;
             const processed = data.map(item => {
-                const scores = item.scores || [0,0,0,0,0];
-                const total = scores.reduce((sum, val) => sum + (parseFloat(val) || 0), 0);
+                const scores = item.scores || [0, 0, 0, 0, 0];
                 return {
                     name: item.name || '',
                     batch: item.batch || 'BATCH 87 - Offline Combo Batch',
                     scores: scores,
-                    total: total
+                    total: sumMarks(scores, scores.length)
                 };
             });
-
             processed.sort((a, b) => b.total - a.total);
+            return addRanks(processed);
+        }
+
+        function crRowHtml(item) {
+            const fmtScore = (val) => {
+                const num = roundMarks(val);
+                return num === 0 ? '-' : num;
+            };
+            return `
+                <tr>
+                    <td class="cr-td-rank">${rankBadgeHtml(item.rankNum)}</td>
+                    <td class="cr-td-name">${escapeHtml(item.name)}</td>
+                    <td class="cr-td-batch">${escapeHtml(item.batch)}</td>
+                    ${[0, 1, 2, 3, 4].map(i => `<td class="cr-td-score">${fmtScore(item.scores[i])}</td>`).join('')}
+                    <td class="cr-td-total">${roundMarks(item.total)}</td>
+                </tr>
+            `;
+        }
+
+        function renderCentralRanking() {
+            const rawData = getCRData();
+            populateCRBatchDropdown(rawData);
+
+            const processed = getCRRankedList(rawData);
 
             // Update KPI Summary Stats
             const totalCandidates = processed.length;
@@ -2837,47 +2614,7 @@
                 return;
             }
 
-            let html = '';
-            const pageOffset = (!crFilterTop30 && crPageSize !== 'all') ? ((crCurrentPage - 1) * (parseInt(crPageSize) || 30)) : 0;
-            displayList.forEach((item, index) => {
-                const globalRank = pageOffset + index + 1;
-                const rankStr = getOrdinalSuffix(globalRank);
-                const s = item.scores;
-                
-                let rankDisplay = rankStr;
-                if (globalRank === 1) rankDisplay = `<span class="rank-badge rank-1st">1st</span>`;
-                else if (globalRank === 2) rankDisplay = `<span class="rank-badge rank-2nd">2nd</span>`;
-                else if (globalRank === 3) rankDisplay = `<span class="rank-badge rank-3rd">3rd</span>`;
-                else rankDisplay = `<span class="rank-other">${rankStr}</span>`;
-
-                const fmtScore = (val) => {
-                    const num = parseFloat(val) || 0;
-                    if (num === 0) return '-';
-                    return num % 1 === 0 ? num : num.toFixed(1);
-                };
-
-                const fmtTotal = (val) => {
-                    const num = parseFloat(val) || 0;
-                    return num % 1 === 0 ? num : num.toFixed(1);
-                };
-
-                html += `
-                    <tr>
-                        <td class="cr-td-rank">${rankDisplay}</td>
-                        <td class="cr-td-name">${escapeHtml(item.name)}</td>
-                        <td class="cr-td-batch">${escapeHtml(item.batch)}</td>
-                        <td class="cr-td-score">${fmtScore(s[0])}</td>
-                        <td class="cr-td-score">${fmtScore(s[1])}</td>
-                        <td class="cr-td-score">${fmtScore(s[2])}</td>
-                        <td class="cr-td-score">${fmtScore(s[3])}</td>
-                        <td class="cr-td-score">${fmtScore(s[4])}</td>
-                        <td class="cr-td-total">${fmtTotal(item.total)}</td>
-                    </tr>
-                `;
-            });
-
-
-            tbody.innerHTML = html;
+            tbody.innerHTML = displayList.map(crRowHtml).join('');
         }
 
 
@@ -2915,10 +2652,18 @@
                 let trimmed = line.trim();
                 if (!trimmed) return;
 
-                let row = trimmed.split('\t').map(c => c.trim()).filter(c => c !== '');
+                // Keep blank cells in the middle of a row (a missed Model Test) so later marks
+                // stay in their own column; only drop empty cells at the start and end.
+                const splitKeepingBlanks = (sep) => {
+                    const cells = line.split(sep).map(c => c.trim());
+                    while (cells.length && cells[0] === '') cells.shift();
+                    while (cells.length && cells[cells.length - 1] === '') cells.pop();
+                    return cells;
+                };
+                let row = splitKeepingBlanks('\t');
                 if (row.length <= 1) {
                     if (trimmed.includes(',')) {
-                        row = trimmed.split(',').map(c => c.trim()).filter(c => c !== '');
+                        row = splitKeepingBlanks(',');
                     } else {
                         row = trimmed.split(/\s{2,}/).map(c => c.trim()).filter(c => c !== '');
                     }
@@ -3003,12 +2748,6 @@
         }
 
 
-        function resetCRData() {
-            saveCRData(JSON.parse(JSON.stringify(defaultCRSampleData)));
-            renderCentralRanking();
-            showCRToast("Reset to default Top 30 sample dataset!");
-        }
-
         function clearCRAllData() {
             if (!confirm("Are you sure you want to clear all Central Ranking records? This cannot be undone.")) return;
             saveCRData([]);
@@ -3048,41 +2787,14 @@
                 return;
             }
 
-            let data = rawData;
-            if (crSelectedBatch && crSelectedBatch !== 'all') {
-                data = rawData.filter(item => (item.batch || 'Default').trim() === crSelectedBatch);
-            }
-            if (!data.length) {
+            const processed = getCRRankedList(rawData);
+            if (!processed.length) {
                 alert("No records found for the selected batch.");
                 return;
             }
 
-            const processed = data.map(item => {
-                const scores = item.scores || [0, 0, 0, 0, 0];
-                const total = scores.reduce((sum, val) => sum + (parseFloat(val) || 0), 0);
-                return {
-                    name: item.name || '',
-                    batch: item.batch || 'BATCH 87 - Offline Combo Batch',
-                    scores: scores,
-                    total: total
-                };
-            });
-
-            processed.sort((a, b) => b.total - a.total);
-
             // Export top 30 if filterTop30 mode is active, or all exam takers if not
-            const exportList = crFilterTop30 ? processed.slice(0, 30) : processed;
-
-            let currentRank = 1;
-            const rankedList = exportList.map((item, idx) => {
-                if (idx > 0 && item.total < exportList[idx - 1].total) {
-                    currentRank = idx + 1;
-                }
-                return {
-                    ...item,
-                    rank: getOrdinalSuffix(currentRank)
-                };
-            });
+            const rankedList = crFilterTop30 ? processed.slice(0, 30) : processed;
 
             let csv = "Rank,Student Name,Batch No,Model Test 1,Model Test 2,Model Test 3,Model Test 4,Model Test 5,Total\n";
             rankedList.forEach(item => {
@@ -3127,24 +2839,8 @@
 
 
         async function downloadCRPDF() {
-            let rawData = getCRData();
-            if (crSelectedBatch !== 'all') {
-                rawData = rawData.filter(item => (item.batch || 'Default').trim() === crSelectedBatch);
-            }
-            if (!rawData.length) { alert("Nothing to capture!"); return; }
-
-
-            const processed = rawData.map(item => {
-                const scores = item.scores || [0,0,0,0,0];
-                const total = scores.reduce((sum, val) => sum + (parseFloat(val) || 0), 0);
-                return {
-                    name: item.name || '',
-                    batch: item.batch || 'BATCH 87 - Offline Combo Batch',
-                    scores: scores,
-                    total: total
-                };
-            });
-            processed.sort((a, b) => b.total - a.total);
+            const processed = getCRRankedList();
+            if (!processed.length) { alert("Nothing to capture!"); return; }
 
             // Export dataset based on active mode (respects selected page size: 30 default, 20, 32)
             const displayItems = crFilterTop30 ? processed.slice(0, 30) : processed;
@@ -3175,38 +2871,7 @@
                     const startIdx = (p - 1) * itemsPerPage;
                     const pageItems = displayItems.slice(startIdx, startIdx + itemsPerPage);
 
-                    let rowsHtml = '';
-                    pageItems.forEach((item, index) => {
-                        const globalRank = startIdx + index + 1;
-                        const rankStr = getOrdinalSuffix(globalRank);
-                        const s = item.scores;
-                        
-                        let rankDisplay = rankStr;
-                        if (globalRank === 1) rankDisplay = `<span class="rank-badge rank-1st">1st</span>`;
-                        else if (globalRank === 2) rankDisplay = `<span class="rank-badge rank-2nd">2nd</span>`;
-                        else if (globalRank === 3) rankDisplay = `<span class="rank-badge rank-3rd">3rd</span>`;
-                        else rankDisplay = `<span class="rank-other">${rankStr}</span>`;
-
-                        const fmtScore = (val) => {
-                            const num = parseFloat(val) || 0;
-                            if (num === 0) return '-';
-                            return num % 1 === 0 ? num : num.toFixed(1);
-                        };
-
-                        rowsHtml += `
-                            <tr>
-                                <td class="cr-td-rank">${rankDisplay}</td>
-                                <td class="cr-td-name">${escapeHtml(item.name)}</td>
-                                <td class="cr-td-batch">${escapeHtml(item.batch)}</td>
-                                <td class="cr-td-score">${fmtScore(s[0])}</td>
-                                <td class="cr-td-score">${fmtScore(s[1])}</td>
-                                <td class="cr-td-score">${fmtScore(s[2])}</td>
-                                <td class="cr-td-score">${fmtScore(s[3])}</td>
-                                <td class="cr-td-score">${fmtScore(s[4])}</td>
-                                <td class="cr-td-total">${fmtScore(item.total)}</td>
-                            </tr>
-                        `;
-                    });
+                    const rowsHtml = pageItems.map(crRowHtml).join('');
 
 
                     tempDiv.innerHTML = `
@@ -3297,7 +2962,12 @@
         });
         // ─────────────────────────────────────────────────────────
 
-        document.getElementById('cfg-date').valueAsDate = new Date();
+        // Use the local date (valueAsDate uses UTC, which shows yesterday before 6 AM in Bangladesh)
+        (function setTodayLocal() {
+            const now = new Date();
+            const pad = (n) => String(n).padStart(2, '0');
+            document.getElementById('cfg-date').value = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
+        })();
         let students = [];
         try {
             students = JSON.parse(localStorage.getItem('phoenix_v5')) || [];
@@ -3449,7 +3119,7 @@
                 if (!s.name || !s.name.trim()) return;
                 const isBracu = s.type === 'BRACU' || (parseFloat(s.scores[4]) || 0) > 0 || (parseFloat(s.scores[5]) || 0) > 0;
                 const limit = isBracu ? (hasS06 ? 6 : 5) : 4;
-                const total = s.scores.slice(0, limit).reduce((sum, val) => sum + (parseFloat(val) || 0), 0);
+                const total = sumMarks(s.scores, limit);
                 if (hideZeros && total === 0) {
                     return; // Exclude 0 marks student from CSV
                 }
@@ -3515,14 +3185,7 @@
         }
 
         function sort(arr) {
-            const sorted = arr.sort((a, b) => b.total - a.total);
-            let currentRank = 1;
-            return sorted.map((s, i) => {
-                if (i > 0 && s.total < sorted[i - 1].total) {
-                    currentRank = i + 1;
-                }
-                return { ...s, rank: getOrdinalSuffix(currentRank) };
-            });
+            return addRanks(arr.sort((a, b) => b.total - a.total));
         }
 
         function renderSingleTable(type, data, headers, label, showTitle = true, preserveSpacer = false, cellPadding = '', fontSize = '', nameFontSize = '', namePadding = '', extraStyle = '') {
@@ -3559,11 +3222,11 @@
                                 <tr>
                                     <td class="name-cell" style="${nameFontSize ? `font-size:${nameFontSize} !important;` : ''} ${namePadding ? `padding:${namePadding} !important;` : ''}">${escapeHtml(s.name)}</td>
                                     ${headers.map((_, idx) => {
-                                        const val = parseFloat(s.scores[idx]) || 0;
-                                        const displayVal = val === 0 ? '<span class="zero-dash">-</span>' : (val % 1 === 0 ? val : val.toFixed(1));
+                                        const val = roundMarks(s.scores[idx]);
+                                        const displayVal = val === 0 ? '<span class="zero-dash">-</span>' : val;
                                         return `<td ${paddingStyle}>${displayVal}</td>`;
                                     }).join('')}
-                                    <td class="total-cell" ${paddingStyle}>${s.total}</td>
+                                    <td class="total-cell" ${paddingStyle}>${roundMarks(s.total)}</td>
                                     <td class="rank-cell" ${paddingStyle}><span class="rank-badge ${rankClass}">${s.rank}</span></td>
                                 </tr>
                                 `;
@@ -3601,8 +3264,6 @@
                 nameFontSize = '15.5px';
                 namePadding = '6.5px 10px';
             }
-
-            const fontStyle = fontSize ? `style="font-size:${fontSize} !important;"` : '';
 
             let leftTableHtml = '';
             let rightTableHtml = '';
@@ -3705,20 +3366,24 @@
                 .filter(s => s.name && !isBracuStudent(s))
                 .map(s => ({
                     ...s,
-                    total: s.scores.slice(0, 4).reduce((sum, val) => sum + (parseFloat(val) || 0), 0)
+                    total: sumMarks(s.scores, 4)
                 }));
 
             // BRACU Standard: includes anyone who answers S05 or S06 (5 sections, or 6 if S06 is present)
             const bracuStudentsRaw = students.filter(s => s.name && isBracuStudent(s));
             const bracuHasS06 = bracuStudentsRaw.some(s => (parseFloat(s.scores[5]) || 0) > 0);
             const bracuLimit = bracuHasS06 ? 6 : 5;
-            const bracuHeaders = bracuHasS06
-                ? ['S01', 'S02', 'S03', 'Essay', 'S05', 'S06']
-                : ['S01', 'S02', 'S03', 'Essay', 'S05'];
+            // BRACU system option: Section 02 is the Essay, the rest are S01, S03, S04, S05/S06.
+            // Unchecked (default) keeps the NSU-style naming with Essay in the 4th column.
+            const bracuEssayS02 = document.getElementById('set-bracu-essay-s02')?.checked;
+            const bracuBaseHeaders = bracuEssayS02
+                ? ['S01', 'Essay', 'S03', 'S04', 'S05', 'S06']
+                : ['S01', 'S02', 'S03', 'Essay', 'S05', 'S06'];
+            const bracuHeaders = bracuBaseHeaders.slice(0, bracuLimit);
 
             const bracuAll = bracuStudentsRaw.map(s => ({
                 ...s,
-                total: s.scores.slice(0, bracuLimit).reduce((sum, val) => sum + (parseFloat(val) || 0), 0)
+                total: sumMarks(s.scores, bracuLimit)
             }));
 
             // Exclude students whose totals are zero if hideZeros is checked
@@ -3728,13 +3393,10 @@
             const nsuSorted = sort([...nsuFiltered]);
             const bracuSorted = sort([...bracuFiltered]);
 
-            // Generate Layout HTML for Preview
-            const previewHTML = generatePrintHTML(nsuSorted, bracuSorted, label, batch, midHeader, desc, title, dateStr, showHeader, showNSUT, showBRACUT, nsuHeaders, bracuHeaders);
-            document.getElementById('preview-area').innerHTML = previewHTML;
-
-            // Generate Layout HTML for Print
-            const printHTML = generatePrintHTML(nsuSorted, bracuSorted, label, batch, midHeader, desc, title, dateStr, showHeader, showNSUT, showBRACUT, nsuHeaders, bracuHeaders);
-            document.getElementById('print-area').innerHTML = printHTML;
+            // Build the sheet once and use it for both the on-screen preview and printing
+            const sheetHTML = generatePrintHTML(nsuSorted, bracuSorted, label, batch, midHeader, desc, title, dateStr, showHeader, showNSUT, showBRACUT, nsuHeaders, bracuHeaders);
+            document.getElementById('preview-area').innerHTML = sheetHTML;
+            document.getElementById('print-area').innerHTML = sheetHTML;
         }
 
         function getDownloadFileName(ext) {

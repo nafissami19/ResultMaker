@@ -144,13 +144,7 @@ npx http-server -p 3000
 
 ```text
 ResultMaker/
-├── index.html                   # Main application entry point & unified UI
-├── css/
-│   └── style.css                # Modular stylesheet definitions
-├── js/
-│   ├── app.js                   # Application controller & view router
-│   ├── storage.js               # LocalStorage database helper
-│   └── ui.js                    # UI render components
+├── index.html                   # The whole app: markup, styles and scripts in one file
 ├── tablemaker/                  # Modular iframe table builder component
 │   ├── index.html
 │   └── assets/
