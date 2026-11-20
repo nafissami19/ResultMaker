@@ -416,10 +416,21 @@
         }
 
         /* ── Form controls ── */
+        /* Fields grow to fit their text, then share any leftover row space */
         .form-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+            display: flex;
+            flex-wrap: wrap;
             gap: 12px 14px;
+        }
+
+        .form-grid .form-group {
+            flex: 1 1 auto;
+            min-width: 190px;
+            max-width: 100%;
+        }
+
+        .form-grid input[type="text"] {
+            field-sizing: content;
         }
 
         .form-group {
@@ -840,13 +851,6 @@
             height: auto !important;
             color: var(--text-muted);
             font-size: 0.86rem;
-        }
-
-        .grid-foot {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-top: 12px;
         }
 
         .grid-hint {
@@ -1839,12 +1843,16 @@
 
                     <!-- Students tab -->
                     <div class="panel-body" id="editor-pane-students">
-                        <div style="display:flex; align-items:center; gap:10px; margin-bottom:12px;">
+                        <div style="display:flex; flex-wrap:wrap; align-items:center; gap:10px; margin-bottom:12px;">
                             <div class="search-box">
                                 <svg width="15" height="15"><use href="#i-search"/></svg>
                                 <input type="text" id="student-search-input" placeholder="Search students" oninput="handleStudentSearch(this.value)">
                             </div>
                             <span class="muted-count" id="student-filter-count"></span>
+                            <button class="btn btn-ghost btn-sm" onclick="addStudent()"><svg width="15" height="15"><use href="#i-plus"/></svg>Add student</button>
+                            <span class="grid-hint">Enter moves down · click NSU/BRACU to switch</span>
+                            <span class="spacer"></span>
+                            <button class="btn btn-danger-text btn-sm" onclick="clearData()"><svg width="14" height="14"><use href="#i-trash"/></svg>Clear all</button>
                         </div>
 
                         <div class="grid-wrap">
@@ -1870,13 +1878,6 @@
                                 </thead>
                                 <tbody id="student-rows"></tbody>
                             </table>
-                        </div>
-
-                        <div class="grid-foot">
-                            <button class="btn btn-ghost btn-sm" onclick="addStudent()"><svg width="15" height="15"><use href="#i-plus"/></svg>Add student</button>
-                            <span class="grid-hint">Enter moves down · click NSU/BRACU to switch</span>
-                            <span class="spacer"></span>
-                            <button class="btn btn-danger-text btn-sm" onclick="clearData()"><svg width="14" height="14"><use href="#i-trash"/></svg>Clear all</button>
                         </div>
                     </div>
 
