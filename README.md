@@ -45,8 +45,16 @@ Everything runs in the browser. There is no server or database: your data stays 
 - **Editor and live preview side by side**: the A4 sheet updates as you type.
 - **Spreadsheet-style grid**:
   - Blank cells instead of zeros.
-  - A live total for each student.
-  - Enter moves down a column.
+  - A live total for each student, and row numbers.
+  - Arrow keys and Enter move between cells; Tab moves right.
+  - Paste a block copied from Excel or Google Sheets straight into any cell. It fills right and down, and adds rows when needed.
+  - Click a column header to sort (click again to reverse, a third time to go back to entry order).
+  - Filter chips with counts: All / NSU / BRACU / Missing marks.
+  - Deleting a student shows an **Undo** button for a few seconds.
+- **Rename the mark columns** (e.g. S01 → English) in Sheet settings. The grid, sheet and CSV all use the new names.
+- **Phoenix watermark**: every result sheet (preview, PDF, PNG and print) has the faint Phoenix Education logo behind the tables.
+- **Import catches duplicates**: if a pasted name is already in the test, choose to skip it, replace its marks, or add it as a new row.
+- **Shortcuts**: Ctrl+S saves the test, Esc closes popups.
 - **NSU and BRACU sections handled for you**:
   - NSU columns are `S01, S02, S03, Essay`.
   - BRACU columns are `S01, Essay, S03, S04, S05` (and `S06` when used). For BRACU, Section 02 is always the Essay.
@@ -169,6 +177,9 @@ Nothing is uploaded anywhere. This also means:
 ```text
 ResultMaker/
 ├── index.html                  # Result Maker and Central Ranking: markup, styles and scripts
+├── assets/
+│   ├── phoenix-watermark.png   # Watermark logo (source image)
+│   └── watermark.js            # The same logo inline, so exports also work when index.html is opened directly
 ├── tablemaker/
 │   ├── index.html              # Table Maker page (loaded in a frame by index.html)
 │   └── answer-parser.js        # Reads answers from solve sheet text and runs the checks

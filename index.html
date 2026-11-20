@@ -701,7 +701,7 @@
 
         .entry-table {
             width: 100%;
-            min-width: 660px;
+            min-width: 700px;
             border-collapse: collapse;
             table-layout: fixed;
             font-variant-numeric: tabular-nums;
@@ -856,6 +856,218 @@
         .grid-hint {
             font-size: 0.76rem;
             color: var(--text-subtle);
+        }
+
+        /* Filter chips (All / NSU / BRACU / Missing marks) with counts */
+        .grid-filters {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 6px;
+            margin-bottom: 10px;
+        }
+
+        .chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            height: 28px;
+            padding: 0 11px;
+            border-radius: 20px;
+            border: 1px solid var(--border);
+            background: var(--surface);
+            color: var(--text-muted);
+            font-size: 0.78rem;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .chip:hover {
+            color: var(--text);
+            border-color: var(--border-strong);
+        }
+
+        .chip:focus-visible {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
+
+        .chip-count {
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 0 6px;
+            border-radius: 20px;
+            background: var(--surface-2);
+            color: var(--text-muted);
+        }
+
+        .chip.active {
+            background: var(--primary-soft);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .chip.active .chip-count {
+            background: var(--primary);
+            color: #ffffff;
+        }
+
+        .chip-nsu.active { background: var(--nsu-soft); border-color: var(--nsu); color: var(--nsu); }
+        .chip-nsu.active .chip-count { background: var(--nsu); }
+        .chip-bracu.active { background: var(--bracu-soft); border-color: var(--bracu); color: var(--bracu); }
+        .chip-bracu.active .chip-count { background: var(--bracu); }
+        .chip-missing.active { background: rgba(217, 119, 6, 0.10); border-color: #d97706; color: #b45309; }
+        .chip-missing.active .chip-count { background: #d97706; }
+
+        /* Row numbers */
+        .entry-table th.col-num,
+        .entry-table td.col-num {
+            color: var(--text-subtle);
+            font-size: 0.74rem;
+            font-weight: 600;
+        }
+
+        /* Sortable column headers */
+        .th-sort {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            border: none;
+            background: none;
+            color: inherit;
+            font: inherit;
+            letter-spacing: inherit;
+            text-transform: inherit;
+            cursor: pointer;
+        }
+
+        .entry-table th.col-name .th-sort {
+            align-items: flex-start;
+        }
+
+        .th-sort:hover {
+            color: var(--text);
+        }
+
+        .th-sort:focus-visible {
+            outline: 2px solid var(--primary);
+            outline-offset: -2px;
+            border-radius: 4px;
+        }
+
+        .th-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+        }
+
+        .sort-arrow {
+            font-size: 0.62rem;
+            color: var(--primary);
+        }
+
+        .entry-table th.is-sorted {
+            color: var(--primary);
+        }
+
+        /* Missing-mark rows get a soft amber edge */
+        .entry-table tr.row-missing td:first-child {
+            box-shadow: inset 3px 0 0 #f59e0b;
+        }
+
+        /* Toast with an action button (e.g. Undo) */
+        .toast.has-action {
+            pointer-events: auto;
+        }
+
+        .toast-action {
+            margin-left: 6px;
+            padding: 3px 10px;
+            border: 1px solid currentColor;
+            border-radius: 6px;
+            background: transparent;
+            color: inherit;
+            font: inherit;
+            font-size: 0.8rem;
+            cursor: pointer;
+        }
+
+        .toast-action:hover {
+            background: rgba(127, 127, 127, 0.25);
+        }
+
+        /* Duplicate names found on import */
+        .dup-list {
+            max-height: 160px;
+            overflow-y: auto;
+            margin: 0 0 14px;
+            padding: 8px 12px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            background: var(--surface-2);
+            font-size: 0.84rem;
+            line-height: 1.6;
+        }
+
+        .modal-actions.wrap {
+            flex-wrap: wrap;
+        }
+
+        /* Input with a small button beside it (Footer date + Today) */
+        .input-row {
+            display: flex;
+            gap: 6px;
+        }
+
+        .input-row input {
+            flex: 1;
+            min-width: 0;
+        }
+
+        /* Column names editor */
+        .colname-grid {
+            display: grid;
+            grid-template-columns: 64px repeat(6, minmax(0, 1fr));
+            gap: 8px;
+            align-items: center;
+        }
+
+        .colname-grid .colname-std {
+            font-size: 0.78rem;
+            font-weight: 700;
+        }
+
+        .colname-grid .colname-std.nsu { color: var(--nsu); }
+        .colname-grid .colname-std.bracu { color: var(--bracu); }
+
+        .colname-grid input {
+            width: 100%;
+            min-width: 0;
+            height: 32px;
+            padding: 0 8px;
+            text-align: center;
+        }
+
+        .colname-grid .colname-head {
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--text-subtle);
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        .colname-scroll {
+            overflow-x: auto;
+        }
+
+        .colname-scroll .colname-grid {
+            min-width: 460px;
         }
 
         /* ── Saved tests ── */
@@ -1372,6 +1584,19 @@
             overflow: hidden;
         }
 
+        /* Phoenix logo, always drawn faintly over the middle of the result sheet */
+        .sheet-watermark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            height: 80%;
+            width: auto;
+            transform: translate(-50%, -50%);
+            z-index: 5;
+            pointer-events: none;
+            user-select: none;
+        }
+
         .print-page-wrapper::before {
             content: '';
             position: absolute;
@@ -1768,6 +1993,7 @@
     <!-- External Libraries for PDF and Image Download -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="assets/watermark.js"></script>
 </head>
 
 <body>
@@ -1836,7 +2062,7 @@
                         </div>
                         <span class="spacer"></span>
                         <span class="save-state" id="save-state" aria-live="polite"></span>
-                        <button class="btn btn-secondary btn-sm" onclick="saveCurrentTest()" title="Save this test (named after the footer test title)"><svg width="15" height="15"><use href="#i-save"/></svg>Save</button>
+                        <button class="btn btn-secondary btn-sm" onclick="saveCurrentTest()" title="Save this test, named after the footer test title (Ctrl+S)"><svg width="15" height="15"><use href="#i-save"/></svg>Save</button>
                         <button class="btn btn-secondary btn-sm" onclick="showBulkModal()"><svg width="15" height="15"><use href="#i-upload"/></svg>Import</button>
                         <button class="btn btn-secondary btn-sm" onclick="exportCSV()"><svg width="15" height="15"><use href="#i-download"/></svg>CSV</button>
                     </div>
@@ -1850,32 +2076,26 @@
                             </div>
                             <span class="muted-count" id="student-filter-count"></span>
                             <button class="btn btn-ghost btn-sm" onclick="addStudent()"><svg width="15" height="15"><use href="#i-plus"/></svg>Add student</button>
-                            <span class="grid-hint">Enter moves down · click NSU/BRACU to switch</span>
+                            <span class="grid-hint" title="Arrow keys and Enter move between cells · Tab moves right · paste a block copied from Excel into any cell · click NSU/BRACU to switch">Arrows/Enter move · paste from Excel</span>
                             <span class="spacer"></span>
                             <button class="btn btn-danger-text btn-sm" onclick="clearData()"><svg width="14" height="14"><use href="#i-trash"/></svg>Clear all</button>
+                        </div>
+
+                        <div class="grid-filters" role="group" aria-label="Show students">
+                            <button class="chip active" data-filter="all" onclick="setStudentFilter('all')">All <span class="chip-count" id="chip-count-all">0</span></button>
+                            <button class="chip chip-nsu" data-filter="NSU" onclick="setStudentFilter('NSU')">NSU <span class="chip-count" id="chip-count-NSU">0</span></button>
+                            <button class="chip chip-bracu" data-filter="BRACU" onclick="setStudentFilter('BRACU')">BRACU <span class="chip-count" id="chip-count-BRACU">0</span></button>
+                            <button class="chip chip-missing" data-filter="missing" onclick="setStudentFilter('missing')" title="Students with no name, or a blank (or 0) mark in one of their sections">Missing marks <span class="chip-count" id="chip-count-missing">0</span></button>
                         </div>
 
                         <div class="grid-wrap">
                             <table class="entry-table">
                                 <colgroup>
-                                    <col><col style="width:76px">
+                                    <col style="width:34px"><col><col style="width:76px">
                                     <col style="width:56px"><col style="width:56px"><col style="width:56px"><col style="width:60px"><col style="width:56px"><col style="width:56px">
                                     <col style="width:60px"><col style="width:34px">
                                 </colgroup>
-                                <thead>
-                                    <tr>
-                                        <th class="col-name">Name</th>
-                                        <th>Type</th>
-                                        <th>S01</th>
-                                        <th title="NSU: S02 · BRACU: Essay">S02<span class="th-bracu">Essay</span></th>
-                                        <th>S03</th>
-                                        <th title="NSU: Essay · BRACU: S04">Essay<span class="th-bracu">S04</span></th>
-                                        <th>S05</th>
-                                        <th>S06</th>
-                                        <th>Total</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
+                                <thead id="student-grid-head"></thead>
                                 <tbody id="student-rows"></tbody>
                             </table>
                         </div>
@@ -1922,7 +2142,34 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="cfg-date">Footer date</label>
-                                    <input type="date" id="cfg-date" oninput="updateRankings()">
+                                    <div class="input-row">
+                                        <input type="date" id="cfg-date" oninput="updateRankings()">
+                                        <button type="button" class="btn btn-secondary btn-sm" style="height:36px;" onclick="setFooterDateToday(true)" title="Set the footer date to today">Today</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="settings-section">
+                            <h3 class="settings-heading">Column names</h3>
+                            <p class="grid-hint" style="margin:-6px 0 10px;">Rename the mark columns (for example S01 → English). Used in the grid, the sheet and the CSV. Leave a box empty to use the default.</p>
+                            <div class="colname-scroll">
+                                <div class="colname-grid">
+                                    <span></span>
+                                    <span class="colname-head">Col 1</span><span class="colname-head">Col 2</span><span class="colname-head">Col 3</span><span class="colname-head">Col 4</span><span class="colname-head">Col 5</span><span class="colname-head">Col 6</span>
+                                    <span class="colname-std nsu">NSU</span>
+                                    <input type="text" id="cfg-col-nsu-0" placeholder="S01" aria-label="NSU column 1 name" oninput="onColumnNamesChange()">
+                                    <input type="text" id="cfg-col-nsu-1" placeholder="S02" aria-label="NSU column 2 name" oninput="onColumnNamesChange()">
+                                    <input type="text" id="cfg-col-nsu-2" placeholder="S03" aria-label="NSU column 3 name" oninput="onColumnNamesChange()">
+                                    <input type="text" id="cfg-col-nsu-3" placeholder="Essay" aria-label="NSU column 4 name" oninput="onColumnNamesChange()">
+                                    <span></span><span></span>
+                                    <span class="colname-std bracu">BRACU</span>
+                                    <input type="text" id="cfg-col-bracu-0" placeholder="S01" aria-label="BRACU column 1 name" oninput="onColumnNamesChange()">
+                                    <input type="text" id="cfg-col-bracu-1" placeholder="Essay" aria-label="BRACU column 2 name" oninput="onColumnNamesChange()">
+                                    <input type="text" id="cfg-col-bracu-2" placeholder="S03" aria-label="BRACU column 3 name" oninput="onColumnNamesChange()">
+                                    <input type="text" id="cfg-col-bracu-3" placeholder="S04" aria-label="BRACU column 4 name" oninput="onColumnNamesChange()">
+                                    <input type="text" id="cfg-col-bracu-4" placeholder="S05" aria-label="BRACU column 5 name" oninput="onColumnNamesChange()">
+                                    <input type="text" id="cfg-col-bracu-5" placeholder="S06" aria-label="BRACU column 6 name" oninput="onColumnNamesChange()">
                                 </div>
                             </div>
                         </div>
@@ -2124,6 +2371,24 @@
         </div>
     </div>
 
+    <!-- Import: names that already exist -->
+    <div id="dup-modal" class="modal-backdrop">
+        <div class="modal-card">
+            <div class="modal-head">
+                <h2 class="modal-heading" id="dup-heading">Some students already exist</h2>
+                <button class="icon-btn" onclick="hideDupModal()" aria-label="Close"><svg width="16" height="16"><use href="#i-x"/></svg></button>
+            </div>
+            <p class="modal-text" id="dup-text"></p>
+            <div class="dup-list" id="dup-list"></div>
+            <div class="modal-actions wrap">
+                <button class="btn btn-secondary" onclick="hideDupModal()">Cancel import</button>
+                <button class="btn btn-secondary" onclick="finishImport('add')" title="Keep both: add the pasted rows as new students">Add as new</button>
+                <button class="btn btn-secondary" onclick="finishImport('replace')" title="Overwrite the existing students' type and marks with the pasted ones">Replace marks</button>
+                <button class="btn btn-primary" onclick="finishImport('skip')" title="Leave the existing students as they are and import only the new names">Skip them</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Central Ranking Batch Import Modal -->
     <div id="cr-import-modal" class="modal-backdrop">
         <div class="modal-card">
@@ -2257,6 +2522,20 @@
             showNSU: ['set-nsu-title', 'checked'],
             showBRACU: ['set-bracu-title', 'checked']
         };
+        // Custom column names (Sheet settings → Column names)
+        for (let k = 0; k < 4; k++) SHEET_FIELDS['colNSU' + k] = ['cfg-col-nsu-' + k, 'value'];
+        for (let k = 0; k < 6; k++) SHEET_FIELDS['colBRACU' + k] = ['cfg-col-bracu-' + k, 'value'];
+
+        // Saved tests made before a setting existed don't have it: fill the gaps the same way
+        // applySheetConfig does, so an old test doesn't show "unsaved changes" as soon as it opens
+        function normalizeConfig(cfg) {
+            const out = {};
+            for (const key of Object.keys(SHEET_FIELDS)) {
+                if (cfg && cfg[key] !== undefined) out[key] = cfg[key];
+                else if (key.startsWith('col')) out[key] = '';
+            }
+            return out;
+        }
 
         function getSheetConfig() {
             const cfg = {};
@@ -2270,7 +2549,11 @@
         function applySheetConfig(cfg) {
             for (const [key, [id, prop]] of Object.entries(SHEET_FIELDS)) {
                 const el = document.getElementById(id);
-                if (!el || cfg[key] === undefined) continue;
+                if (!el) continue;
+                if (cfg[key] === undefined) {
+                    if (key.startsWith('col')) el.value = '';   // older tests use the default column names
+                    continue;
+                }
                 if (key === 'date' && !cfg.date) continue;
                 el[prop] = cfg[key];
             }
@@ -2652,6 +2935,11 @@
         }
 
         function showCRToast(msg) {
+            showToast(msg);
+        }
+
+        // Short message in the corner. opts: { actionLabel, onAction, duration }
+        function showToast(msg, opts = {}) {
             let toast = document.getElementById('cr-toast');
             if (!toast) {
                 toast = document.createElement('div');
@@ -2660,10 +2948,30 @@
                 toast.setAttribute('role', 'status');
                 document.body.appendChild(toast);
             }
-            toast.textContent = msg;
+            const hide = () => toast.classList.remove('show', 'has-action');
+            toast.textContent = '';
+            const text = document.createElement('span');
+            text.textContent = msg;
+            toast.appendChild(text);
+            if (opts.actionLabel && opts.onAction) {
+                const btn = document.createElement('button');
+                btn.className = 'toast-action';
+                btn.textContent = opts.actionLabel;
+                btn.onclick = () => { clearTimeout(showToast.timer); hide(); opts.onAction(); };
+                toast.appendChild(btn);
+                toast.classList.add('has-action');
+            } else {
+                toast.classList.remove('has-action');
+            }
             toast.classList.add('show');
-            clearTimeout(showCRToast.timer);
-            showCRToast.timer = setTimeout(() => toast.classList.remove('show'), 2500);
+            clearTimeout(showToast.timer);
+            showToast.timer = setTimeout(hide, opts.duration || 2500);
+        }
+
+        function hideToast() {
+            const toast = document.getElementById('cr-toast');
+            clearTimeout(showToast.timer);
+            if (toast) toast.classList.remove('show', 'has-action');
         }
 
         function exportCRCSV() {
@@ -2848,19 +3156,35 @@
         }
 
 
-        // Close active modals on Escape key
+        // Keyboard shortcuts: Escape closes popups (or clears the student search), Ctrl+S saves the test
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
+                const dupOpen = document.getElementById('dup-modal').style.display === 'flex';
+                const anyOpen = dupOpen || document.querySelector('.menu.open') ||
+                    [...document.querySelectorAll('.modal-backdrop')].some(m => m.style.display === 'flex');
+                if (dupOpen) { hideDupModal(); return; }   // close the top popup only, keep the import box open
                 closeMenus();
                 hideBulkModal();
                 closeCRImportModal();
                 closeCRConfigModal();
+                if (!anyOpen && e.target && e.target.id === 'student-search-input' && e.target.value) {
+                    resetStudentSearch();
+                    renderTable();
+                }
+            }
+            if ((e.ctrlKey || e.metaKey) && !e.shiftKey && !e.altKey && e.key.toLowerCase() === 's') {
+                const rm = document.getElementById('view-resultmaker');
+                if (rm && rm.classList.contains('active')) {
+                    e.preventDefault();
+                    saveCurrentTest();
+                }
             }
         });
 
         // Close modals when clicking outside modal content
         window.addEventListener('click', function(e) {
             if (!e.target.closest || !e.target.closest('.menu-wrap')) closeMenus();
+            if (e.target && e.target.id === 'dup-modal') { hideDupModal(); return; }
             if (e.target && e.target.classList && e.target.classList.contains('modal-backdrop')) {
                 hideBulkModal();
                 closeCRImportModal();
@@ -2870,11 +3194,13 @@
         // ─────────────────────────────────────────────────────────
 
         // Use the local date (valueAsDate uses UTC, which shows yesterday before 6 AM in Bangladesh)
-        (function setTodayLocal() {
+        function setFooterDateToday(render) {
             const now = new Date();
             const pad = (n) => String(n).padStart(2, '0');
             document.getElementById('cfg-date').value = `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())}`;
-        })();
+            if (render) updateRankings();
+        }
+        setFooterDateToday(false);
         let students = [];
         try {
             students = JSON.parse(localStorage.getItem('phoenix_v5')) || [];
@@ -2889,19 +3215,37 @@
             if (s.scores.length > 6) s.scores = s.scores.slice(0, 6);
         });
 
-        // Column names per standard: NSU has Essay in the 4th column, BRACU has it in the 2nd
+        // Default column names per standard: NSU has Essay in the 4th column, BRACU has it in the 2nd.
+        // They can be renamed in Sheet settings → Column names (an empty box means the default).
         const SECTION_LABELS = {
             NSU: ['S01', 'S02', 'S03', 'Essay', 'S05', 'S06'],
             BRACU: ['S01', 'Essay', 'S03', 'S04', 'S05', 'S06']
         };
 
+        function getSectionLabels(type) {
+            const std = type === 'BRACU' ? 'BRACU' : 'NSU';
+            return SECTION_LABELS[std].map((def, idx) => {
+                const el = document.getElementById(`cfg-col-${std.toLowerCase()}-${idx}`);
+                return (el && el.value.trim()) || def;
+            });
+        }
+
         function sectionLabel(type, idx) {
-            return (SECTION_LABELS[type] || SECTION_LABELS.NSU)[idx];
+            return getSectionLabels(type)[idx];
+        }
+
+        function onColumnNamesChange() {
+            updateRankings();
+            renderTable();
         }
 
         // NSU totals use S01–Essay; BRACU totals also add S05/S06
         function studentTotal(s) {
             return sumMarks(s.scores, s.type === 'BRACU' ? 6 : 4);
+        }
+
+        function persistStudents() {
+            try { localStorage.setItem('phoenix_v5', JSON.stringify(students)); } catch (e) {}
         }
 
         function updateValue(i, field, val, scoreIdx = null) {
@@ -2912,7 +3256,10 @@
                 if (totalCell) totalCell.textContent = studentTotal(students[i]) || '–';
             }
             else students[i][field] = val;
-            localStorage.setItem('phoenix_v5', JSON.stringify(students));
+            const row = document.querySelector(`#student-rows tr[data-row="${i}"]`);
+            if (row) row.classList.toggle('row-missing', isMissingMarks(students[i]));
+            updateGridCounts();
+            persistStudents();
             updateRankings();
         }
 
@@ -2933,66 +3280,271 @@
             if (pill) pill.focus();
         }
 
-        // Spreadsheet-style keys in the grid: Enter moves down, Shift+Enter moves up
+        // ── Grid keyboard: arrows move between cells, Enter/Shift+Enter move down/up ──
+        // Grid columns: 0 #, 1 Name, 2 Type, 3–8 S01–S06, 9 Total, 10 delete
+        const GRID_COL_NAME = 1, GRID_COL_TYPE = 2, GRID_COL_FIRST_SCORE = 3;
+
+        function cellTarget(tr, col) {
+            const td = tr && tr.children[col];
+            return td ? td.querySelector('input:not(:disabled), button.type-pill') : null;
+        }
+
+        function focusCell(el) {
+            el.focus();
+            if (el.tagName === 'INPUT') el.select();
+        }
+
+        function moveVertical(tr, col, up) {
+            let next = up ? tr.previousElementSibling : tr.nextElementSibling;
+            while (next) {
+                const target = cellTarget(next, col);
+                if (target) { focusCell(target); return true; }
+                next = up ? next.previousElementSibling : next.nextElementSibling;
+            }
+            return false;
+        }
+
+        function moveHorizontal(tr, col, left) {
+            for (let c = left ? col - 1 : col + 1; c >= 0 && c < tr.children.length; c += left ? -1 : 1) {
+                const target = cellTarget(tr, c);
+                if (target) { focusCell(target); return true; }
+            }
+            return false;
+        }
+
         function handleGridKeydown(e) {
-            if (e.key !== 'Enter' || !e.target.matches('input')) return;
-            e.preventDefault();
-            const td = e.target.closest('td');
+            const el = e.target;
+            if (!el.matches || !el.matches('input, button.type-pill')) return;
+            if (e.ctrlKey || e.metaKey || e.altKey) return;
+            const td = el.closest('td');
             const tr = td.parentElement;
             const col = Array.from(tr.children).indexOf(td);
-            let next = e.shiftKey ? tr.previousElementSibling : tr.nextElementSibling;
-            while (next) {
-                const input = next.children[col] && next.children[col].querySelector('input:not(:disabled)');
-                if (input) { input.focus(); input.select(); return; }
-                next = e.shiftKey ? next.previousElementSibling : next.nextElementSibling;
+
+            if (e.key === 'Enter' && el.tagName === 'INPUT') {
+                e.preventDefault();
+                const moved = moveVertical(tr, col, e.shiftKey);
+                if (!moved && !e.shiftKey && col === GRID_COL_NAME) addStudent();
+                return;
             }
-            if (!e.shiftKey && col === 0) addStudent();
+            if (e.key === 'ArrowUp' || e.key === 'ArrowDown') {
+                e.preventDefault();   // also stops number boxes from counting up/down
+                moveVertical(tr, col, e.key === 'ArrowUp');
+                return;
+            }
+            if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+                const left = e.key === 'ArrowLeft';
+                // In the name box the arrows move the cursor until it reaches the start/end of the text
+                if (el.type === 'text') {
+                    const len = el.value.length;
+                    const atEdge = left ? (el.selectionStart === 0 && el.selectionEnd === 0)
+                                        : (el.selectionStart === len && el.selectionEnd === len);
+                    if (!atEdge) return;
+                }
+                e.preventDefault();
+                moveHorizontal(tr, col, left);
+            }
+        }
+
+        // ── Paste a block copied from Excel / Google Sheets straight into the grid ──
+        // It fills cells to the right and down from the cell you paste into, adding rows when needed.
+        function handleGridPaste(e) {
+            const el = e.target;
+            if (!el.matches || !el.matches('input')) return;
+            const raw = (e.clipboardData || window.clipboardData).getData('text') || '';
+            const text = raw.replace(/\r/g, '').replace(/\n+$/, '');
+            if (!/[\t\n]/.test(text)) return;   // a single value: normal paste
+            e.preventDefault();
+
+            const lines = text.split('\n').map(l => l.split('\t').map(c => c.trim()));
+            const td = el.closest('td');
+            const tr = td.parentElement;
+            const startCol = Array.from(tr.children).indexOf(td);
+            const visibleRows = Array.from(document.querySelectorAll('#student-rows tr[data-row]'));
+            const startPos = visibleRows.indexOf(tr);
+            const isTypeWord = v => /^(nsu|bracu|brac)$/i.test(v);
+
+            let filled = 0, added = 0, pos = startPos;
+            lines.forEach(cells => {
+                const vr = visibleRows[pos++];
+                if (!vr && cells.every(c => !c)) return;   // don't add empty students for blank lines
+                let s;
+                if (vr) s = students[+vr.dataset.row];
+                else { s = { name: '', type: 'NSU', scores: [0, 0, 0, 0, 0, 0] }; students.push(s); added++; }
+
+                let col = startCol;
+                cells.forEach((val, c) => {
+                    // Pasting "Name, marks…" from the Name column: no type given, so skip the Type column
+                    if (col === GRID_COL_TYPE && startCol === GRID_COL_NAME && c > 0 && !isTypeWord(val)) col++;
+                    if (col === GRID_COL_NAME) s.name = val;
+                    else if (col === GRID_COL_TYPE) {
+                        if (/^brac/i.test(val)) s.type = 'BRACU';
+                        else if (/^nsu$/i.test(val)) s.type = 'NSU';
+                    } else if (col >= GRID_COL_FIRST_SCORE && col < GRID_COL_FIRST_SCORE + 6) {
+                        const n = parseFloat(String(val).replace(/,/g, ''));
+                        s.scores[col - GRID_COL_FIRST_SCORE] = isNaN(n) ? 0 : n;
+                    }
+                    col++;
+                });
+                // Anyone with S05/S06 marks is BRACU
+                if ((s.scores[4] || 0) > 0 || (s.scores[5] || 0) > 0) s.type = 'BRACU';
+                filled++;
+            });
+
+            const startIdx = tr.dataset.row;
+            saveAndFullRender();
+            const again = document.querySelector(`#student-rows tr[data-row="${startIdx}"]`);
+            const target = again && cellTarget(again, startCol);
+            if (target) target.focus();
+            showToast(`Pasted ${filled} row${filled === 1 ? '' : 's'}${added ? ` (${added} new student${added === 1 ? '' : 's'})` : ''}`);
         }
 
         function saveAndFullRender() {
-            localStorage.setItem('phoenix_v5', JSON.stringify(students));
+            persistStudents();
             renderTable();
             updateRankings();
         }
 
         let studentSearchTerm = '';
+        let studentFilter = 'all';          // 'all' | 'NSU' | 'BRACU' | 'missing'
+        let gridSort = { key: null, dir: 1 }; // key: 'name' | 'type' | 's0'…'s5' | 'total'
 
         function handleStudentSearch(val) {
             studentSearchTerm = (val || '').trim().toLowerCase();
             renderTable();
         }
 
+        // No name, or a blank/0 mark in one of the student's sections (S06 is optional for BRACU)
+        function isMissingMarks(s) {
+            if (!s.name || !s.name.trim()) return true;
+            const needed = s.type === 'BRACU' ? 5 : 4;
+            for (let k = 0; k < needed; k++) if (!(parseFloat(s.scores[k]) > 0)) return true;
+            return false;
+        }
+
+        function setStudentFilter(f) {
+            studentFilter = f;
+            renderTable();
+        }
+
+        function updateGridCounts() {
+            const counts = { all: students.length, NSU: 0, BRACU: 0, missing: 0 };
+            students.forEach(s => {
+                counts[s.type === 'BRACU' ? 'BRACU' : 'NSU']++;
+                if (isMissingMarks(s)) counts.missing++;
+            });
+            for (const [k, v] of Object.entries(counts)) {
+                const el = document.getElementById('chip-count-' + k);
+                if (el) el.textContent = v;
+            }
+            document.querySelectorAll('.grid-filters .chip').forEach(chip => {
+                const on = chip.dataset.filter === studentFilter;
+                chip.classList.toggle('active', on);
+                chip.setAttribute('aria-pressed', on);
+            });
+        }
+
+        // Click a header: numbers sort high→low first, text A→Z first; a third click goes back to entry order
+        function toggleGridSort(key) {
+            if (!key) { gridSort = { key: null, dir: 1 }; renderTable(); return; }
+            const firstDir = (key === 'name' || key === 'type') ? 1 : -1;
+            if (gridSort.key !== key) gridSort = { key, dir: firstDir };
+            else if (gridSort.dir === firstDir) gridSort.dir = -firstDir;
+            else gridSort = { key: null, dir: 1 };
+            renderTable();
+        }
+
+        function sortValue(s, key) {
+            if (key === 'name') return (s.name || '').trim().toLowerCase();
+            if (key === 'type') return s.type === 'BRACU' ? 'bracu' : 'nsu';
+            if (key === 'total') return studentTotal(s);
+            return parseFloat(s.scores[+key.slice(1)]) || 0;
+        }
+
+        function renderGridHead() {
+            const head = document.getElementById('student-grid-head');
+            if (!head) return;
+            const nsu = getSectionLabels('NSU');
+            const bracu = getSectionLabels('BRACU');
+            const arrow = key => gridSort.key === key ? `<span class="sort-arrow" aria-hidden="true">${gridSort.dir === 1 ? '▲' : '▼'}</span>` : '';
+            const th = (key, inner, title, cls = '') => {
+                const sorted = gridSort.key === key;
+                const aria = sorted ? ` aria-sort="${gridSort.dir === 1 ? 'ascending' : 'descending'}"` : '';
+                return `<th class="${cls}${sorted ? ' is-sorted' : ''}"${aria}${title ? ` title="${escapeHtml(title)}"` : ''}><button type="button" class="th-sort" onclick="toggleGridSort('${key}')">${inner}</button></th>`;
+            };
+            const scoreThs = [0, 1, 2, 3, 4, 5].map(idx => {
+                const key = 's' + idx;
+                if (idx >= 4) return th(key, `<span class="th-label">${escapeHtml(bracu[idx])}${arrow(key)}</span>`, `BRACU: ${bracu[idx]} · click to sort`);
+                const sub = bracu[idx] !== nsu[idx] ? `<span class="th-bracu">${escapeHtml(bracu[idx])}</span>` : '';
+                return th(key, `<span class="th-label">${escapeHtml(nsu[idx])}${arrow(key)}</span>${sub}`, `NSU: ${nsu[idx]} · BRACU: ${bracu[idx]} · click to sort`);
+            }).join('');
+            head.innerHTML = `
+                <tr>
+                    <th class="col-num" title="Entry order · click to undo sorting"><button type="button" class="th-sort" onclick="toggleGridSort(null)">#</button></th>
+                    ${th('name', `<span class="th-label">Name${arrow('name')}</span>`, 'Click to sort', 'col-name')}
+                    ${th('type', `<span class="th-label">Type${arrow('type')}</span>`, 'Click to sort')}
+                    ${scoreThs}
+                    ${th('total', `<span class="th-label">Total${arrow('total')}</span>`, 'Click to sort')}
+                    <th></th>
+                </tr>`;
+        }
+
         function clearData() {
+            if (!students.length) return;
             if (!confirm('Remove all students from this sheet? Saved tests are not affected.')) return;
-            students.length = 0;
+            const removed = students.splice(0, students.length);
+            const testAtRemoval = currentTestId;
             resetStudentSearch();
             saveAndFullRender();
+            showToast(`Removed ${removed.length} student${removed.length === 1 ? '' : 's'}`, {
+                actionLabel: 'Undo',
+                duration: 8000,
+                onAction: () => {
+                    if (currentTestId !== testAtRemoval || students.length) return;
+                    removed.forEach(s => students.push(s));
+                    saveAndFullRender();
+                    showToast('Students restored');
+                }
+            });
         }
 
         function addStudent() {
             students.push({ name: "", type: "NSU", scores: [0, 0, 0, 0, 0, 0] });
-            if (studentSearchTerm) {
-                studentSearchTerm = '';
-                const searchInp = document.getElementById('student-search-input');
-                if (searchInp) searchInp.value = '';
-            }
+            if (studentSearchTerm) resetStudentSearch();
+            if (studentFilter === 'BRACU') studentFilter = 'all';   // a new NSU row wouldn't show
             saveAndFullRender();
-            const nameInput = document.querySelector('#student-rows tr:last-child td.col-name input');
+            const nameInput = document.querySelector(`#student-rows tr[data-row="${students.length - 1}"] td.col-name input`);
             if (nameInput) nameInput.focus();
         }
 
+        // Delete straight away, with an Undo button in the corner for a few seconds
         function removeStudent(i) {
-            students.splice(i, 1);
+            const [removed] = students.splice(i, 1);
+            if (!removed) return;
+            const testAtRemoval = currentTestId;
             saveAndFullRender();
+            showToast(`Removed ${removed.name || 'student'}`, {
+                actionLabel: 'Undo',
+                duration: 6000,
+                onAction: () => {
+                    if (currentTestId !== testAtRemoval) return;   // another test was opened meanwhile
+                    students.splice(Math.min(i, students.length), 0, removed);
+                    saveAndFullRender();
+                    showToast(`Restored ${removed.name || 'student'}`);
+                }
+            });
         }
 
         function showBulkModal() { document.getElementById('bulk-modal').style.display = 'flex'; }
         function hideBulkModal() { document.getElementById('bulk-modal').style.display = 'none'; }
 
+        // Rows waiting for an answer in the "already exist" box
+        let pendingImport = null;
+        const normName = n => String(n || '').trim().replace(/\s+/g, ' ').toLowerCase();
 
         function importBulk() {
             const text = document.getElementById('bulk-input').value;
             const type = document.getElementById('bulk-type').value;
+            const parsed = [];
             text.split(/\r?\n/).filter(l => l.trim()).forEach(line => {
                 let p = line.split('\t').map(c => c.trim());
                 if (p.length <= 1) {
@@ -3042,11 +3594,70 @@
                     studentType = 'BRACU';
                 }
 
-                students.push({ name: p[0].trim(), type: studentType, scores: [...rawScores] });
+                parsed.push({ name: p[0].trim(), type: studentType, scores: [...rawScores] });
             });
+
+            if (!parsed.length) { alert('No student rows found in the pasted text.'); return; }
+
+            // Names already in this test: ask whether to skip, replace or add them
+            const existing = new Set(students.map(s => normName(s.name)).filter(Boolean));
+            const dupNames = [...new Set(parsed.filter(p => existing.has(normName(p.name))).map(p => p.name))];
+            pendingImport = parsed;
+            if (!dupNames.length) { finishImport('add'); return; }
+
+            const n = dupNames.length;
+            const others = parsed.filter(p => !existing.has(normName(p.name))).length;
+            document.getElementById('dup-heading').textContent = n === 1 ? `${dupNames[0]} already exists` : `${n} students already exist`;
+            document.getElementById('dup-text').textContent =
+                `${n === 1 ? 'This name is' : 'These names are'} already in this test. What should happen to ${n === 1 ? 'that pasted row' : 'those pasted rows'}?` +
+                (others ? ` The other ${others} new name${others === 1 ? ' is' : 's are'} added either way.` : '');
+            document.getElementById('dup-list').innerHTML = dupNames.map(escapeHtml).join('<br>');
+            document.getElementById('dup-modal').style.display = 'flex';
+        }
+
+        function hideDupModal() {
+            document.getElementById('dup-modal').style.display = 'none';
+            pendingImport = null;
+        }
+
+        // mode: 'skip' (keep existing rows), 'replace' (overwrite their type and marks) or 'add' (add as new rows)
+        function finishImport(mode) {
+            const rows = pendingImport;
+            if (!rows) return;
+            const byName = new Map();
+            students.forEach(s => { const k = normName(s.name); if (k && !byName.has(k)) byName.set(k, s); });
+            let added = 0, replaced = 0, skipped = 0;
+            rows.forEach(p => {
+                const match = byName.get(normName(p.name));
+                if (match && mode === 'skip') { skipped++; return; }
+                if (match && mode === 'replace') {
+                    match.type = p.type;
+                    match.scores = [...p.scores];
+                    replaced++;
+                    return;
+                }
+                students.push(p);
+                added++;
+            });
+            document.getElementById('dup-modal').style.display = 'none';
+            pendingImport = null;
             saveAndFullRender();
             hideBulkModal();
             document.getElementById('bulk-input').value = "";
+            const parts = [`Imported ${added} student${added === 1 ? '' : 's'}`];
+            if (replaced) parts.push(`updated ${replaced}`);
+            if (skipped) parts.push(`skipped ${skipped}`);
+            showToast(parts.join(' · '));
+        }
+
+        // CSV column heading: "S02 (BRACU Essay)" style when the two standards name a column differently
+        function csvColumnNames() {
+            const nsu = getSectionLabels('NSU');
+            const bracu = getSectionLabels('BRACU');
+            return [0, 1, 2, 3, 4, 5].map(idx => {
+                if (idx >= 4 || nsu[idx] === bracu[idx]) return idx >= 4 ? bracu[idx] : nsu[idx];
+                return `${nsu[idx]} (BRACU ${bracu[idx]})`;
+            });
         }
 
         function exportCSV() {
@@ -3055,8 +3666,8 @@
             const hasS06 = students.some(s => (parseFloat(s.scores[5]) || 0) > 0);
             const numCols = hasS06 ? 6 : 5;
             // Column 2 is the Essay for BRACU, column 4 is the Essay for NSU
-            const csvCols = ['S01', 'S02 (BRACU Essay)', 'S03', 'Essay (BRACU S04)', 'S05', 'S06'].slice(0, numCols);
-            let csv = `Name,Type,${csvCols.map(c => `"${c}"`).join(',')}\n`;
+            const csvCols = csvColumnNames().slice(0, numCols);
+            let csv = `Name,Type,${csvCols.map(c => `"${c.replace(/"/g, '""')}"`).join(',')}\n`;
             students.forEach(s => {
                 if (!s.name || !s.name.trim()) return;
                 const isBracu = s.type === 'BRACU' || (parseFloat(s.scores[4]) || 0) > 0 || (parseFloat(s.scores[5]) || 0) > 0;
@@ -3084,38 +3695,54 @@
         function renderTable() {
             const tbody = document.getElementById('student-rows');
             const countEl = document.getElementById('student-filter-count');
+            renderGridHead();
+            updateGridCounts();
 
-            const indexedStudents = students.map((s, origIdx) => ({ ...s, origIdx }));
-            const filtered = studentSearchTerm
-                ? indexedStudents.filter(s => (s.name || '').toLowerCase().includes(studentSearchTerm))
-                : indexedStudents;
+            let rows = students.map((s, origIdx) => ({ ...s, origIdx }));
+            if (studentSearchTerm) rows = rows.filter(s => (s.name || '').toLowerCase().includes(studentSearchTerm));
+            if (studentFilter === 'missing') rows = rows.filter(isMissingMarks);
+            else if (studentFilter !== 'all') rows = rows.filter(s => (s.type === 'BRACU' ? 'BRACU' : 'NSU') === studentFilter);
+            if (gridSort.key) {
+                const key = gridSort.key, dir = gridSort.dir;
+                rows.sort((a, b) => {
+                    const va = sortValue(a, key), vb = sortValue(b, key);
+                    if (key === 'name' && (!va || !vb)) return (!va) - (!vb);   // unnamed rows last
+                    if (va < vb) return -dir;
+                    if (va > vb) return dir;
+                    return a.origIdx - b.origIdx;
+                });
+            }
 
             const totalCountEl = document.getElementById('student-total-count');
             if (totalCountEl) totalCountEl.textContent = students.length;
-            if (countEl) {
-                countEl.textContent = studentSearchTerm ? `${filtered.length} of ${students.length}` : '';
-            }
+            const narrowed = studentSearchTerm || studentFilter !== 'all';
+            if (countEl) countEl.textContent = narrowed ? `${rows.length} of ${students.length}` : '';
 
-            if (filtered.length === 0) {
-                tbody.innerHTML = students.length === 0
-                    ? `<tr><td colspan="10" class="grid-empty">No students yet. Use <b>Add student</b> or <b>Import</b> to paste rows from a spreadsheet.</td></tr>`
-                    : `<tr><td colspan="10" class="grid-empty">No students match "${escapeHtml(studentSearchTerm)}"</td></tr>`;
+            if (rows.length === 0) {
+                let msg;
+                if (students.length === 0) msg = `No students yet. Use <b>Add student</b> or <b>Import</b> to paste rows from a spreadsheet.`;
+                else if (studentSearchTerm) msg = `No students match "${escapeHtml(studentSearchTerm)}"`;
+                else if (studentFilter === 'missing') msg = `No missing marks. Every student has a name and all their marks.`;
+                else msg = `No ${studentFilter} students.`;
+                tbody.innerHTML = `<tr><td colspan="11" class="grid-empty">${msg}</td></tr>`;
                 return;
             }
 
-            tbody.innerHTML = filtered.map(s => {
+            tbody.innerHTML = rows.map(s => {
                 const i = s.origIdx;
                 const isBracu = s.type === 'BRACU';
+                const labels = getSectionLabels(s.type);
                 const scoreCells = [0, 1, 2, 3, 4, 5].map(idx => {
                     const val = roundMarks(s.scores && s.scores[idx]);
                     if (idx >= 4 && !isBracu) {
-                        return `<td><input type="number" class="subject-input" disabled title="S05/S06 are for BRACU. Switch this student to BRACU to enter them." aria-label="S0${idx + 1} (BRACU only)"></td>`;
+                        return `<td><input type="number" class="subject-input" disabled title="${escapeHtml(labels[idx])} is for BRACU. Switch this student to BRACU to enter it." aria-label="${escapeHtml(labels[idx])} (BRACU only)"></td>`;
                     }
-                    const label = sectionLabel(s.type, idx);
+                    const label = escapeHtml(labels[idx]);
                     return `<td><input type="number" step="0.5" class="subject-input" value="${val === 0 ? '' : val}" placeholder="·" title="${label}" aria-label="${label}" oninput="updateValue(${i}, 'scores', this.value, ${idx})"></td>`;
                 }).join('');
                 return `
-                <tr data-row="${i}">
+                <tr data-row="${i}" class="${isMissingMarks(s) ? 'row-missing' : ''}">
+                    <td class="col-num">${i + 1}</td>
                     <td class="col-name"><input type="text" placeholder="Student name" value="${escapeHtml(s.name)}" aria-label="Student name" oninput="updateValue(${i}, 'name', this.value)"></td>
                     <td><button class="type-pill ${isBracu ? 'bracu' : 'nsu'}" onclick="toggleStudentType(${i})" title="Click to switch to ${isBracu ? 'NSU' : 'BRACU'}">${isBracu ? 'BRACU' : 'NSU'}</button></td>
                     ${scoreCells}
@@ -3150,7 +3777,7 @@
                         <thead>
                             <tr>
                                 <th class="header-names-cell" ${fontStyleHeader}>NAMES</th>
-                                ${headers.map(h => `<th class="header-scores-sub" ${subHeaderPadding}>${h}</th>`).join('')}
+                                ${headers.map(h => `<th class="header-scores-sub" ${subHeaderPadding}>${escapeHtml(h)}</th>`).join('')}
                                 <th class="header-scores-sub header-total-cell" style="width:14%; ${fontSize ? `font-size:${fontSize} !important;` : ''} color:#ffffff !important; font-weight:850 !important;">TOTAL</th>
                                 <th class="header-scores-sub header-rank-cell" style="width:14%; ${fontSize ? `font-size:${fontSize} !important;` : ''} color:#ffffff !important; font-weight:850 !important;">RANK</th>
                             </tr>
@@ -3260,8 +3887,13 @@
             ` : '';
 
 
+            const watermarkHtml = window.PHOENIX_WATERMARK
+                ? `<img class="sheet-watermark" src="${window.PHOENIX_WATERMARK}" alt="" aria-hidden="true">`
+                : '';
+
             return `
                 <div class="print-page-wrapper">
+                    ${watermarkHtml}
                     <div class="sheet-meta-header">
                         ${headerHtml}
                     </div>
@@ -3302,7 +3934,7 @@
             const isBracuStudent = (s) => s.type === 'BRACU' || (parseFloat(s.scores[4]) || 0) > 0 || (parseFloat(s.scores[5]) || 0) > 0;
 
             // NSU Standard: strictly 4 sections (S01, S02, S03, Essay)
-            const nsuHeaders = SECTION_LABELS.NSU.slice(0, 4);
+            const nsuHeaders = getSectionLabels('NSU').slice(0, 4);
             const nsuAll = students
                 .filter(s => s.name && !isBracuStudent(s))
                 .map(s => ({
@@ -3315,7 +3947,7 @@
             const bracuHasS06 = bracuStudentsRaw.some(s => (parseFloat(s.scores[5]) || 0) > 0);
             const bracuLimit = bracuHasS06 ? 6 : 5;
             // BRACU: Section 02 is always the Essay; the rest are S01, S03, S04, S05/S06
-            const bracuHeaders = SECTION_LABELS.BRACU.slice(0, bracuLimit);
+            const bracuHeaders = getSectionLabels('BRACU').slice(0, bracuLimit);
 
             const bracuAll = bracuStudentsRaw.map(s => ({
                 ...s,
@@ -3434,7 +4066,7 @@
             }
             currentTestId = test.id;
             if (!persistTests()) return;
-            savedSnapshot = snapshotOf(test.students, test.config);
+            savedSnapshot = snapshotOf(test.students, normalizeConfig(test.config));
             renderSavedTests();
             updateSaveState();
             showCRToast(`Saved "${name}"`);
@@ -3449,7 +4081,7 @@
             applySheetConfig(test.config);
             saveSheetConfig();
             currentTestId = test.id;
-            savedSnapshot = snapshotOf(test.students, test.config);
+            savedSnapshot = snapshotOf(test.students, normalizeConfig(test.config));
             persistTests();
             resetStudentSearch();
             saveAndFullRender();
@@ -3627,11 +4259,12 @@
         renderCentralRanking();
         try { setEditorTab(localStorage.getItem('phoenix_editor_tab') || 'students'); } catch (e) { setEditorTab('students'); }
         const openTestOnLoad = getCurrentTest();
-        if (openTestOnLoad) savedSnapshot = snapshotOf(openTestOnLoad.students, openTestOnLoad.config);
+        if (openTestOnLoad) savedSnapshot = snapshotOf(openTestOnLoad.students, normalizeConfig(openTestOnLoad.config));
         else currentTestId = null;
         renderSavedTests();
         updateSaveState();
         document.getElementById('student-rows').addEventListener('keydown', handleGridKeydown);
+        document.getElementById('student-rows').addEventListener('paste', handleGridPaste);
         if (window.ResizeObserver) {
             new ResizeObserver(() => fitPreview()).observe(document.getElementById('preview-area'));
         } else {
